@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Services\{{ Service }};
+
+use App\Services\{{ Service }}\Contracts\{{ Service }}Requestor;
+use Payavel\Serviceable\ServiceRequest;
+
+class {{ Provider }}{{ Service }}Request extends ServiceRequest implements {{ Service }}Requestor
+{
+    /**
+     * Set up the request.
+     *
+     * @return void
+     */
+    protected function setUp()
+    {
+        //
+    }
+}

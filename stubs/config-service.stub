@@ -1,0 +1,75 @@
+<?php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | {{ Service }} Defaults
+    |--------------------------------------------------------------------------
+    |
+    | This option defines the default {{ service }} service config
+    | for your application. You should define your primary provider &
+    | merchant along with your preferred driver to manage them.
+    |
+    */
+    'defaults' => [
+        'provider' => '{{ provider }}',
+        'merchant' => '{{ merchant }}',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | {{ Service }} Test Mode
+    |--------------------------------------------------------------------------
+    |
+    | When set to true, it will pass the provider & merchant into the fake {{ service }}
+    | gateway so you can mock your responses as you wish. This is very useful when
+    | running tests in a testing environments or sandbox mode is non-existent.
+    |
+    */
+    'test_mode' => env('{{ SERVICE }}_TEST_MODE', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | {{ Service }} Providers
+    |--------------------------------------------------------------------------
+    |
+    | Here you may provide the path to each provider's gateway implementation
+    | by specifying mapping the request & response classes to it. You may
+    | also add provider specific configurations like it's endpoints.
+    |
+    */
+    'providers' => [
+{{ providers }}
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | {{ Service }} Merchants
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify all the {{ service }} merchants that will be supported
+    | by the application, along with any configuration needed in order to do
+    | so. This is a good place to set each merchant's api keys & secrets.
+    |
+    */
+    'merchants' => [
+{{ merchants }}
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | {{ Service }} Drivers
+    |--------------------------------------------------------------------------
+    |
+    | You may register custom {{ services }} drivers and/or remove the default ones.
+    | Note that in order for a custom driver to be compatible, it must extend the
+    | \Payavel\Service\ServiceDriver::class & implement it's abstract functions.
+    |
+    */
+    'drivers' => [
+        'config' => \Payavel\Service\Drivers\ConfigDriver::class,
+        'database' => \Payavel\Service\Drivers\DatabaseDriver::class,
+    ],
+{{ additional }}
+];

@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Services\{{ Service }};
+
+use App\Services\{{ Service }}\Contracts\{{ Service }}Responder;
+use Payavel\Serviceable\ServiceResponse;
+
+class {{ Provider }}{{ Service }}Response extends {{ Service }}Response implements {{ Service }}Responder
+{
+    /**
+     * Set up the response.
+     *
+     * @return void
+     */
+    protected function setUp()
+    {
+        //
+    }
+
+    /**
+     * Determines the status code based on the request's raw response.
+     *
+     * @return int
+     */
+    public function getStatusCode()
+    {
+        //
+    }
+}

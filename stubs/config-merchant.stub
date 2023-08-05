@@ -1,0 +1,7 @@
+
+        '{{ id }}' => [
+            'name' => '{{ name }}',
+            'providers' => [
+{{ providers }}
+            ],
+        ],

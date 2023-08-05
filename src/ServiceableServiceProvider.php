@@ -3,6 +3,8 @@
 namespace Payavel\Serviceable;
 
 use Illuminate\Support\ServiceProvider;
+use Payavel\Serviceable\Console\Commands\Install;
+use Payavel\Serviceable\Console\Commands\MakeProvider;
 
 class ServiceableServiceProvider extends ServiceProvider
 {
@@ -33,6 +35,10 @@ class ServiceableServiceProvider extends ServiceProvider
 
     protected function registerCommands()
     {
+        $this->commands([
+            Install::class,
+            MakeProvider::class,
+        ]);
     }
 
     protected function registerMigrations()
