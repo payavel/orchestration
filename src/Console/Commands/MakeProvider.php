@@ -4,6 +4,7 @@ namespace Payavel\Serviceable\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Payavel\Serviceable\Service;
 use Payavel\Serviceable\Traits\GeneratesFiles;
 use Payavel\Serviceable\Traits\Questionable;
 
@@ -17,8 +18,8 @@ class MakeProvider extends Command
      * @var string
      */
     protected $signature = 'service:provider
-                            {service : The service name}
                             {provider? : The provider name}
+                            {--service= : The service name}
                             {--id= : The provider identifier}
                             {--fake : Generates a gateway to be used for testing purposes}';
 
@@ -63,7 +64,19 @@ class MakeProvider extends Command
      */
     protected function setProperties()
     {
-        $this->service = $this->argument('service');
+        if (is_null($service = $this->option('service')))
+        {
+            $service = $this->choice(
+                'Which service will the provider be offering?',
+                Service::existing()->pluck('id')
+            );
+        }
+
+        $this->service = $this->option('service')
+            ?? $this->choice(
+                'Which service will the provider be offering?',
+                Service::ids()
+            );
 
         if ($this->option('fake', false)) {
             $this->name = 'Fake';

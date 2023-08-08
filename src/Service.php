@@ -10,6 +10,13 @@ class Service
     use SimulateAttributes;
 
     /**
+     * The service.
+     *
+     * @var \Payavel\Serviceable\Contracts\Serviceable
+     */
+    private $service;
+
+    /**
      * The service driver that will handle provider & merchant configurations.
      *
      * @var \Payavel\Serviceable\PaymentServiceDriver
@@ -231,5 +238,17 @@ class Service
         }
 
         return tap($this->gateway->{$method}(...$params))->configure($method, $this->provider, $this->merchant);
+    }
+
+    /**
+     * Retrieve all service ids.
+     *
+     * @return array
+     */
+    public static function ids()
+    {
+        $driver = config('serviceable.drivers.' . config('serviceable.defaults.driver', 'config'));
+
+        return $driver::services()->map(fn ($service) => $service->getId())->all();
     }
 }

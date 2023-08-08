@@ -108,14 +108,14 @@ class Install extends Command
 
     protected function generateGateways()
     {
-        $this->call("service:provider", ['service' => $this->id, '--fake' => true]);
+        $this->call("service:provider", ['--service' => $this->id, '--fake' => true]);
 
         $this->providers->each(function ($provider) {
             $this->call(
                 "service:provider",
                 [
-                    'service' => $this->id,
                     'provider' => $provider['name'],
+                    '--service' => $this->id,
                     '--id' => $provider['id']
                 ]
             );
