@@ -5,7 +5,7 @@ namespace App\Services\{{ Service }};
 use App\Services\{{ Service }}\Contracts\{{ Service }}Responder;
 use Payavel\Serviceable\ServiceResponse;
 
-class {{ Provider }}{{ Service }}Response extends {{ Service }}Response implements {{ Service }}Responder
+class {{ Provider }}{{ Service }}Response extends ServiceResponse implements {{ Service }}Responder
 {
     /**
      * Set up the response.
