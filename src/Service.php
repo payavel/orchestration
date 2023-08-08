@@ -24,7 +24,7 @@ class Service
     private $driver;
 
     /**
-     * The payment provider requests will be forwarded to.
+     * The provider requests will be forwarded to.
      *
      * @var \Payavel\Serviceable\Contracts\Providable
      */
