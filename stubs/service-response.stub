@@ -26,4 +26,24 @@ class {{ Provider }}{{ Service }}Response extends ServiceResponse implements {{ 
     {
         //
     }
+
+    /**
+     * Get a string representation of the response's status.
+     *
+     * @return string|null
+     */
+    public function getStatus()
+    {
+        //
+    }
+
+    /**
+     * Get a description of the response's status.
+     *
+     * @return string|null
+     */
+    public function getMessage()
+    {
+        //
+    }
 }
