@@ -25,7 +25,7 @@ class Install extends Command
      *
      * @var string
      */
-    protected $description;
+    protected $description = 'Install a new service within the application.';
 
     /**
      * The service to be installed.
