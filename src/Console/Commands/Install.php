@@ -72,9 +72,9 @@ class Install extends Command
     {
         $this->setProperties();
 
-        $this->generateConfig();
+        $this->generateService();
 
-        $this->generateGateways();
+        $this->generateProviders();
     }
 
     protected function setProperties()
@@ -84,8 +84,30 @@ class Install extends Command
         $this->setMerchants();
     }
 
-    protected  function generateConfig()
+    protected  function generateService()
     {
+        $studlyService = Str::studly($this->service);
+
+        $this->putFile(
+            app_path("Services/{$studlyService}/Contracts/{$studlyService}Requestor"),
+            $this->makeFile(
+                __DIR__ . '/../../../stubs/service-requestor.stub',
+                [
+                    'Service' => $studlyService,
+                ]
+            )
+        );
+
+        $this->putFile(
+            app_path("Services/{$studlyService}/Contracts/{$studlyService}Responder"),
+            $this->makeFile(
+                __DIR__ . '/../../../stubs/service-responder.stub',
+                [
+                    'Service' => $studlyService,
+                ]
+            )
+        );
+
         $this->putFile(
             config_path(Str::slug($this->name) . '.php'),
             $this->makeFile(
@@ -106,7 +128,7 @@ class Install extends Command
         $this->info("The {$this->name} config has been successfully generated.");
     }
 
-    protected function generateGateways()
+    protected function generateProviders()
     {
         $this->call("service:provider", ['--service' => $this->id, '--fake' => true]);
 
