@@ -52,7 +52,9 @@ class MakeProvider extends Command
      */
     public function handle()
     {
-        $this->setProperties();
+        if(! $this->setProperties()) {
+            return;
+        }
 
         $this->generateProvider();
     }
@@ -60,26 +62,36 @@ class MakeProvider extends Command
     /**
      * Format the service provider's properties.
      *
-     * @return void
+     * @return boolean
      */
     protected function setProperties()
     {
-        $this->service = $this->option('service')
-            ?? $this->choice(
-                'Which service will the provider be offering?',
-                Service::ids()
-            );
+        try {
+            $this->service = $this->option('service')
+                ?? $this->choice(
+                    'Which service will the provider be offering?',
+                    Service::ids()
+                );
+        } catch (\LogicException $e) {
+            $this->error('Your application does not have any services yet!');
+            
+            $this->info('You may add a new service by calling the service:install artisan command.');
+
+            return false;
+        }
 
         if ($this->option('fake', false)) {
             $this->name = 'Fake';
             $this->id = 'fake';
 
-            return;
+            return true;
         }
 
         $this->name = trim($this->argument('provider') ?? $this->askName('provider'));
 
         $this->id = $this->option('id') ?? $this->askId('provider', $this->name);
+
+        return true;
     }
 
     /**
