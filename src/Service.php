@@ -19,7 +19,7 @@ class Service
     /**
      * The service driver that will handle provider & merchant configurations.
      *
-     * @var \Payavel\Serviceable\PaymentServiceDriver
+     * @var \Payavel\Serviceable\ServiceDriver
      */
     private $driver;
 
@@ -40,7 +40,7 @@ class Service
     /**
      * The gateway class where requests will be executed.
      *
-     * @var \Payavel\Serviceable\PaymentRequest
+     * @var \Payavel\Serviceable\ServiceRequest
      */
     private $gateway;
 
@@ -234,7 +234,7 @@ class Service
     public function __call($method, $params)
     {
         if (! method_exists($this->gateway, $method)) {
-            throw new BadMethodCallException(__CLASS__ . "::{$method}() not found.");
+            throw new \BadMethodCallException(__CLASS__ . "::{$method}() not found.");
         }
 
         return tap($this->gateway->{$method}(...$params))->configure($method, $this->provider, $this->merchant);
