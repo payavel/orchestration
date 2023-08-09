@@ -64,14 +64,6 @@ class MakeProvider extends Command
      */
     protected function setProperties()
     {
-        if (is_null($service = $this->option('service')))
-        {
-            $service = $this->choice(
-                'Which service will the provider be offering?',
-                Service::existing()->pluck('id')
-            );
-        }
-
         $this->service = $this->option('service')
             ?? $this->choice(
                 'Which service will the provider be offering?',
