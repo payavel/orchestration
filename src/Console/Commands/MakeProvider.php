@@ -53,7 +53,7 @@ class MakeProvider extends Command
     public function handle()
     {
         if(! $this->setProperties()) {
-            return;
+            return 1;
         }
 
         $this->generateProvider();
@@ -74,8 +74,8 @@ class MakeProvider extends Command
                 );
         } catch (\LogicException $e) {
             $this->error('Your application does not have any services yet!');
-            
-            $this->info('You may add a new service by calling the service:install artisan command.');
+
+            $this->warn('You may add one by calling the service:install artisan command.');
 
             return false;
         }
