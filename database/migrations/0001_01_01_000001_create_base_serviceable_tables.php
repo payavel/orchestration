@@ -13,7 +13,7 @@ class CreateBaseServiceableTables extends Migration
      */
     public function up()
     {
-        $usingDatabaseDriver = config('serviceable.driver') === 'database';
+        $usingDatabaseDriver = config('serviceable.defaults.driver') === 'database';
 
         if ($usingDatabaseDriver) {
             Schema::create('services', function (Blueprint $table) {

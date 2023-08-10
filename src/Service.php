@@ -247,7 +247,7 @@ class Service
      */
     public static function ids()
     {
-        $driver = config('serviceable.drivers.' . config('serviceable.defaults.driver', 'config'));
+        $driver = config('serviceable.drivers.' . config('serviceable.defaults.driver'));
 
         return $driver::services()->map(fn ($service) => $service->getId())->all();
     }
