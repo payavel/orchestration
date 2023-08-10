@@ -3,6 +3,8 @@
 namespace Payavel\Serviceable;
 
 use Exception;
+use Illuminate\Support\Facades\Config;
+use Payavel\Serviceable\Contracts\Serviceable;
 use Payavel\Serviceable\Traits\SimulateAttributes;
 
 class Service
@@ -47,17 +49,38 @@ class Service
     /**
      * Prepares the driver based on preference determined in config file.
      *
+     * @param \Payavel\Serviceable\Contracts\Serviceable $service
      * @return void
      *
      * @throws Exception
      */
-    public function __construct()
+    public function __construct(Serviceable $service)
     {
-        if (! class_exists($driver = config('serviceable.drivers.' . config('serviceable.defaults.driver', 'config')))) {
+        $this->service = $service;
+
+        if (! class_exists($driver = $this->getConfig('drivers.' . $this->getConfig('defaults.driver')))) {
             throw new Exception('Invalid serviceable driver provided.');
         }
 
         $this->driver = new $driver;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getConfig($key, $default = null)
+    {
+        $serviceKey = Config::get('serviceable.services.' . $this->service->getId(), $this->service->getId()) . '.' . $key;
+
+        return Config::get(
+            $serviceKey,
+            Config::get(
+                'serviceable.' . $key,
+                $default
+            )
+        );
     }
 
     /**
@@ -202,12 +225,16 @@ class Service
             throw new Exception("The {$merchant->getName()} merchant is not supported by the {$provider->getName()} provider.");
         }
 
-        $gateway = config($provider->getId() . '.test_mode')
-            ? config($provider->getId() . '.mocking.request_class')
+        $gateway = $this->getConfig('test_mode')
+            ? $this->getConfig('mock.request_class')
             : $this->driver->resolveGatewayClass($provider);
 
         if (! class_exists($gateway)) {
-            throw new Exception('The ' . $gateway . '::class does not exist.');
+            throw new Exception(
+                is_null($gateway)
+                    ? "You must set a request_class for the {$provider->getName()} {$this->service->getName()} provider."
+                    : "The {$gateway}::class does not exist."
+            );
         }
 
         $this->gateway = new $gateway($provider, $merchant);
@@ -247,7 +274,7 @@ class Service
      */
     public static function ids()
     {
-        $driver = config('serviceable.drivers.' . config('serviceable.defaults.driver'));
+        $driver = Config::get('serviceable.drivers.' . Config::get('serviceable.defaults.driver'));
 
         return $driver::services()->map(fn ($service) => $service->getId())->all();
     }
