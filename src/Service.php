@@ -5,11 +5,13 @@ namespace Payavel\Serviceable;
 use Exception;
 use Illuminate\Support\Facades\Config;
 use Payavel\Serviceable\Contracts\Serviceable;
+use Payavel\Serviceable\Traits\ServiceableConfig;
 use Payavel\Serviceable\Traits\SimulateAttributes;
 
 class Service
 {
-    use SimulateAttributes;
+    use ServiceableConfig,
+        SimulateAttributes;
 
     /**
      * The service.
@@ -47,7 +49,7 @@ class Service
     private $gateway;
 
     /**
-     * Prepares the driver based on preference determined in config file.
+     * Determines the service and sets up the driver for it.
      *
      * @param \Payavel\Serviceable\Contracts\Serviceable $service
      * @return void
@@ -58,29 +60,11 @@ class Service
     {
         $this->service = $service;
 
-        if (! class_exists($driver = $this->getConfig('drivers.' . $this->getConfig('defaults.driver')))) {
+        if (! class_exists($driver = $this->config('drivers.' . $this->config('defaults.driver')))) {
             throw new Exception('Invalid serviceable driver provided.');
         }
 
         $this->driver = new $driver;
-    }
-
-    /**
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    public function getConfig($key, $default = null)
-    {
-        $serviceKey = Config::get('serviceable.services.' . $this->service->getId(), $this->service->getId()) . '.' . $key;
-
-        return Config::get(
-            $serviceKey,
-            Config::get(
-                'serviceable.' . $key,
-                $default
-            )
-        );
     }
 
     /**
@@ -225,8 +209,8 @@ class Service
             throw new Exception("The {$merchant->getName()} merchant is not supported by the {$provider->getName()} provider.");
         }
 
-        $gateway = $this->getConfig('test_mode')
-            ? $this->getConfig('mock.request_class')
+        $gateway = $this->config('test_mode')
+            ? $this->config('mock.request_class')
             : $this->driver->resolveGatewayClass($provider);
 
         if (! class_exists($gateway)) {
@@ -268,14 +252,31 @@ class Service
     }
 
     /**
+     * Get the default serviceable driver.
+     *
+     * @return string|int
+     */
+    private static function driver()
+    {
+        return Config::get('serviceable.drivers.' . Config::get('serviceable.defaults.driver'));
+    }
+
+    /**
      * Retrieve all service ids.
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
-    public static function ids()
+    public static function all()
     {
-        $driver = Config::get('serviceable.drivers.' . Config::get('serviceable.defaults.driver'));
+        return static::driver()::services();
+    }
 
-        return $driver::services()->map(fn ($service) => $service->getId())->all();
+    /**
+     * @param string|int $id
+     * @return \Payavel\Serviceable\Contracts\Serviceable|null
+     */
+    public static function find($id)
+    {
+        return static::all()->first(fn ($service) => $service->getId() == $id);
     }
 }

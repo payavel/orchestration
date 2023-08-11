@@ -4,9 +4,24 @@ namespace Payavel\Serviceable;
 
 use Payavel\Serviceable\Contracts\Merchantable;
 use Payavel\Serviceable\Contracts\Providable;
+use Payavel\Serviceable\Contracts\Serviceable;
+use Payavel\Serviceable\Traits\ServiceableConfig;
 
 abstract class ServiceDriver
 {
+    use ServiceableConfig;
+
+    /**
+     * Assigns the service to the driver.
+     *
+     * @param \Payavel\Serviceable\Contracts\Serviceable $service
+     * @return void
+     */
+    public function __construct(Serviceable $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Resolve the providable instance.
      *
@@ -23,7 +38,7 @@ abstract class ServiceDriver
      */
     public function getDefaultProvider(Merchantable $merchant = null)
     {
-        return config('serviceable.defaults.provider');
+        return $this->config('defaults.provider');
     }
 
     /**
@@ -42,7 +57,7 @@ abstract class ServiceDriver
      */
     public function getDefaultMerchant(Providable $provider = null)
     {
-        return config('serviceable.defaults.merchant');
+        return $this->config('defaults.merchant');
     }
 
     /**

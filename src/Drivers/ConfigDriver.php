@@ -2,9 +2,11 @@
 
 namespace Payavel\Serviceable\Drivers;
 
+use Illuminate\Support\Facades\Config;
 use Payavel\Serviceable\Contracts\Merchantable;
 use Payavel\Serviceable\DataTransferObjects\Merchant;
 use Payavel\Serviceable\DataTransferObjects\Provider;
+use Payavel\Serviceable\DataTransferObjects\Service;
 use Payavel\Serviceable\ServiceDriver;
 
 class ConfigDriver extends ServiceDriver
@@ -119,8 +121,8 @@ class ConfigDriver extends ServiceDriver
      */
     public static function services()
     {
-        return collect(config('serviceable.services', []))->map(function ($service) {
-            return new Service($service);
+        return collect(Config::get('serviceable.services', []))->map(function ($key, $value) {
+            return new Service(array_merge(['id' => $key], $value));
         });
     }
 }

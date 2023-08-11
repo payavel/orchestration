@@ -7,10 +7,13 @@ use Illuminate\Support\Str;
 use Payavel\Serviceable\Service;
 use Payavel\Serviceable\Traits\GeneratesFiles;
 use Payavel\Serviceable\Traits\Questionable;
+use Payavel\Serviceable\Traits\ServiceableConfig;
 
 class MakeProvider extends Command
 {
-    use Questionable, GeneratesFiles;
+    use GeneratesFiles,
+        Questionable,
+        ServiceableConfig;
 
     /**
      * The name and signature of the console command.
@@ -53,7 +56,7 @@ class MakeProvider extends Command
     public function handle()
     {
         if(! $this->setProperties()) {
-            return 1;
+            return;
         }
 
         $this->generateProvider();
@@ -62,21 +65,11 @@ class MakeProvider extends Command
     /**
      * Format the service provider's properties.
      *
-     * @return boolean
+     * @return bool
      */
     protected function setProperties()
     {
-        try {
-            $this->service = $this->option('service')
-                ?? $this->choice(
-                    'Which service will the provider be offering?',
-                    Service::ids()
-                );
-        } catch (\LogicException $e) {
-            $this->error('Your application does not have any services yet!');
-
-            $this->warn('You may add one by calling the service:install artisan command.');
-
+        if (! $this->setService()) {
             return false;
         }
 
@@ -101,13 +94,13 @@ class MakeProvider extends Command
      */
     protected function generateProvider()
     {
-        $service = Str::studly($this->service);
+        $service = Str::studly($this->service->getId());
         $provider = Str::studly($this->id);
 
         $this->putFile(
             app_path("Services/{$service}/{$provider}{$service}Request.php"),
             $this->makeFile(
-                config($this->service . '.stubs.request', __DIR__ . '/../../../stubs/service-request.stub'),
+                $this->config('stubs.request'),
                 [
                     'Provider' => $provider,
                     'Service' => $service,
@@ -118,7 +111,7 @@ class MakeProvider extends Command
         $this->putFile(
             app_path("Services/{$service}/{$provider}{$service}Response.php"),
             $this->makeFile(
-                config($this->service . '.stubs.response', __DIR__ . '/../../../stubs/service-response.stub'),
+                $this->config('stubs.response'),
                 [
                     'Provider' => $provider,
                     'Service' => $service,
@@ -126,6 +119,39 @@ class MakeProvider extends Command
             )
         );
 
-        $this->info("{$this->name} {$this->service} gateway generated successfully!");
+        $this->info("{$this->name} {$this->service->getid()} gateway generated successfully!");
+    }
+
+    /**
+     * Set the service property.
+     *
+     * @return bool
+     */
+    protected function setService()
+    {
+        if (! is_null($this->option('service')) && is_null($service = $service = Service::find($this->option('service')))) {
+            $this->error("Service with id {$this->option('service')} does not exist.");
+
+            return false;
+        }
+
+        if (is_null($service) && ($existingServices = Service::all())->isNotEmpty()) {
+            $id = $this->choice(
+                'Which service will the provider be offering?',
+                $existingServices->map(fn ($existingService) => $existingService->getId())->all()
+            );
+
+            $service = $existingServices->first(fn ($existingService) => $existingService->getId() === $id);
+        }
+
+        if (is_null($service)) {
+            $this->error('Your must first set up a service! Please call the service:install artisan command.');
+
+            return false;
+        }
+
+        $this->service = $service;
+
+        return true;
     }
 }

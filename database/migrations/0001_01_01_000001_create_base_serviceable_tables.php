@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 
 class CreateBaseServiceableTables extends Migration
@@ -13,7 +14,7 @@ class CreateBaseServiceableTables extends Migration
      */
     public function up()
     {
-        $usingDatabaseDriver = config('serviceable.defaults.driver') === 'database';
+        $usingDatabaseDriver = Config::get('serviceable.defaults.driver') === 'database';
 
         if ($usingDatabaseDriver) {
             Schema::create('services', function (Blueprint $table) {
