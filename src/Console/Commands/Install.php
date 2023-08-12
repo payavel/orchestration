@@ -29,6 +29,13 @@ class Install extends Command
     protected $description = 'Install a new service within the application.';
 
     /**
+     * The service to be installed.
+     *
+     * @var string
+     */
+    protected $service;
+
+    /**
      * The service attributes to be saved.
      *
      * @var string $name
@@ -80,9 +87,14 @@ class Install extends Command
 
     protected  function generateService()
     {
-        $studlyService = Str::studly($this->id);
+        $studlyService = Str::studly($this->service);
 
-        if (! file_exists(config_path('serviceable.php'))) {
+        if (file_exists(config_path('serviceable.php'))) {
+            Config::set('serviceable.services.' . $this->id, [
+                'name' => $this->name,
+                'config' => Str::slug($this->name),
+            ]);
+        } else {
             $this->putFile(
                 config_path('serviceable.php'),
                 $this->makeFile(
@@ -95,11 +107,6 @@ class Install extends Command
                 )
             );
         }
-
-        Config::set('serviceable.services.' . $this->id, [
-            'name' => $this->name,
-            'config' => Str::slug($this->name),
-        ]);
 
         $this->putFile(
             app_path("Services/{$studlyService}/Contracts/{$studlyService}Requestor"),
@@ -162,6 +169,7 @@ class Install extends Command
     {
         $this->name = trim($this->argument('service') ?? $this->askName('service'));
         $this->id = ($this->option('id') ?? $this->askId('service', $this->name));
+        $this->service = Str::lower($this->name);
     }
 
     /**
@@ -180,7 +188,7 @@ class Install extends Command
                 'Provider' => Str::studly($id),
                 'Service' => Str::studly($this->id),
             ]);
-        } while ($this->confirm('Would you like to add another ' . Str::lower($this->name) . ' provider?', false));
+        } while ($this->confirm("Would you like to add another {$this->service} provider?", false));
 
         $this->config['providers'] = $this->providers->reduce(function ($config, $provider) {
             return $config . $this->makeFile(__DIR__ . '/../../../stubs/config-provider.stub', $provider);
@@ -221,7 +229,7 @@ class Install extends Command
             }, "");
 
             $this->merchants->push($merchant);
-        } while ($this->confirm('Would you like to add another ' . Str::lower($this->name) . ' merchant?', false));
+        } while ($this->confirm("Would you like to add another {$this->service} merchant?", false));
 
         $this->config['merchants'] = $this->merchants->reduce(function ($config, $merchant) {
             return $config . $this->makeFile(__DIR__ . '/../../../stubs/config-merchant.stub', $merchant);
