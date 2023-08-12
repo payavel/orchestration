@@ -92,7 +92,7 @@ class Install extends Command
         if (file_exists(config_path('serviceable.php'))) {
             Config::set('serviceable.services.' . $this->id, [
                 'name' => $this->name,
-                'config' => Str::slug('$this->name'),
+                'config' => Str::slug($this->name),
             ]);
         } else {
             $this->putFile(
@@ -102,7 +102,7 @@ class Install extends Command
                     [
                         'id' => $this->id,
                         'name' => $this->name,
-                        'config' => Str::slug('$this->name'),
+                        'config' => Str::slug($this->name),
                     ]
                 )
             );
@@ -133,9 +133,10 @@ class Install extends Command
             $this->makeFile(
                 __DIR__ . '/../../../stubs/config-service.stub',
                 [
-                    'Service' => Str::title($this->name),
+                    'Title' => Str::title($this->name),
+                    'Service' => Str::studly($this->id),
                     'service' => Str::lower($this->name),
-                    'SERVICE' => Str::upper(Str::slug($this->name)),
+                    'SERVICE' => Str::upper(Str::slug($this->name, '_')),
                     'provider' => $this->config['defaults']['provider'],
                     'providers' => $this->config['providers'],
                     'merchant' => $this->config['defaults']['merchant'],

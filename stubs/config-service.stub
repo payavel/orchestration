@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | {{ Service }} Defaults
+    | {{ Title }} Defaults
     |--------------------------------------------------------------------------
     |
     | This option defines the default {{ service }} service config
@@ -19,7 +19,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | {{ Service }} Test Mode
+    | {{ Title }} Test Mode
     |--------------------------------------------------------------------------
     |
     | When set to true, the provider & merchant will be shared with the fake {{ service }}
@@ -31,7 +31,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | {{ Service }} Mocking
+    | {{ Title }} Mocking
     |--------------------------------------------------------------------------
     |
     | This option allows you to define the location of the fake {{ service }}
@@ -46,7 +46,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | {{ Service }} Providers
+    | {{ Title }} Providers
     |--------------------------------------------------------------------------
     |
     | Here you may provide the location for each {{ service }} provider's
@@ -60,7 +60,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | {{ Service }} Merchants
+    | {{ Title }} Merchants
     |--------------------------------------------------------------------------
     |
     | This is where you should define all the merchants that will be leveraging the
