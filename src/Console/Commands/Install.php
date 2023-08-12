@@ -3,6 +3,7 @@
 namespace Payavel\Serviceable\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Serviceable\Traits\GeneratesFiles;
 use Payavel\Serviceable\Traits\Questionable;
@@ -87,6 +88,25 @@ class Install extends Command
     protected  function generateService()
     {
         $studlyService = Str::studly($this->service);
+
+        if (file_exists(config_path('serviceable.php'))) {
+            Config::set('serviceable.services.' . $this->id, [
+                'name' => $this->name,
+                'config' => Str::slug('$this->name'),
+            ]);
+        } else {
+            $this->putFile(
+                config_path('serviceable.php'),
+                $this->makeFile(
+                    __DIR__ . '/../../../stubs/config-serviceable.stub',
+                    [
+                        'id' => $this->id,
+                        'name' => $this->name,
+                        'config' => Str::slug('$this->name'),
+                    ]
+                )
+            );
+        }
 
         $this->putFile(
             app_path("Services/{$studlyService}/Contracts/{$studlyService}Requestor"),
