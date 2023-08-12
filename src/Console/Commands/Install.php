@@ -87,14 +87,9 @@ class Install extends Command
 
     protected  function generateService()
     {
-        $studlyService = Str::studly($this->service);
+        $studlyService = Str::studly($this->id);
 
-        if (file_exists(config_path('serviceable.php'))) {
-            Config::set('serviceable.services.' . $this->id, [
-                'name' => $this->name,
-                'config' => Str::slug($this->name),
-            ]);
-        } else {
+        if (! file_exists(config_path('serviceable.php'))) {
             $this->putFile(
                 config_path('serviceable.php'),
                 $this->makeFile(
@@ -107,6 +102,11 @@ class Install extends Command
                 )
             );
         }
+
+        Config::set('serviceable.services.' . $this->id, [
+            'name' => $this->name,
+            'config' => Str::slug($this->name),
+        ]);
 
         $this->putFile(
             app_path("Services/{$studlyService}/Contracts/{$studlyService}Requestor"),
