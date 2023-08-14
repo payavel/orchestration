@@ -31,8 +31,8 @@ class ConfigDriver extends ServiceDriver
      */
     public function __construct()
     {
-        $this->providers = collect(config('serviceable.providers'));
-        $this->merchants = collect(config('serviceable.merchants'));
+        $this->providers = collect($this->config('providers'));
+        $this->merchants = collect($this->config('merchants'));
     }
 
     /**
@@ -51,7 +51,10 @@ class ConfigDriver extends ServiceDriver
             return null;
         }
 
-        return new Provider(array_merge(['id' => $provider], $attributes));
+        return new Provider(
+            $this->service,
+            array_merge(['id' => $provider], $attributes)
+        );
     }
 
     /**
@@ -88,7 +91,10 @@ class ConfigDriver extends ServiceDriver
             return null;
         }
 
-        return new Merchant(array_merge(['id' => $merchant], $attributes));
+        return new Merchant(
+            $this->service,
+            array_merge(['id' => $merchant], $attributes)
+        );
     }
 
     /**

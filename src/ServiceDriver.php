@@ -12,6 +12,13 @@ abstract class ServiceDriver
     use ServiceableConfig;
 
     /**
+     * The compatible service.
+     *
+     * @var \Payavel\Serviceable\Contracts\Serviceable
+     */
+    protected Serviceable $service;
+
+    /**
      * Assigns the service to the driver.
      *
      * @param \Payavel\Serviceable\Contracts\Serviceable $service

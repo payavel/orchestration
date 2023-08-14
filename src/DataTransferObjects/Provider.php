@@ -3,14 +3,26 @@
 namespace Payavel\Serviceable\DataTransferObjects;
 
 use Payavel\Serviceable\Contracts\Providable;
+use Payavel\Serviceable\Contracts\Serviceable;
+use Payavel\Serviceable\Traits\ServiceableConfig;
 use Payavel\Serviceable\Traits\SimulateAttributes;
 
 class Provider implements Providable
 {
-    use SimulateAttributes;
+    use ServiceableConfig,
+        SimulateAttributes;
 
-    public function __construct(array $data)
+    /**
+     * The compatible service.
+     *
+     * @var \Payavel\Serviceable\Contracts\Serviceable
+     */
+    public Serviceable $service;
+
+    public function __construct(Serviceable $service, array $data)
     {
+        $this->service = $service;
+
         $this->attributes = $data;
     }
 
