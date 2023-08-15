@@ -46,6 +46,6 @@ class ServiceableServiceProvider extends ServiceProvider
 
     protected function registerMigrations()
     {
-        $this->loadMigrationsFrom(__DIR__ . '../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 }
