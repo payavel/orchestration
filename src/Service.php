@@ -64,7 +64,7 @@ class Service
             throw new Exception('Invalid serviceable driver provided.');
         }
 
-        $this->driver = new $driver;
+        $this->driver = new $driver($this->service);
     }
 
     /**

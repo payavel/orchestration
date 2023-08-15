@@ -4,6 +4,7 @@ namespace Payavel\Serviceable\Drivers;
 
 use Illuminate\Support\Facades\Config;
 use Payavel\Serviceable\Contracts\Merchantable;
+use Payavel\Serviceable\Contracts\Serviceable;
 use Payavel\Serviceable\DataTransferObjects\Merchant;
 use Payavel\Serviceable\DataTransferObjects\Provider;
 use Payavel\Serviceable\DataTransferObjects\Service;
@@ -29,8 +30,10 @@ class ConfigDriver extends ServiceDriver
     /**
      * Collect the service's providers & merchants.
      */
-    public function __construct()
+    public function __construct(Serviceable $service)
     {
+        parent::__construct($service);
+
         $this->providers = collect($this->config('providers'));
         $this->merchants = collect($this->config('merchants'));
     }
