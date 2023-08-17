@@ -64,7 +64,7 @@ class Merchant extends Model implements Merchantable
      */
     public function service()
     {
-        return $this->belongsTo($this->config('models.' . Service::class, Service::class));
+        return $this->belongsTo($this->config($this->service_id, 'models.' . Service::class, Service::class));
     }
 
     /**
@@ -88,7 +88,7 @@ class Merchant extends Model implements Merchantable
             $this->providerModelClass = $this->guessProviderModelClass();
         }
 
-        return $this->config("models.{$this->providerModelClass}", $this->providerModelClass);
+        return $this->config($this->service_id, "models.{$this->providerModelClass}", $this->providerModelClass);
     }
 
     /**

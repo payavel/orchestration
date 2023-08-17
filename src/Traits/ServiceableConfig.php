@@ -9,16 +9,17 @@ trait ServiceableConfig
     /**
      * Fetch the config from the corresponding service config, if not found, fall back to the serviceable config.
      *
+     * @param string|int $service
      * @param string $key
      * @param mixed $default
      * @return mixed
      */
-    public function config($key, $default = null)
+    public function config($service, $key, $default = null)
     {
-        $serviceKey = Config::get('serviceable.services.' . $this->service->getId() . '.config', $this->service->getId()) . '.' . $key;
+        $config = Config::get('serviceable.services.' . $service . '.config', $service);
 
         return Config::get(
-            $serviceKey,
+            $config .  '.' . $key,
             Config::get(
                 'serviceable.' . $key,
                 $default

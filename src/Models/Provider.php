@@ -65,7 +65,7 @@ class Provider extends Model implements Providable
      */
     public function service()
     {
-        return $this->belongsTo($this->config('models.' . Service::class, Service::class));
+        return $this->belongsTo($this->config($this->service_id, 'models.' . Service::class, Service::class));
     }
 
     /**
@@ -89,7 +89,7 @@ class Provider extends Model implements Providable
             $this->merchantModelClass = $this->guessMerchantModelClass();
         }
 
-        return $this->config("models.{$this->merchantModelClass}", $this->merchantModelClass);
+        return $this->config($this->service_id, "models.{$this->merchantModelClass}", $this->merchantModelClass);
     }
 
 

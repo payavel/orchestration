@@ -45,7 +45,7 @@ abstract class ServiceDriver
      */
     public function getDefaultProvider(Merchantable $merchant = null)
     {
-        return $this->config('defaults.provider');
+        return $this->config($this->service->getId(), 'defaults.provider');
     }
 
     /**
@@ -64,7 +64,7 @@ abstract class ServiceDriver
      */
     public function getDefaultMerchant(Providable $provider = null)
     {
-        return $this->config('defaults.merchant');
+        return $this->config($this->service->getId(), 'defaults.merchant');
     }
 
     /**

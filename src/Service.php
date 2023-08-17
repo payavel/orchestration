@@ -60,7 +60,7 @@ class Service
     {
         $this->service = $service;
 
-        if (! class_exists($driver = $this->config('drivers.' . $this->config('defaults.driver')))) {
+        if (! class_exists($driver = $this->config($this->service->getId(), 'drivers.' . $this->config('defaults.driver')))) {
             throw new Exception('Invalid serviceable driver provided.');
         }
 
@@ -209,8 +209,8 @@ class Service
             throw new Exception("The {$merchant->getName()} merchant is not supported by the {$provider->getName()} provider.");
         }
 
-        $gateway = $this->config('test_mode')
-            ? $this->config('mock.request_class')
+        $gateway = $this->config($this->service->getId(), 'test_mode')
+            ? $this->config($this->service->getId(), 'mock.request_class')
             : $this->driver->resolveGatewayClass($provider);
 
         if (! class_exists($gateway)) {

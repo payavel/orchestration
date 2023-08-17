@@ -38,12 +38,12 @@ class Merchant implements Merchantable
             if (is_array($provider)) {
                 return array_merge(
                     ['id' => $key],
-                    $this->config('providers.' . $key),
+                    $this->config($this->service->getId(), 'providers.' . $key),
                     $provider
                 );
             }
 
-            return array_merge(['id' => $provider], $this->config('providers.' . $provider));
+            return array_merge(['id' => $provider], $this->config($this->service->getId(), 'providers.' . $provider));
         });
     }
 

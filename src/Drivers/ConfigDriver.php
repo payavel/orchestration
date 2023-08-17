@@ -34,8 +34,8 @@ class ConfigDriver extends ServiceDriver
     {
         parent::__construct($service);
 
-        $this->providers = collect($this->config('providers'));
-        $this->merchants = collect($this->config('merchants'));
+        $this->providers = collect($this->config($this->service->getId(), 'providers'));
+        $this->merchants = collect($this->config($this->service->getId(), 'merchants'));
     }
 
     /**
