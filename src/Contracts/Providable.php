@@ -7,7 +7,7 @@ interface Providable extends Serviceable
     /**
      * Get the entity service.
      *
-     * @return string|int
+     * @return \Payavel\Serviceable\Contracts\Serviceable
      */
     public function getService();
 }
