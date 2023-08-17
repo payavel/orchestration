@@ -61,7 +61,7 @@ class Service
         $this->service = $service;
 
         if (! class_exists($driver = $this->config($this->service->getId(), 'drivers.' . $this->config($this->service->getId(), 'defaults.driver')))) {
-            throw new Exception('Invalid serviceable driver provided.');
+            throw new Exception('Invalid driver provided.');
         }
 
         $this->driver = new $driver($this->service);
