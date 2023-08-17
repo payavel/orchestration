@@ -5,6 +5,8 @@ namespace Payavel\Serviceable\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Payavel\Serviceable\Models\Merchant;
+use Payavel\Serviceable\Models\Provider;
+use Payavel\Serviceable\Models\Service;
 
 class MerchantFactory extends Factory
 {
@@ -28,5 +30,25 @@ class MerchantFactory extends Factory
             'id' => preg_replace('/[^a-z0-9]+/i', '_', strtolower($merchant)),
             'name' => $merchant,
         ];
+    }
+
+    /**
+     * Configure the model factory.
+     *
+     * @return $this
+     */
+    public function configure()
+    {
+        $this->afterMaking(function (Merchant $merchant) {
+            if(is_null($merchant->service_id)) {
+                $service = Service::inRandomOrder()->firstOr(function () {
+                    return Service::factory()->create();
+                });
+
+                $merchant->service_id = $service->id;
+            }
+        });
+
+        return $this;
     }
 }

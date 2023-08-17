@@ -62,6 +62,4 @@ class ProviderFactory extends Factory
 
         return $this;
     }
-
-
 }

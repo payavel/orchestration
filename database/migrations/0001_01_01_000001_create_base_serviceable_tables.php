@@ -36,8 +36,11 @@ class CreateBaseServiceableTables extends Migration
 
             Schema::create('merchants', function (Blueprint $table) {
                 $table->string('id')->primary();
+                $table->string('service_id');
                 $table->string('name');
                 $table->timestamps();
+
+                $table->foreign('service_id')->references('id')->on('services')->onUpdate('cascade')->onDelete('cascade');
             });
 
             Schema::create('merchant_provider', function (Blueprint $table) {

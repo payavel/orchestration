@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Payavel\Serviceable\Contracts\Merchantable;
 use Payavel\Serviceable\Traits\HasFactory;
+use Payavel\Serviceable\Traits\ServiceableConfig;
 
 class Merchant extends Model implements Merchantable
 {
-    use HasFactory;
+    use HasFactory,
+        ServiceableConfig;
 
      /**
      * Indicates if the model's ID is auto-incrementing.
@@ -46,6 +48,26 @@ class Merchant extends Model implements Merchantable
     }
 
     /**
+     * Get the entity service.
+     *
+     * @return \Payavel\Serviceable\Contracts\Serviceable
+     */
+    public function getService()
+    {
+        return $this->service;
+    }
+
+    /**
+     * Get the service this merchant belongs to.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function service()
+    {
+        return $this->belongsTo($this->config('models.' . Service::class, Service::class));
+    }
+
+    /**
      * Get the providers that the merchant belongs to.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -62,11 +84,11 @@ class Merchant extends Model implements Merchantable
      */
     private function getProviderModelClass()
     {
-        if(!isset($this->providerModelClass)) {
+        if(! isset($this->providerModelClass)) {
             $this->providerModelClass = $this->guessProviderModelClass();
         }
 
-        return config("payment.models.{$this->providerModelClass}", $this->providerModelClass);
+        return $this->config("models.{$this->providerModelClass}", $this->providerModelClass);
     }
 
     /**
@@ -77,6 +99,10 @@ class Merchant extends Model implements Merchantable
     private function guessProviderModelClass()
     {
         $parentClass = get_class($this);
+
+        if ($parentClass === self::class) {
+            return Provider::class;
+        }
 
         do {
             $merchantModelClass = $parentClass;

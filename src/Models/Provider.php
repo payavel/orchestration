@@ -7,10 +7,12 @@ use Illuminate\Support\Str;
 use Payavel\Serviceable\Contracts\Providable;
 use Payavel\Serviceable\Database\Factories\ProviderFactory;
 use Payavel\Serviceable\Traits\HasFactory;
+use Payavel\Serviceable\Traits\ServiceableConfig;
 
 class Provider extends Model implements Providable
 {
-    use HasFactory;
+    use HasFactory,
+        ServiceableConfig;
 
     /**
      * Indicates if the model's ID is auto-incrementing.
@@ -47,6 +49,26 @@ class Provider extends Model implements Providable
     }
 
     /**
+     * Get the entity service.
+     *
+     * @return \Payavel\Serviceable\Contracts\Serviceable
+     */
+    public function getService()
+    {
+        return $this->service;
+    }
+
+    /**
+     * Get the service this provider belongs to.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function service()
+    {
+        return $this->belongsTo($this->config('models.' . Service::class, Service::class));
+    }
+
+    /**
      * Get the merchant's the provider supports.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -67,7 +89,7 @@ class Provider extends Model implements Providable
             $this->merchantModelClass = $this->guessMerchantModelClass();
         }
 
-        return config("payment.models.{$this->merchantModelClass}", $this->merchantModelClass);
+        return $this->config("models.{$this->merchantModelClass}", $this->merchantModelClass);
     }
 
 
@@ -79,6 +101,10 @@ class Provider extends Model implements Providable
     private function guessMerchantModelClass()
     {
         $parentClass = get_class($this);
+
+        if ($parentClass === self::class) {
+            return Merchant::class;
+        }
 
         do {
             $providerModelClass = $parentClass;

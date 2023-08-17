@@ -66,4 +66,14 @@ class Merchant implements Merchantable
     {
         return $this->attributes['name'];
     }
+
+    /**
+     * Get the entity service.
+     *
+     * @return \Payavel\Serviceable\Contracts\Serviceable
+     */
+    public function getService()
+    {
+        return $this->service;
+    }
 }
