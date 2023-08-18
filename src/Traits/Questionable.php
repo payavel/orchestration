@@ -2,6 +2,8 @@
 
 namespace Payavel\Serviceable\Traits;
 
+use Illuminate\Support\Str;
+
 trait Questionable
 {
     /**
@@ -38,6 +40,6 @@ trait Questionable
      */
     private function formatService($entity)
     {
-        return ($this->service ? $this->service . ' ' : '') . $entity;
+        return ($this->service ? Str::replace('_', ' ', $this->service->getId()) . ' ' : '') . $entity;
     }
 }

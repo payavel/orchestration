@@ -5,6 +5,7 @@ namespace Payavel\Serviceable\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
+use Payavel\Serviceable\DataTransferObjects\Service;
 use Payavel\Serviceable\Traits\GeneratesFiles;
 use Payavel\Serviceable\Traits\Questionable;
 
@@ -29,19 +30,11 @@ class Install extends Command
     protected $description = 'Install a new service within the application.';
 
     /**
-     * The service to be installed.
+     * The serviceable to be saved.
      *
-     * @var string
+     * @var \Payavel\Serviceable\Contracts\Serviceable
      */
     protected $service;
-
-    /**
-     * The service attributes to be saved.
-     *
-     * @var string $name
-     * @var string $id
-     */
-    protected $name, $id;
 
     /**
      * The collected providers.
@@ -87,7 +80,7 @@ class Install extends Command
 
     protected  function generateService()
     {
-        $studlyService = Str::studly($this->id);
+        $studlyService = Str::studly($this->service->getId());
 
         if (! file_exists(config_path('serviceable.php'))) {
             $this->putFile(
@@ -95,17 +88,17 @@ class Install extends Command
                 $this->makeFile(
                     __DIR__ . '/../../../stubs/config-serviceable.stub',
                     [
-                        'id' => $this->id,
-                        'name' => $this->name,
-                        'config' => Str::slug($this->name),
+                        'id' => $this->service->getId(),
+                        'name' => $this->service->getName(),
+                        'config' => Str::slug($this->service->getName()),
                     ]
                 )
             );
         }
 
-        Config::set('serviceable.services.' . $this->id, [
-            'name' => $this->name,
-            'config' => Str::slug($this->name),
+        Config::set('serviceable.services.' . $this->service->getId(), [
+            'name' => $this->service->getName(),
+            'config' => Str::slug($this->service->getName()),
         ]);
 
         $this->putFile(
@@ -129,14 +122,14 @@ class Install extends Command
         );
 
         $this->putFile(
-            config_path(Str::slug($this->name) . '.php'),
+            config_path(Str::slug($this->service->getName()) . '.php'),
             $this->makeFile(
                 __DIR__ . '/../../../stubs/config-service.stub',
                 [
-                    'Title' => Str::title($this->name),
-                    'Service' => Str::studly($this->id),
-                    'service' => Str::lower($this->name),
-                    'SERVICE' => Str::upper(Str::slug($this->name, '_')),
+                    'Title' => Str::title($this->service->getName()),
+                    'Service' => Str::studly($this->service->getId()),
+                    'service' => Str::lower($this->service->getName()),
+                    'SERVICE' => Str::upper(Str::slug($this->service->getName(), '_')),
                     'provider' => $this->config['defaults']['provider'],
                     'providers' => $this->config['providers'],
                     'merchant' => $this->config['defaults']['merchant'],
@@ -146,19 +139,19 @@ class Install extends Command
             )
         );
 
-        $this->info("The {$this->name} config has been successfully generated.");
+        $this->info('The ' . Str::lower($this->service->getName()) . ' config has been successfully generated.');
     }
 
     protected function generateProviders()
     {
-        $this->call("service:provider", ['--service' => $this->id, '--fake' => true]);
+        $this->call("service:provider", ['--service' => $this->service->getId(), '--fake' => true]);
 
         $this->providers->each(function ($provider) {
             $this->call(
                 "service:provider",
                 [
                     'provider' => $provider['name'],
-                    '--service' => $this->id,
+                    '--service' => $this->service->getId(),
                     '--id' => $provider['id']
                 ]
             );
@@ -167,9 +160,10 @@ class Install extends Command
 
     protected function setService()
     {
-        $this->name = trim($this->argument('service') ?? $this->askName('service'));
-        $this->id = ($this->option('id') ?? $this->askId('service', $this->name));
-        $this->service = Str::lower($this->name);
+        $this->service = new Service([
+            'name' => $name = trim($this->argument('service') ?? $this->askName('service')),
+            'id' => ($this->option('id') ?? $this->askId('service', $name)),
+        ]);
     }
 
     /**
@@ -186,9 +180,9 @@ class Install extends Command
                 'name' => $name = $this->askName('provider'),
                 'id' => $id = $this->askId('provider', $name),
                 'Provider' => Str::studly($id),
-                'Service' => Str::studly($this->id),
+                'Service' => Str::studly($this->service->getId()),
             ]);
-        } while ($this->confirm("Would you like to add another {$this->service} provider?", false));
+        } while ($this->confirm('Would you like to add another '. Str::lower($this->service->getName()) .' provider?', false));
 
         $this->config['providers'] = $this->providers->reduce(function ($config, $provider) {
             return $config . $this->makeFile(__DIR__ . '/../../../stubs/config-provider.stub', $provider);
@@ -229,7 +223,7 @@ class Install extends Command
             }, "");
 
             $this->merchants->push($merchant);
-        } while ($this->confirm("Would you like to add another {$this->service} merchant?", false));
+        } while ($this->confirm('Would you like to add another ' . Str::lower($this->service->getName()) . ' merchant?', false));
 
         $this->config['merchants'] = $this->merchants->reduce(function ($config, $merchant) {
             return $config . $this->makeFile(__DIR__ . '/../../../stubs/config-merchant.stub', $merchant);
