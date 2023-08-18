@@ -129,7 +129,7 @@ class MakeProvider extends Command
      */
     protected function setService()
     {
-        if (! is_null($this->option('service')) && is_null($service = $service = Service::find($this->option('service')))) {
+        if (! is_null($this->option('service')) && is_null($service = Service::find($this->option('service')))) {
             $this->error("Service with id {$this->option('service')} does not exist.");
 
             return false;
