@@ -4,11 +4,13 @@ namespace Payavel\Serviceable\Tests\Feature\Console\Commands;
 
 use Illuminate\Support\Str;
 use Payavel\Serviceable\Tests\TestCase;
+use Payavel\Serviceable\Tests\Traits\AssertGatewayExists;
 use Payavel\Serviceable\Tests\Traits\CreateServiceables;
 
 class TestInstallCommand extends TestCase
 {
-    use CreateServiceables;
+    use AssertGatewayExists,
+        CreateServiceables;
 
     /** @test */
     public function install_command_publishes_migration_and_generates_config_with_single_provider_and_merchant()
@@ -39,11 +41,15 @@ class TestInstallCommand extends TestCase
         $this->assertFileExists(config_path($configFile));
         $config = require(config_path($configFile));
 
+        $this->assertGatewayExists($service);
+
         $this->assertEquals($provider->getId(), $config['defaults']['provider']);
         $this->assertEquals($merchant->getId(), $config['defaults']['merchant']);
         $this->assertEquals($provider->getName(), $config['providers'][$provider->getId()]['name']);
         $this->assertEquals($merchant->getName(), $config['merchants'][$merchant->getId()]['name']);
         $this->assertNotNull($config['merchants'][$merchant->getId()]['providers'][$provider->getId()]);
+
+        $this->assertGatewayExists($provider);
 
         $this->assertTrue(unlink(config_path($configFile)));
     }
@@ -115,12 +121,15 @@ class TestInstallCommand extends TestCase
         $this->assertFileExists(config_path($configFile));
         $config = require(config_path($configFile));
 
+        $this->assertGatewayExists($service);
+
         $this->assertEquals($provider1->getId(), $config['defaults']['provider']);
         $this->assertEquals($merchant1->getId(), $config['defaults']['merchant']);
 
         $randomProvider = $this->faker->randomElement([$provider1, $provider2]);
         $this->assertNotNull($config['providers'][$randomProvider->getId()]);
         $this->assertEquals($randomProvider->getName(), $config['providers'][$randomProvider->getId()]['name']);
+        $this->assertGatewayExists($randomProvider);
 
         $randomMerchant = $this->faker->randomElement([$merchant1, $merchant2, $merchant3]);
         $this->assertNotNull($config['merchants'][$randomMerchant->getId()]);

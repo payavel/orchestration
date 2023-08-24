@@ -3,15 +3,15 @@
 namespace Payavel\Serviceable\Tests\Feature\Console\Commands;
 
 use Illuminate\Support\Str;
-use Payavel\Serviceable\Contracts\Providable;
-use Payavel\Serviceable\Contracts\Serviceable;
 use Payavel\Serviceable\Service;
 use Payavel\Serviceable\Tests\TestCase;
+use Payavel\Serviceable\Tests\Traits\AssertGatewayExists;
 use Payavel\Serviceable\Tests\Traits\CreateServiceables;
 
 class TestMakeProviderCommand extends TestCase
 {
-    use CreateServiceables;
+    use AssertGatewayExists,
+        CreateServiceables;
 
     /** @test */
     public function make_payment_provider_command_will_prompt_for_missing_arguments()
@@ -80,21 +80,5 @@ class TestMakeProviderCommand extends TestCase
         $this->artisan('service:provider')
             ->expectsOutput('Your must first set up a service! Please call the service:install artisan command.')
             ->assertExitCode(0);
-    }
-
-    private function assertGatewayExists(Serviceable $serviceable)
-    {
-        if ($serviceable instanceof Providable) {
-            $service = Str::studly($serviceable->getService()->getId());
-            $provider = Str::studly($serviceable->getId());
-        } else {
-            $service = Str::studly($serviceable->getId());
-            $provider = 'Fake';
-        }
-
-        $servicePath = app_path("Services/{$service}");
-
-        $this->assertTrue(file_exists("{$servicePath}/{$provider}{$service}Request.php"));
-        $this->assertTrue(file_exists("{$servicePath}/{$provider}{$service}Response.php"));
     }
 }
