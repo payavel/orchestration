@@ -7,14 +7,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
 use Payavel\Serviceable\ServiceableServiceProvider;
+use Payavel\Serviceable\Tests\Traits\SetUpDriver;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use SetUpDriver,
+        RefreshDatabase,
+        WithFaker;
 
     protected function getPackageProviders($app)
     {
@@ -51,28 +52,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
             $table->string('password');
             $table->timestamps();
         });
-    }
-
-    protected function setUpDriver()
-    {
-        if (
-            ! isset($this->driver) ||
-            ! method_exists($this, $setUp = 'setUp' . Str::Studly($this->driver))
-        ) {
-           return;
-        }
-
-        $this->$setUp();
-    }
-
-    protected function setUpConfig()
-    {
-        Config::set('serviceable.defaults.driver', 'config');
-    }
-
-    protected function setUpDatabase()
-    {
-        Config::set('serviceable.defaults.driver', 'database');
     }
 
     protected function tearDown(): void
