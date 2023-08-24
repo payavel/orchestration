@@ -10,8 +10,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
-use Payavel\Serviceable\Database\Factories\ProviderFactory;
-use Payavel\Serviceable\Models\Provider;
 use Payavel\Serviceable\ServiceableServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
@@ -75,6 +73,15 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function setUpDatabase()
     {
         Config::set('serviceable.defaults.driver', 'database');
+    }
+
+    protected function tearDown(): void
+    {
+        if (file_exists($config = config_path('serviceable.php'))) {
+            unlink($config);
+        }
+
+        parent::tearDown();
     }
 }
 

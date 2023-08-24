@@ -62,6 +62,26 @@ class TestMakeProviderCommand extends TestCase
         $this->assertGatewayExists($service);
     }
 
+    /** @test */
+    public function make_provider_command_using_fake_service()
+    {
+        $this->createService();
+
+        $this->artisan('service:provider', [
+            '--service' => 'fake',
+        ])
+            ->expectsOutput('Service with id fake does not exist.')
+            ->assertExitCode(0);
+    }
+
+    /** @test */
+    public function make_provider_command_when_no_services_exist()
+    {
+        $this->artisan('service:provider')
+            ->expectsOutput('Your must first set up a service! Please call the service:install artisan command.')
+            ->assertExitCode(0);
+    }
+
     private function assertGatewayExists(Serviceable $serviceable)
     {
         if ($serviceable instanceof Providable) {
