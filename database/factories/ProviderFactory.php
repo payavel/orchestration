@@ -24,10 +24,9 @@ class ProviderFactory extends Factory
     public function definition()
     {
         $provider = Str::remove(['\'', ','], $this->faker->unique()->company());
-        $id = preg_replace('/[^a-z0-9]+/i', '_', strtolower($provider));
 
         return [
-            'id' => $id,
+            'id' => preg_replace('/[^a-z0-9]+/i', '_', strtolower($provider)),
             'name' => $provider,
         ];
     }
