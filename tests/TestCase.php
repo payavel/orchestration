@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use Payavel\Serviceable\Database\Factories\ProviderFactory;
 use Payavel\Serviceable\Models\Provider;
 use Payavel\Serviceable\ServiceableServiceProvider;
@@ -39,6 +41,10 @@ class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function setUp(): void
     {
+        $this->afterApplicationRefreshedCallbacks = [
+            fn () => $this->setUpDriver(),
+        ];
+
         parent::setUp();
 
         Schema::create('users', function ($table) {
@@ -48,15 +54,27 @@ class TestCase extends \Orchestra\Testbench\TestCase
             $table->timestamps();
         });
     }
-}
 
-class TestProvider extends Provider
-{
-    use HasFactory;
-
-    protected static function newFactory()
+    protected function setUpDriver()
     {
-        return ProviderFactory::new();
+        if (
+            ! isset($this->driver) ||
+            ! method_exists($this, $setUp = 'setUp' . Str::Studly($this->driver))
+        ) {
+           return;
+        }
+
+        $this->$setUp();
+    }
+
+    protected function setUpConfig()
+    {
+        Config::set('serviceable.defaults.driver', 'config');
+    }
+
+    protected function setUpDatabase()
+    {
+        Config::set('serviceable.defaults.driver', 'database');
     }
 }
 
