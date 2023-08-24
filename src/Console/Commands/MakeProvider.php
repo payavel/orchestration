@@ -133,18 +133,16 @@ class MakeProvider extends Command
             $this->error("Service with id {$this->option('service')} does not exist.");
 
             return false;
-        }
-
-        if (is_null($service) && ($existingServices = Service::all())->isNotEmpty()) {
+        } else if (! isset($service) && ($existingServices = Service::all())->isNotEmpty()) {
             $id = $this->choice(
                 'Which service will the provider be offering?',
                 $existingServices->map(fn ($existingService) => $existingService->getId())->all()
             );
 
-            $service = $existingServices->first(fn ($existingService) => $existingService->getId() === $id);
+            $service = $existingServices->all()[$id];
         }
 
-        if (is_null($service)) {
+        if (! isset($service)) {
             $this->error('Your must first set up a service! Please call the service:install artisan command.');
 
             return false;

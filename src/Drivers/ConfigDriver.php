@@ -132,6 +132,6 @@ class ConfigDriver extends ServiceDriver
     {
         return collect(Config::get('serviceable.services', []))->map(function ($value, $key) {
             return new Service(array_merge(['id' => $key], $value));
-        });
+        })->values();
     }
 }
