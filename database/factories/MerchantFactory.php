@@ -39,7 +39,7 @@ class MerchantFactory extends Factory
      */
     public function configure()
     {
-        $this->afterMaking(function (Merchant $merchant) {
+        return $this->afterMaking(function (Merchant $merchant) {
             if(is_null($merchant->service_id)) {
                 $service = Service::inRandomOrder()->firstOr(function () {
                     return Service::factory()->create();
@@ -48,7 +48,5 @@ class MerchantFactory extends Factory
                 $merchant->service_id = $service->id;
             }
         });
-
-        return $this;
     }
 }

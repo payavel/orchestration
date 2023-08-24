@@ -39,7 +39,7 @@ class ProviderFactory extends Factory
      */
     public function configure()
     {
-        $this->afterMaking(function (Provider $provider) {
+        return $this->afterMaking(function (Provider $provider) {
             if(is_null($provider->service_id)) {
                 $service = Service::inRandomOrder()->firstOr(function () {
                     return Service::factory()->create();
@@ -59,7 +59,5 @@ class ProviderFactory extends Factory
                 $provider->response_class = "\App\Services\{$studlyService}\{$studlyProvider}{$studlyService}Response";
             }
         });
-
-        return $this;
     }
 }
