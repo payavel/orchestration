@@ -4,6 +4,8 @@ namespace Payavel\Serviceable\Tests\Traits;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
+use Payavel\Serviceable\Contracts\Merchantable;
+use Payavel\Serviceable\Contracts\Providable;
 use Payavel\Serviceable\DataTransferObjects\Merchant as MerchantDto;
 use Payavel\Serviceable\DataTransferObjects\Provider as ProviderDto;
 use Payavel\Serviceable\DataTransferObjects\Service as ServiceDto;
@@ -100,5 +102,28 @@ trait CreateServiceables
         $data['service_id'] = $service->getId();
 
         return MerchantModel::factory()->create($data);
+    }
+
+    protected function linkMerchantToProvider(Merchantable $merchant, Providable $provider, $data = [])
+    {
+        $linkMerchantToProvider = 'linkMerchantToProvider' . Str::studly(Config::get('serviceable.defaults.driver'));
+
+        $this->$linkMerchantToProvider($merchant, $provider, $data);
+    }
+
+    protected function linkMerchantToProviderConfig(Merchantable $merchant, Providable $provider, $data)
+    {
+        Config::set(
+            $providers = Str::slug($merchant->getService()->getId()) . '.merchants.' . $merchant->getId() . '.providers',
+            array_merge(
+                Config::get($providers, []),
+                [$provider->getId() => $data]
+            )
+        );
+    }
+
+    protected function linkMerchantToProviderDatabase(Merchantable $merchant, Providable $provider, $data)
+    {
+        $merchant->providers()->sync([$provider->getId() => $data], false);
     }
 }
