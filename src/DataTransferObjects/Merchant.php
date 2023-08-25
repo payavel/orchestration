@@ -20,31 +20,11 @@ class Merchant implements Merchantable
      */
     public Serviceable $service;
 
-    /**
-     * Collection of providers this merchant is supported by.
-     *
-     * @var \Payavel\Serviceable\Contracts\Serviceable $service
-     * @var \Illuminate\Support\Collection
-     */
-    public $providers;
-
     public function __construct(Serviceable $service, array $data)
     {
         $this->service = $service;
 
         $this->attributes = $data;
-
-        $this->providers = (new Collection($data['providers'] ?? []))->map(function ($provider, $key) {
-            if (is_array($provider)) {
-                return array_merge(
-                    ['id' => $key],
-                    $this->config($this->service->getId(), 'providers.' . $key),
-                    $provider
-                );
-            }
-
-            return array_merge(['id' => $provider], $this->config($this->service->getId(), 'providers.' . $provider));
-        });
     }
 
     /**
@@ -75,5 +55,25 @@ class Merchant implements Merchantable
     public function getService()
     {
         return $this->service;
+    }
+
+    public function getProviders()
+    {
+        if (! isset($this->providers)) {
+            $this->attributes['providers'] = (new Collection($this->config($this->service->getId(), 'merchants.' . $this->attributes['id'] . '.providers', [])))
+                ->map(function ($provider, $key) {
+                    if (is_array($provider)) {
+                        return array_merge(
+                            ['id' => $key],
+                            $this->config($this->service->getId(), 'providers.' . $key),
+                            $provider
+                        );
+                    }
+
+                    return array_merge(['id' => $provider], $this->config($this->service->getId(), 'providers.' . $provider));
+                });
+        }
+
+        return $this->attributes['providers'];
     }
 }
