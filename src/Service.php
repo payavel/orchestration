@@ -244,7 +244,7 @@ class Service
      */
     public function __call($method, $params)
     {
-        if (! method_exists($this->gateway, $method)) {
+        if (! method_exists($this->getGateway(), $method)) {
             throw new \BadMethodCallException(__CLASS__ . "::{$method}() not found.");
         }
 
