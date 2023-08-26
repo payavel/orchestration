@@ -5,14 +5,13 @@ namespace Payavel\Serviceable\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Payavel\Serviceable\Contracts\Providable;
-use Payavel\Serviceable\Database\Factories\ProviderFactory;
 use Payavel\Serviceable\Traits\HasFactory;
-use Payavel\Serviceable\Traits\ServiceConfigs;
+use Payavel\Serviceable\Traits\ServesConfig;
 
 class Provider extends Model implements Providable
 {
     use HasFactory,
-        ServiceConfigs;
+        ServesConfig;
 
     /**
      * Indicates if the model's ID is auto-incrementing.

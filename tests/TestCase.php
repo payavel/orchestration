@@ -9,11 +9,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Schema;
 use Payavel\Serviceable\ServiceableServiceProvider;
-use Payavel\Serviceable\Tests\Traits\SetUpDriver;
+use Payavel\Serviceable\Tests\Traits\SetsDriver;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
-    use SetUpDriver,
+    use SetsDriver,
         RefreshDatabase,
         WithFaker;
 
@@ -41,7 +41,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function setUp(): void
     {
         $this->afterApplicationRefreshedCallbacks = [
-            fn () => $this->setUpDriver(),
+            fn () => $this->setDriver(),
         ];
 
         parent::setUp();

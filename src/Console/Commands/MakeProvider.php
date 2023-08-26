@@ -5,15 +5,15 @@ namespace Payavel\Serviceable\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Payavel\Serviceable\Service;
-use Payavel\Serviceable\Traits\GenerateFiles;
-use Payavel\Serviceable\Traits\AskQuestions;
-use Payavel\Serviceable\Traits\ServiceConfigs;
+use Payavel\Serviceable\Traits\AsksQuestions;
+use Payavel\Serviceable\Traits\GeneratesFiles;
+use Payavel\Serviceable\Traits\ServesConfig;
 
 class MakeProvider extends Command
 {
-    use AskQuestions,
-        GenerateFiles,
-        ServiceConfigs;
+    use AsksQuestions,
+        GeneratesFiles,
+        ServesConfig;
 
     /**
      * The name and signature of the console command.

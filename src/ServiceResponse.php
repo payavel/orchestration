@@ -4,13 +4,13 @@ namespace Payavel\Serviceable;
 
 use Payavel\Serviceable\Contracts\Merchantable;
 use Payavel\Serviceable\Contracts\Providable;
-use Payavel\Serviceable\Traits\SimulateAttributes;
-use Payavel\Serviceable\Traits\ThrowRuntimeException;
+use Payavel\Serviceable\Traits\SimulatesAttributes;
+use Payavel\Serviceable\Traits\ThrowsRuntimeException;
 
 abstract class ServiceResponse
 {
-    use SimulateAttributes,
-        ThrowRuntimeException;
+    use SimulatesAttributes,
+        ThrowsRuntimeException;
 
     /**
      * Statuses in this array are considered successful.

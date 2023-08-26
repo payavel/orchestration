@@ -3,11 +3,11 @@
 namespace Payavel\Serviceable\DataTransferObjects;
 
 use Payavel\Serviceable\Contracts\Serviceable;
-use Payavel\Serviceable\Traits\SimulateAttributes;
+use Payavel\Serviceable\Traits\SimulatesAttributes;
 
 class Service implements Serviceable
 {
-    use SimulateAttributes;
+    use SimulatesAttributes;
 
     public function __construct(array $data)
     {

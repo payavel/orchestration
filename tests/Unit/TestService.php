@@ -12,13 +12,13 @@ use Payavel\Serviceable\Tests\Services\Mock\FakeMockResponse;
 use Payavel\Serviceable\Tests\Services\Mock\TestMockRequest;
 use Payavel\Serviceable\Tests\Services\Mock\TestMockResponse;
 use Payavel\Serviceable\Tests\TestCase;
-use Payavel\Serviceable\Tests\Traits\CreateServiceables;
-use Payavel\Serviceable\Tests\Traits\SetUpMode;
+use Payavel\Serviceable\Tests\Traits\CreatesServiceables;
+use Payavel\Serviceable\Tests\Traits\SetsMode;
 
 class TestService extends TestCase
 {
-    use CreateServiceables,
-        SetUpMode;
+    use CreatesServiceables,
+        SetsMode;
 
     private $serviceable;
     private $providable;
@@ -56,7 +56,7 @@ class TestService extends TestCase
             'response_class' => FakeMockResponse::class,
         ]);
 
-        $this->setUpMode($this->serviceable);
+        $this->setMode($this->serviceable);
 
         $this->service = new Service($this->serviceable);
     }

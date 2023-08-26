@@ -4,7 +4,7 @@ namespace Payavel\Serviceable\Traits;
 
 use Illuminate\Support\Str;
 
-trait AskQuestions
+trait AsksQuestions
 {
     /**
      * Ask for the name of the serviceable entity (provider, merchant, etc...) to be added.

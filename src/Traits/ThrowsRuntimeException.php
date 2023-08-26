@@ -4,7 +4,7 @@ namespace Payavel\Serviceable\Traits;
 
 use RuntimeException;
 
-trait ThrowRuntimeException
+trait ThrowsRuntimeException
 {
     /**
      * Request the developer to implement the specified method in order to get the expected result.

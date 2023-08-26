@@ -4,7 +4,7 @@ namespace Payavel\Serviceable\Traits;
 
 use Illuminate\Support\Str;
 
-trait SimulateAttributes
+trait SimulatesAttributes
 {
     /**
      * The magic attributes array.

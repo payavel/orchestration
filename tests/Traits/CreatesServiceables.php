@@ -13,7 +13,7 @@ use Payavel\Serviceable\Models\Merchant as MerchantModel;
 use Payavel\Serviceable\Models\Provider as ProviderModel;
 use Payavel\Serviceable\Models\Service as ServiceModel;
 
-trait CreateServiceables
+trait CreatesServiceables
 {
     protected function createService($data = [])
     {
