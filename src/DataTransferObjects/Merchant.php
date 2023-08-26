@@ -61,17 +61,18 @@ class Merchant implements Merchantable
     {
         if (! isset($this->providers)) {
             $this->attributes['providers'] = (new Collection($this->config($this->service->getId(), 'merchants.' . $this->attributes['id'] . '.providers', [])))
-                ->map(function ($provider, $key) {
-                    if (is_array($provider)) {
-                        return array_merge(
+                ->map(fn ($provider, $key) =>
+                    is_array($provider)
+                        ? array_merge(
                             ['id' => $key],
                             $this->config($this->service->getId(), 'providers.' . $key),
                             $provider
-                        );
-                    }
-
-                    return array_merge(['id' => $provider], $this->config($this->service->getId(), 'providers.' . $provider));
-                });
+                        )
+                        : array_merge(
+                            ['id' => $provider],
+                            $this->config($this->service->getId(), 'providers.' . $provider)
+                        )
+                );
         }
 
         return $this->attributes['providers'];
