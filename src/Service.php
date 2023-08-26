@@ -210,7 +210,7 @@ class Service
         }
 
         $gateway = $this->config($this->service->getId(), 'test_mode')
-            ? $this->config($this->service->getId(), 'mock.request_class')
+            ? $this->config($this->service->getId(), 'testing.request_class')
             : $this->driver->resolveGatewayClass($provider);
 
         if (! class_exists($gateway)) {
