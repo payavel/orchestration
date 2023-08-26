@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Payavel\Serviceable\Contracts\Merchantable;
 use Payavel\Serviceable\Traits\HasFactory;
-use Payavel\Serviceable\Traits\ServiceableConfig;
+use Payavel\Serviceable\Traits\ServiceConfigs;
 
 class Merchant extends Model implements Merchantable
 {
     use HasFactory,
-        ServiceableConfig;
+        ServiceConfigs;
 
      /**
      * Indicates if the model's ID is auto-incrementing.

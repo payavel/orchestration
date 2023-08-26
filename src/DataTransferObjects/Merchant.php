@@ -5,12 +5,12 @@ namespace Payavel\Serviceable\DataTransferObjects;
 use Illuminate\Support\Collection;
 use Payavel\Serviceable\Contracts\Merchantable;
 use Payavel\Serviceable\Contracts\Serviceable;
-use Payavel\Serviceable\Traits\ServiceableConfig;
+use Payavel\Serviceable\Traits\ServiceConfigs;
 use Payavel\Serviceable\Traits\SimulateAttributes;
 
 class Merchant implements Merchantable
 {
-    use ServiceableConfig,
+    use ServiceConfigs,
         SimulateAttributes;
 
     /**
