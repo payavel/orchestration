@@ -31,7 +31,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | {{ Title }} Mocking
+    | {{ Title }} Testing
     |--------------------------------------------------------------------------
     |
     | This option allows you to define the location of the fake {{ service }}
@@ -39,7 +39,7 @@ return [
     | is set to true. Also, feel free to add any other settings here.
     |
     */
-    'mock' => [
+    'testing' => [
         'request_class' => \App\Services\{{ Service }}\Fake{{ Service }}Request::class,
         'response_class' => \App\Services\{{ Service }}\Fake{{ Service }}Response::class,
     ],
