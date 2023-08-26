@@ -33,6 +33,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Serviceable Test Mode
+    |--------------------------------------------------------------------------
+    |
+    | When set to true, the provider & merchant will be shared with the respective
+    | fake service request, this allows you to mock your responses as you wish.
+    | Note that if the service defines the test_mode, it will be prioritized.
+    |
+    */
+    'test_mode' => env('SERVICE_TEST_MODE', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Service Stubs
     |--------------------------------------------------------------------------
     |
