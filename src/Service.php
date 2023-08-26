@@ -5,13 +5,13 @@ namespace Payavel\Serviceable;
 use Exception;
 use Illuminate\Support\Facades\Config;
 use Payavel\Serviceable\Contracts\Serviceable;
-use Payavel\Serviceable\Traits\ServiceConfigs;
-use Payavel\Serviceable\Traits\SimulateAttributes;
+use Payavel\Serviceable\Traits\ServesConfig;
+use Payavel\Serviceable\Traits\SimulatesAttributes;
 
 class Service
 {
-    use ServiceConfigs,
-        SimulateAttributes;
+    use ServesConfig,
+        SimulatesAttributes;
 
     /**
      * The service.

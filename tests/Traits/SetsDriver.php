@@ -5,26 +5,26 @@ namespace Payavel\Serviceable\Tests\Traits;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
-trait SetUpDriver
+trait SetsDriver
 {
-    protected function setUpDriver()
+    protected function setDriver()
     {
         if (
             ! isset($this->driver) ||
-            ! method_exists($this, $setUp = 'setUp' . Str::Studly($this->driver))
+            ! method_exists($this, $setDriver = 'set' . Str::Studly($this->driver) . 'Driver')
         ) {
             return;
         }
 
-        $this->$setUp();
+        $this->$setDriver();
     }
 
-    protected function setUpConfig()
+    protected function setConfigDriver()
     {
         Config::set('serviceable.defaults.driver', 'config');
     }
 
-    protected function setUpDatabase()
+    protected function setDatabaseDriver()
     {
         Config::set('serviceable.defaults.driver', 'database');
     }

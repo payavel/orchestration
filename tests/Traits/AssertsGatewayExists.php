@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Payavel\Serviceable\Contracts\Providable;
 use Payavel\Serviceable\Contracts\Serviceable;
 
-trait AssertGatewayExists
+trait AssertsGatewayExists
 {
     protected function assertGatewayExists(Serviceable $serviceable)
     {

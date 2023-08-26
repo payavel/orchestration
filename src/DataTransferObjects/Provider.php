@@ -4,13 +4,13 @@ namespace Payavel\Serviceable\DataTransferObjects;
 
 use Payavel\Serviceable\Contracts\Providable;
 use Payavel\Serviceable\Contracts\Serviceable;
-use Payavel\Serviceable\Traits\ServiceConfigs;
-use Payavel\Serviceable\Traits\SimulateAttributes;
+use Payavel\Serviceable\Traits\ServesConfig;
+use Payavel\Serviceable\Traits\SimulatesAttributes;
 
 class Provider implements Providable
 {
-    use ServiceConfigs,
-        SimulateAttributes;
+    use ServesConfig,
+        SimulatesAttributes;
 
     /**
      * The compatible service.

@@ -5,7 +5,7 @@ namespace Payavel\Serviceable\Traits;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
-trait GenerateFiles
+trait GeneratesFiles
 {
     /**
      * The filesystem instance.

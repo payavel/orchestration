@@ -6,13 +6,13 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Serviceable\DataTransferObjects\Service;
-use Payavel\Serviceable\Traits\GenerateFiles;
-use Payavel\Serviceable\Traits\AskQuestions;
+use Payavel\Serviceable\Traits\AsksQuestions;
+use Payavel\Serviceable\Traits\GeneratesFiles;
 
 class Install extends Command
 {
-    use AskQuestions,
-        GenerateFiles;
+    use AsksQuestions,
+        GeneratesFiles;
 
     /**
      * The name and signature of the console command.

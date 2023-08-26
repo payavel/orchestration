@@ -4,13 +4,13 @@ namespace Payavel\Serviceable\Tests\Feature\Console\Commands;
 
 use Illuminate\Support\Str;
 use Payavel\Serviceable\Tests\TestCase;
-use Payavel\Serviceable\Tests\Traits\AssertGatewayExists;
-use Payavel\Serviceable\Tests\Traits\CreateServiceables;
+use Payavel\Serviceable\Tests\Traits\AssertsGatewayExists;
+use Payavel\Serviceable\Tests\Traits\CreatesServiceables;
 
 class TestInstallCommand extends TestCase
 {
-    use AssertGatewayExists,
-        CreateServiceables;
+    use AssertsGatewayExists,
+        CreatesServiceables;
 
     /** @test */
     public function install_command_publishes_migration_and_generates_config_with_single_provider_and_merchant()
