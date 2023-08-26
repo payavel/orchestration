@@ -147,16 +147,16 @@ class Install extends Command
     {
         $this->call("service:provider", ['--service' => $this->service->getId(), '--fake' => true]);
 
-        $this->providers->each(function ($provider) {
-            $this->call(
+        $this->providers->each(
+            fn ($provider) =>  $this->call(
                 "service:provider",
                 [
                     'provider' => $provider['name'],
                     '--service' => $this->service->getId(),
                     '--id' => $provider['id']
                 ]
-            );
-        });
+            )
+        );
     }
 
     protected function setService()
@@ -185,9 +185,15 @@ class Install extends Command
             ]);
         } while ($this->confirm('Would you like to add another '. Str::lower($this->service->getName()) .' provider?', false));
 
-        $this->config['providers'] = $this->providers->reduce(function ($config, $provider) {
-            return $config . $this->makeFile(__DIR__ . '/../../../stubs/config-provider.stub', $provider);
-        }, "");
+        $this->config['providers'] = $this->providers->reduce(
+            fn ($config, $provider) =>
+                $config .
+                $this->makeFile(
+                    __DIR__ . '/../../../stubs/config-provider.stub',
+                    $provider
+                ),
+            ""
+        );
 
         $this->config['defaults']['provider'] = $this->providers->count() > 1
             ? $this->choice('Which provider will be used as default?', $this->providers->pluck('id')->all())
@@ -219,16 +225,28 @@ class Install extends Command
                 )
                 : [$this->providers->first()['id']];
 
-            $merchant['providers'] = collect($providers)->reduce(function ($config, $provider, $index) use ($providers) {
-                return $config . $this->makeFile(__DIR__ . '/../../../stubs/config-merchant-providers.stub', ['id' => $provider]) . ($index < count($providers) - 1 ? "\n" : "");
-            }, "");
+            $merchant['providers'] = collect($providers)->reduce(
+                fn ($config, $provider, $index) =>
+                    $config .
+                    $this->makeFile(
+                        __DIR__ . '/../../../stubs/config-merchant-providers.stub',
+                        ['id' => $provider]
+                    ) .
+                    ($index < count($providers) - 1 ? "\n" : ""),
+                ""
+            );
 
             $this->merchants->push($merchant);
         } while ($this->confirm('Would you like to add another ' . Str::lower($this->service->getName()) . ' merchant?', false));
 
-        $this->config['merchants'] = $this->merchants->reduce(function ($config, $merchant) {
-            return $config . $this->makeFile(__DIR__ . '/../../../stubs/config-merchant.stub', $merchant);
-        }, "");
+        $this->config['merchants'] = $this->merchants->reduce(
+            fn ($config, $merchant) =>
+                $config . $this->makeFile(
+                    __DIR__ . '/../../../stubs/config-merchant.stub',
+                    $merchant
+            ),
+            ""
+        );
 
         $this->config['defaults']['merchant'] = $this->merchants->count() > 1
             ? $this->choice('Which merchant will be used as default?', $this->merchants->pluck('id')->all())
