@@ -4,7 +4,7 @@ namespace Payavel\Serviceable\Traits;
 
 use Illuminate\Support\Facades\Config;
 
-trait ServiceableConfig
+trait ServiceConfigs
 {
     /**
      * Fetch the config from the corresponding service config, if not found, fall back to the serviceable config.

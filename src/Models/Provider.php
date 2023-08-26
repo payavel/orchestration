@@ -7,12 +7,12 @@ use Illuminate\Support\Str;
 use Payavel\Serviceable\Contracts\Providable;
 use Payavel\Serviceable\Database\Factories\ProviderFactory;
 use Payavel\Serviceable\Traits\HasFactory;
-use Payavel\Serviceable\Traits\ServiceableConfig;
+use Payavel\Serviceable\Traits\ServiceConfigs;
 
 class Provider extends Model implements Providable
 {
     use HasFactory,
-        ServiceableConfig;
+        ServiceConfigs;
 
     /**
      * Indicates if the model's ID is auto-incrementing.

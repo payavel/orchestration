@@ -5,11 +5,11 @@ namespace Payavel\Serviceable;
 use Payavel\Serviceable\Contracts\Merchantable;
 use Payavel\Serviceable\Contracts\Providable;
 use Payavel\Serviceable\Contracts\Serviceable;
-use Payavel\Serviceable\Traits\ServiceableConfig;
+use Payavel\Serviceable\Traits\ServiceConfigs;
 
 abstract class ServiceDriver
 {
-    use ServiceableConfig;
+    use ServiceConfigs;
 
     /**
      * The compatible service.
