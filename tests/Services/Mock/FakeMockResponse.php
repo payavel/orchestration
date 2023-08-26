@@ -32,16 +32,6 @@ class FakeMockResponse extends ServiceResponse implements MockResponder
         return 'All good for now!';
     }
 
-    public function getProviderResponse()
-    {
-        return $this->provider;
-    }
-
-    public function getMerchantResponse()
-    {
-        return $this->merchant;
-    }
-
     public function getIdentityResponse()
     {
         return 'Fake';
