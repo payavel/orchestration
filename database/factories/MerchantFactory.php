@@ -41,9 +41,9 @@ class MerchantFactory extends Factory
     {
         return $this->afterMaking(function (Merchant $merchant) {
             if(is_null($merchant->service_id)) {
-                $service = Service::inRandomOrder()->firstOr(function () {
-                    return Service::factory()->create();
-                });
+                $service = Service::inRandomOrder()->firstOr(
+                    fn () => Service::factory()->create()
+                );
 
                 $merchant->service_id = $service->id;
             }
