@@ -40,9 +40,9 @@ class ProviderFactory extends Factory
     {
         return $this->afterMaking(function (Provider $provider) {
             if(is_null($provider->service_id)) {
-                $service = Service::inRandomOrder()->firstOr(function () {
-                    return Service::factory()->create();
-                });
+                $service = Service::inRandomOrder()->firstOr(
+                    fn () => Service::factory()->create()
+                );
 
                 $provider->service_id = $service->id;
             }
