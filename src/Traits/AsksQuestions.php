@@ -26,10 +26,14 @@ trait AsksQuestions
      */
     protected function askId($entity, $name)
     {
-        return $this->ask(
-            "How would you like to identify the {$name} {$this->formatService($entity)}?",
-            preg_replace('/[^a-z0-9]+/i', '_', strtolower($name))
-        );
+        $id = preg_replace('/[^a-z0-9]+/i', '_', strtolower($name));
+
+        return $id === $name
+            ? $id
+            : $this->ask(
+                "How would you like to identify the {$name} {$this->formatService($entity)}?",
+                preg_replace('/[^a-z0-9]+/i', '_', strtolower($name))
+            );
     }
 
     /**
