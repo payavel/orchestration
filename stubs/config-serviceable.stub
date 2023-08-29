@@ -5,7 +5,6 @@ return [
     'services' => [
 
         '{{ id }}' => [
-            'name' => '{{ name }}',
             'config' => '{{ config }}',
         ],
 

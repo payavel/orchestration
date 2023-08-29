@@ -45,8 +45,6 @@ class TestInstallCommand extends TestCase
 
         $this->assertEquals($provider->getId(), $config['defaults']['provider']);
         $this->assertEquals($merchant->getId(), $config['defaults']['merchant']);
-        $this->assertEquals($provider->getName(), $config['providers'][$provider->getId()]['name']);
-        $this->assertEquals($merchant->getName(), $config['merchants'][$merchant->getId()]['name']);
         $this->assertNotNull($config['merchants'][$merchant->getId()]['providers'][$provider->getId()]);
 
         $this->assertGatewayExists($provider);
@@ -128,12 +126,10 @@ class TestInstallCommand extends TestCase
 
         $randomProvider = $this->faker->randomElement([$provider1, $provider2]);
         $this->assertNotNull($config['providers'][$randomProvider->getId()]);
-        $this->assertEquals($randomProvider->getName(), $config['providers'][$randomProvider->getId()]['name']);
         $this->assertGatewayExists($randomProvider);
 
         $randomMerchant = $this->faker->randomElement([$merchant1, $merchant2, $merchant3]);
         $this->assertNotNull($config['merchants'][$randomMerchant->getId()]);
-        $this->assertEquals($randomMerchant->getName(), $config['merchants'][$randomMerchant->getId()]['name']);
         $this->assertNotEmpty($config['merchants'][$randomMerchant->getId()]['providers']);
 
         $this->assertTrue(unlink(config_path($configFile)));
