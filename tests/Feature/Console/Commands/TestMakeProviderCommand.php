@@ -37,9 +37,8 @@ class TestMakeProviderCommand extends TestCase
         $provider = $this->createProvider();
 
         $this->artisan('service:provider', [
-            'provider' => $provider->getName(),
+            'provider' => $provider->getId(),
             '--service' => $provider->getService()->getId(),
-            '--id' => $provider->getId(),
         ])
             ->expectsOutput($provider->getName() . ' ' . Str::replace('_', ' ', $provider->getService()->getId()) . ' gateway generated successfully!')
             ->assertExitCode(0);

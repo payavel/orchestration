@@ -24,11 +24,9 @@ trait CreatesServiceables
 
     protected function createServiceConfig($data)
     {
-        $data['name'] = $data['name'] ?? $this->faker->unique()->word();
-        $data['id'] = $data['id'] ?? Str::lower($data['name']);
+        $data['id'] = $data['id'] ?? Str::lower($this->faker->unique()->word());
 
         Config::set('serviceable.services.' . $data['id'], [
-            'name' => $data['name'],
             'config' => Str::slug($data['id']),
         ]);
 
@@ -53,13 +51,11 @@ trait CreatesServiceables
 
     protected function createProviderConfig($service, $data)
     {
-        $data['name'] = $data['name'] ?? Str::remove(['\'', ','], $this->faker->unique()->company());
-        $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower($data['name']));
+        $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower(Str::remove(['\'', ','], $this->faker->unique()->company())));
         $data['request_class'] = $data['request_class'] ?? 'App\\Services\\' . Str::studly($service->getId()) . '\\' . Str::studly($data['id']) . Str::studly($service->getId()) . 'Request';
         $data['response_class'] = $data['response_class'] ?? 'App\\Services\\' . Str::studly($service->getId()) . '\\' . Str::studly($data['id']) . Str::studly($service->getId()) . 'Response';
 
         Config::set(Str::slug($service->getId()) . '.providers.' . $data['id'], [
-            'name' => $data['name'],
             'request_class' => $data['request_class'],
             'response_class' => $data['response_class'],
         ]);
@@ -87,12 +83,9 @@ trait CreatesServiceables
 
     protected function createMerchantConfig($service, $data)
     {
-        $data['name'] = $data['name'] ?? Str::remove(['\'', ','], $this->faker->unique()->company());
-        $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower($data['name']));
+        $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower(Str::remove(['\'', ','], $this->faker->unique()->company())));
 
-        Config::set(Str::slug($service->getId()) . '.merchants.' . $data['id'], [
-            'name' => $data['name'],
-        ]);
+        Config::set(Str::slug($service->getId()) . '.merchants.' . $data['id'], []);
 
         return new MerchantDto($service, $data);
     }
