@@ -3,6 +3,7 @@
 namespace Payavel\Serviceable\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Payavel\Serviceable\Contracts\Serviceable;
 use Payavel\Serviceable\Traits\HasFactory;
 
@@ -41,6 +42,6 @@ class Service extends Model implements Serviceable
      */
     public function getName()
     {
-        return $this->name;
+        return Str::headline($this->id);
     }
 }

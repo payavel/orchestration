@@ -44,7 +44,7 @@ class Merchant extends Model implements Merchantable
      */
     public function getName()
     {
-        return $this->name;
+        return Str::headline($this->id);
     }
 
     /**
