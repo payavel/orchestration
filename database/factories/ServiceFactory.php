@@ -3,6 +3,7 @@
 namespace Payavel\Serviceable\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 use Payavel\Serviceable\Models\Service;
 
 class ServiceFactory extends Factory
@@ -22,11 +23,9 @@ class ServiceFactory extends Factory
     public function definition()
     {
         $service = $this->faker->unique()->word();
-        $id = strtolower($service);
 
         return [
-            'id' => $id,
-            'name' => $service,
+            'id' => Str::lower($service),
         ];
     }
 }
