@@ -3,6 +3,7 @@
 namespace Payavel\Serviceable\Traits;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 
 trait ServesConfig
 {
@@ -16,7 +17,7 @@ trait ServesConfig
      */
     public function config($service, $key, $default = null)
     {
-        $config = Config::get('serviceable.services.' . $service . '.config', $service);
+        $config = Config::get('serviceable.services.' . $service . '.config', Str::slug($service));
 
         return Config::get(
             $config .  '.' . $key,
