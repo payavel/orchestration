@@ -2,6 +2,7 @@
 
 namespace Payavel\Serviceable\DataTransferObjects;
 
+use Illuminate\Support\Str;
 use Payavel\Serviceable\Contracts\Serviceable;
 use Payavel\Serviceable\Traits\SimulatesAttributes;
 
@@ -31,6 +32,6 @@ class Service implements Serviceable
      */
     public function getName()
     {
-        return $this->attributes['name'];
+        return Str::headline($this->attributes['id']);
     }
 }

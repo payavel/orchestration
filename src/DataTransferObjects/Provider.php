@@ -2,6 +2,7 @@
 
 namespace Payavel\Serviceable\DataTransferObjects;
 
+use Illuminate\Support\Str;
 use Payavel\Serviceable\Contracts\Providable;
 use Payavel\Serviceable\Contracts\Serviceable;
 use Payavel\Serviceable\Traits\ServesConfig;
@@ -43,7 +44,7 @@ class Provider implements Providable
      */
     public function getName()
     {
-        return $this->attributes['name'];
+        return Str::headline($this->attributes['id']);
     }
 
     /**
