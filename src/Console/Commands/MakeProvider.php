@@ -21,9 +21,8 @@ class MakeProvider extends Command
      * @var string
      */
     protected $signature = 'service:provider
-                            {provider? : The provider name}
-                            {--service= : The service name}
-                            {--id= : The provider identifier}
+                            {provider? : The provider}
+                            {--service= : The service}
                             {--fake : Generates a gateway to be used for testing purposes}';
 
     /**
@@ -36,17 +35,16 @@ class MakeProvider extends Command
     /**
      * The provider's service.
      *
-     * @var string
+     * @var \Payavel\Serviceable\Contracts\Serviceable
      */
     protected $service;
 
     /**
-     * The service provider attributes to be saved.
+     * The service provider's id'.
      *
-     * @var string $name
-     * @var string $id
+     * @var string
      */
-    protected $name, $id;
+    protected $id;
 
     /**
      * Execute the console command.
@@ -74,15 +72,14 @@ class MakeProvider extends Command
         }
 
         if ($this->option('fake', false)) {
-            $this->name = 'Fake';
             $this->id = 'fake';
 
             return true;
         }
 
-        $this->name = trim($this->argument('provider') ?? $this->askName('provider'));
+        $name = trim($this->argument('provider') ?? $this->askName('provider'));
 
-        $this->id = $this->option('id') ?? $this->askId('provider', $this->name);
+        $this->id = $this->askId('provider', $name);
 
         return true;
     }
@@ -119,7 +116,7 @@ class MakeProvider extends Command
             )
         );
 
-        $this->info("{$this->name} {$this->service->getid()} gateway generated successfully!");
+        $this->info(Str::headline($this->id) . ' ' . $this->service->getid() . ' gateway generated successfully!');
     }
 
     /**

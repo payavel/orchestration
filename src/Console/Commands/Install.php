@@ -20,8 +20,7 @@ class Install extends Command
      * @var string
      */
     protected $signature = 'service:install
-                            {service? : The service name}
-                            {--id= : The service identifier}';
+                            {service? : The service}';
 
     /**
      * The console command description.
@@ -90,16 +89,14 @@ class Install extends Command
                     __DIR__ . '/../../../stubs/config-serviceable.stub',
                     [
                         'id' => $this->service->getId(),
-                        'name' => $this->service->getName(),
-                        'config' => Str::slug($this->service->getName()),
+                        'config' => Str::slug($this->service->getId()),
                     ]
                 )
             );
         }
 
         Config::set('serviceable.services.' . $this->service->getId(), [
-            'name' => $this->service->getName(),
-            'config' => Str::slug($this->service->getName()),
+            'config' => Str::slug($this->service->getId()),
         ]);
 
         $this->putFile(
@@ -123,14 +120,14 @@ class Install extends Command
         );
 
         $this->putFile(
-            config_path(Str::slug($this->service->getName()) . '.php'),
+            config_path(Str::slug($this->service->getId()) . '.php'),
             $this->makeFile(
                 __DIR__ . '/../../../stubs/config-service.stub',
                 [
-                    'Title' => Str::title($this->service->getName()),
+                    'Title' => $this->service->getName(),
                     'Service' => Str::studly($this->service->getId()),
                     'service' => Str::lower($this->service->getName()),
-                    'SERVICE' => Str::upper(Str::slug($this->service->getName(), '_')),
+                    'SERVICE' => Str::upper(Str::slug($this->service->getId(), '_')),
                     'provider' => $this->config['defaults']['provider'],
                     'providers' => $this->config['providers'],
                     'merchant' => $this->config['defaults']['merchant'],
@@ -151,9 +148,8 @@ class Install extends Command
             fn ($provider) =>  $this->call(
                 "service:provider",
                 [
-                    'provider' => $provider['name'],
+                    'provider' => $provider['id'],
                     '--service' => $this->service->getId(),
-                    '--id' => $provider['id']
                 ]
             )
         );
@@ -161,9 +157,10 @@ class Install extends Command
 
     protected function setService()
     {
+        $name = trim($this->argument('service') ?? $this->askName('service'));
+
         $this->service = new Service([
-            'name' => $name = trim($this->argument('service') ?? $this->askName('service')),
-            'id' => ($this->option('id') ?? $this->askId('service', $name)),
+            'id' => $this->askId('service', $name),
         ]);
     }
 
@@ -177,8 +174,9 @@ class Install extends Command
         $this->providers = collect([]);
 
         do {
+            $name = $this->askName('provider');
+
             $this->providers->push([
-                'name' => $name = $this->askName('provider'),
                 'id' => $id = $this->askId('provider', $name),
                 'Provider' => Str::studly($id),
                 'Service' => Str::studly($this->service->getId()),
@@ -210,8 +208,9 @@ class Install extends Command
         $this->merchants = collect([]);
 
         do {
+            $name = $this->askName('merchant');
+
             $merchant = [
-                'name' => $name = $this->askName('merchant'),
                 'id' => $this->askId('merchant', $name),
             ];
 
