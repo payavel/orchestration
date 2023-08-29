@@ -28,7 +28,6 @@ class MerchantFactory extends Factory
 
         return [
             'id' => preg_replace('/[^a-z0-9]+/i', '_', strtolower($merchant)),
-            'name' => $merchant,
         ];
     }
 

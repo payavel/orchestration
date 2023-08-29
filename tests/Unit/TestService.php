@@ -32,19 +32,16 @@ class TestService extends TestCase
 
         $this->serviceable = $this->createService([
             'id' => 'mock',
-            'name' => 'Mock',
         ]);
 
         $this->providable = $this->createProvider($this->serviceable, [
             'id' => 'test',
-            'name' => 'Test',
             'request_class' => TestMockRequest::class,
             'response_class' => TestMockResponse::class,
         ]);
 
         $this->merchantable = $this->createMerchant($this->serviceable, [
             'id' => 'x',
-            'name' => 'X',
         ]);
 
         $this->linkMerchantToProvider($this->merchantable, $this->providable);
