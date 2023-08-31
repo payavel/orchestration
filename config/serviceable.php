@@ -43,19 +43,4 @@ return [
     */
     'test_mode' => env('SERVICE_TEST_MODE', false),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Service Stubs
-    |--------------------------------------------------------------------------
-    |
-    | If you wish to modify serviceable stub files either globally or on the
-    | service level, you may override them by specifying the 'stubs' key in
-    | the root of the service config or directly in this config
-    |
-     */
-    //'stubs' => [
-    //    'request' => base_path('vendor/payavel/serviceable/stubs/service-request.stub'),
-    //    'response' => base_path('vendor/payavel/serviceable/stubs/service-response.stub'),
-    //]
-
 ];
