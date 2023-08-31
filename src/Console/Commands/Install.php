@@ -86,7 +86,7 @@ class Install extends Command
             $this->putFile(
                 config_path('serviceable.php'),
                 $this->makeFile(
-                    __DIR__ . '/../../../stubs/config-serviceable.stub',
+                    $this->getStub('config-serviceable'),
                     [
                         'id' => $this->service->getId(),
                         'config' => Str::slug($this->service->getId()),
@@ -102,7 +102,7 @@ class Install extends Command
         $this->putFile(
             app_path("Services/{$studlyService}/Contracts/{$studlyService}Requestor"),
             $this->makeFile(
-                __DIR__ . '/../../../stubs/service-requestor.stub',
+                $this->getStub('service-requestor'),
                 [
                     'Service' => $studlyService,
                 ]
@@ -112,7 +112,7 @@ class Install extends Command
         $this->putFile(
             app_path("Services/{$studlyService}/Contracts/{$studlyService}Responder"),
             $this->makeFile(
-                __DIR__ . '/../../../stubs/service-responder.stub',
+                $this->getStub('service-responder'),
                 [
                     'Service' => $studlyService,
                 ]
@@ -122,7 +122,7 @@ class Install extends Command
         $this->putFile(
             config_path(Str::slug($this->service->getId()) . '.php'),
             $this->makeFile(
-                __DIR__ . '/../../../stubs/config-service.stub',
+                $this->getStub('config-service'),
                 [
                     'Title' => $this->service->getName(),
                     'Service' => Str::studly($this->service->getId()),
@@ -187,7 +187,7 @@ class Install extends Command
             fn ($config, $provider) =>
                 $config .
                 $this->makeFile(
-                    __DIR__ . '/../../../stubs/config-provider.stub',
+                    $this->getStub('config-service-provider'),
                     $provider
                 ),
             ""
@@ -228,7 +228,7 @@ class Install extends Command
                 fn ($config, $provider, $index) =>
                     $config .
                     $this->makeFile(
-                        __DIR__ . '/../../../stubs/config-merchant-providers.stub',
+                        $this->getStub('config-service-merchant-providers'),
                         ['id' => $provider]
                     ) .
                     ($index < count($providers) - 1 ? "\n" : ""),
@@ -241,7 +241,7 @@ class Install extends Command
         $this->config['merchants'] = $this->merchants->reduce(
             fn ($config, $merchant) =>
                 $config . $this->makeFile(
-                    __DIR__ . '/../../../stubs/config-merchant.stub',
+                    $this->getStub('config-service-merchant'),
                     $merchant
             ),
             ""

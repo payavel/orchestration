@@ -60,4 +60,23 @@ trait GeneratesFiles
 
         $this->fileSystem->put($path, $file);
     }
+
+    protected function getStub($stub, $service = null)
+    {
+        if (
+            (
+                ! is_null($service) &&
+                file_exists(
+                    $file = base_path("stubs/serviceable/{$service}/{$stub}.stub")
+                )
+            ) ||
+            file_exists(
+                $file = base_path("stubs/serviceable/{$stub}.stub")
+            )
+        ) {
+            return $file;
+        }
+
+        return __DIR__ . "/../../stubs/{$stub}.stub";
+    }
 }

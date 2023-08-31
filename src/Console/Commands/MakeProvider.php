@@ -97,7 +97,7 @@ class MakeProvider extends Command
         $this->putFile(
             app_path("Services/{$service}/{$provider}{$service}Request.php"),
             $this->makeFile(
-                $this->config($this->service->getId(), 'stubs.request', __DIR__ . '/../../../stubs/service-request.stub'),
+                $this->getStub('service-request', $this->service->getId()),
                 [
                     'Provider' => $provider,
                     'Service' => $service,
@@ -108,7 +108,7 @@ class MakeProvider extends Command
         $this->putFile(
             app_path("Services/{$service}/{$provider}{$service}Response.php"),
             $this->makeFile(
-                $this->config($this->service->getId(), 'stubs.response', __DIR__ . '/../../../stubs/service-response.stub'),
+                $this->getStub('service-response', $this->service->getId()),
                 [
                     'Provider' => $provider,
                     'Service' => $service,
