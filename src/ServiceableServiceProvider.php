@@ -5,6 +5,7 @@ namespace Payavel\Serviceable;
 use Illuminate\Support\ServiceProvider;
 use Payavel\Serviceable\Console\Commands\Install;
 use Payavel\Serviceable\Console\Commands\MakeProvider;
+use Payavel\Serviceable\Console\Commands\PublishStubs;
 
 class ServiceableServiceProvider extends ServiceProvider
 {
@@ -41,6 +42,7 @@ class ServiceableServiceProvider extends ServiceProvider
         $this->commands([
             Install::class,
             MakeProvider::class,
+            PublishStubs::class,
         ]);
     }
 
