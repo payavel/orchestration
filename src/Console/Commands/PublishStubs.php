@@ -70,7 +70,7 @@ class PublishStubs extends Command
                 return;
             }
 
-            $stubs = [$this->option('service')];
+            $stubs = [$this->argument('stub')];
         }
 
         $directory = 'stubs/serviceable' . (
