@@ -11,6 +11,13 @@ trait HasFactory
     use EloquentHasFactory;
 
     /**
+     * Custom factory namespace fallback.
+     *
+     * @var string
+     */
+    protected static $factoryNamespace = 'Payavel\\Serviceable\\Database\\Factories';
+
+    /**
      * Create a new factory instance for the model.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory<static>
@@ -19,7 +26,8 @@ trait HasFactory
     {
         if (! class_exists($factory = Factory::resolveFactoryName(get_called_class()))) {
             $factory =
-                'Payavel\\Serviceable\\Database\\Factories\\' .
+                static::$factoryNamespace .
+                '\\' .
                 Str::afterLast(get_class(), '\\') .
                 'Factory';
         }
