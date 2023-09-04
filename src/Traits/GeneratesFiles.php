@@ -61,6 +61,13 @@ trait GeneratesFiles
         $this->fileSystem->put($path, $file);
     }
 
+    /**
+     * Get the most relevant stub file.
+     *
+     * @param $stub
+     * @param $service
+     * @return string
+     */
     protected function getStub($stub, $service = null)
     {
         if (
