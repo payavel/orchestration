@@ -3,12 +3,12 @@
 namespace Payavel\Serviceable\Traits;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Factories\HasFactory as EloquentHasFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory as HasEloquentFactory;
 use Illuminate\Support\Str;
 
 trait HasFactory
 {
-    use EloquentHasFactory;
+    use HasEloquentFactory;
 
     /**
      * Custom factory namespace fallback.
