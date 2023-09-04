@@ -3,6 +3,7 @@
 namespace Payavel\Serviceable\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 use Payavel\Serviceable\Traits\GeneratesFiles;
 
 class PublishStubs extends Command
@@ -30,7 +31,7 @@ class PublishStubs extends Command
      *
      * @var string[]
      */
-    protected $stubs = [
+    public static $serviceableStubs = [
       'config-service',
       'config-service-merchant',
       'config-service-merchant-providers',
@@ -46,7 +47,7 @@ class PublishStubs extends Command
      *
      * @var string[]
      */
-    protected $serviceStubs = [
+    public static $serviceStubs = [
         'service-request',
         'service-response',
     ];
@@ -59,8 +60,8 @@ class PublishStubs extends Command
     public function handle()
     {
         $stubs = is_null($this->option('service'))
-            ? $this->stubs
-            : $this->serviceStubs;
+            ? static::$serviceableStubs
+            : static::$serviceStubs;
 
         if (! is_null($this->argument('stub'))) {
             if (! in_array($this->argument('stub'), $stubs)) {
@@ -72,18 +73,19 @@ class PublishStubs extends Command
             $stubs = [$this->option('service')];
         }
 
-        $path = base_path(
-            'stubs/serviceable' .
+        $directory = 'stubs/serviceable' . (
             is_null($this->option('service'))
                 ? ''
                 : ('/' . $this->option('service'))
-        );
+            );
 
         foreach($stubs as $stub) {
             $this->putFile(
-                $path,
-                __DIR__ . '/../../../stubs/' . $stub . '.stub'
+                base_path($directory . '/' . $stub . '.stub'),
+                file_get_contents(__DIR__ . '/../../../stubs/' . $stub . '.stub')
             );
         }
+
+        $this->info('Successfully published ' . Str::plural('stub', count($stubs)) . '!');
     }
 }
