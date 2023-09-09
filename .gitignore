@@ -8,3 +8,4 @@ Thumbs.db
 .phpunit.result.cache
 /laravel
 /build
+/node_modules
