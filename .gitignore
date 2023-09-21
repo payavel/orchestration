@@ -9,3 +9,5 @@ Thumbs.db
 /laravel
 /build
 /node_modules
+/docs/.vitepress/dist
+/docs/.vitepress/cache
