@@ -8,9 +8,9 @@
 :root {
     --vp-c-black: #202020;
 
-    --vp-c-gray-1: #545454;
-    --vp-c-gray-2: #a5a5a5;
-    --vp-c-gray-3: #393939;
+    --vp-c-gray-1: #393939;
+    --vp-c-gray-2: #d9d9d9;
+    --vp-c-gray-3: #a5a5a5;
     --vp-c-gray-soft: rgba(57, 57, 57, 0.14);
 
     --vp-c-green-1: #59a52c;
@@ -103,6 +103,16 @@
   --vp-button-brand-active-border: transparent;
   --vp-button-brand-active-text: var(--vp-c-white);
   --vp-button-brand-active-bg: var(--vp-c-brand-1);
+
+  --vp-button-alt-border: transparent;
+  --vp-button-alt-text: var(--vp-c-text-1);
+  --vp-button-alt-bg: var(--vp-c-default-3);
+  --vp-button-alt-hover-border: transparent;
+  --vp-button-alt-hover-text: var(--vp-c-text-1);
+  --vp-button-alt-hover-bg: var(--vp-c-default-2);
+  --vp-button-alt-active-border: transparent;
+  --vp-button-alt-active-text: var(--vp-c-text-1);
+  --vp-button-alt-active-bg: var(--vp-c-default-1);
 }
 
 /**
@@ -113,8 +123,8 @@
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(
     120deg,
-    #bd34fe 30%,
-    #41d1ff
+    var(--vp-c-green-2) 30%,
+    var(--vp-c-green-3)
   );
 
   --vp-home-hero-image-background-image: linear-gradient(
