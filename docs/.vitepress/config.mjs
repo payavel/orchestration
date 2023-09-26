@@ -28,12 +28,12 @@ export default defineConfig({
           collapsed: false,
           items: [
             {
-              text: 'Introduction',
+              text: 'What is Orchestration?',
               link: '/guide'
             },
             {
-              text: 'Quick Start',
-              link: '/guide/quick-start'
+              text: 'Installation',
+              link: '/guide/installation'
             }
           ]
         }

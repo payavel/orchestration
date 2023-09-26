@@ -10,11 +10,11 @@ hero:
   tagline: "Elegant, Scalable and Reliable. Say hello to modern service provider orchestration."
   actions:
     - theme: brand
-      text: Guide
+      text: Get Started
       link: /guide
     - theme: alt
-      text: Get Started
-      link: /guide/quick-start
+      text: View on Github
+      link: 'https://github.com/payavel/serviceable'
 
 features:
   - title: Feature A
