@@ -82,11 +82,11 @@ class Install extends Command
     {
         $studlyService = Str::studly($this->service->getId());
 
-        if (! file_exists(config_path('serviceable.php'))) {
+        if (! file_exists(config_path('orchestration.php'))) {
             $this->putFile(
-                config_path('serviceable.php'),
+                config_path('orchestration.php'),
                 $this->makeFile(
-                    $this->getStub('config-serviceable'),
+                    $this->getStub('config-orchestration'),
                     [
                         'id' => $this->service->getId(),
                         'config' => Str::slug($this->service->getId()),
@@ -95,7 +95,7 @@ class Install extends Command
             );
         }
 
-        Config::set('serviceable.services.' . $this->service->getId(), [
+        Config::set('orchestration.services.' . $this->service->getId(), [
             'config' => Str::slug($this->service->getId()),
         ]);
 

@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 trait ServesConfig
 {
     /**
-     * Fetch the config from the corresponding service config, if not found, fall back to the serviceable config.
+     * Fetch the config from the corresponding service config, if not found, fall back to the orchestration config.
      *
      * @param string|int $service
      * @param string $key
@@ -17,12 +17,12 @@ trait ServesConfig
      */
     public function config($service, $key, $default = null)
     {
-        $config = Config::get('serviceable.services.' . $service . '.config', Str::slug($service));
+        $config = Config::get('orchestration.services.' . $service . '.config', Str::slug($service));
 
         return Config::get(
             $config .  '.' . $key,
             Config::get(
-                'serviceable.' . $key,
+                'orchestration.' . $key,
                 $default
             )
         );

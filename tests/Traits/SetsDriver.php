@@ -21,11 +21,11 @@ trait SetsDriver
 
     protected function setConfigDriver()
     {
-        Config::set('serviceable.defaults.driver', 'config');
+        Config::set('orchestration.defaults.driver', 'config');
     }
 
     protected function setDatabaseDriver()
     {
-        Config::set('serviceable.defaults.driver', 'database');
+        Config::set('orchestration.defaults.driver', 'database');
     }
 }

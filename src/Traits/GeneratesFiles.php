@@ -74,11 +74,11 @@ trait GeneratesFiles
             (
                 ! is_null($service) &&
                 file_exists(
-                    $file = base_path("stubs/serviceable/{$service}/{$stub}.stub")
+                    $file = base_path("stubs/orchestration/{$service}/{$stub}.stub")
                 )
             ) ||
             file_exists(
-                $file = base_path("stubs/serviceable/{$stub}.stub")
+                $file = base_path("stubs/orchestration/{$stub}.stub")
             )
         ) {
             return $file;

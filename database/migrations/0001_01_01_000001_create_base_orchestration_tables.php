@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBaseServiceableTables extends Migration
+class CreateBaseOrchestrationTables extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateBaseServiceableTables extends Migration
      */
     public function up()
     {
-        $usingDatabaseDriver = Config::get('serviceable.defaults.driver') === 'database';
+        $usingDatabaseDriver = Config::get('orchestration.defaults.driver') === 'database';
 
         if ($usingDatabaseDriver) {
             Schema::create('services', function (Blueprint $table) {

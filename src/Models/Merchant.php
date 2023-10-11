@@ -48,7 +48,7 @@ class Merchant extends Model implements Merchantable
     }
 
     /**
-     * Get the entity service.
+     * Get the entity's service.
      *
      * @return \Payavel\Orchestration\Contracts\Serviceable
      */

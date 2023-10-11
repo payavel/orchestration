@@ -17,7 +17,7 @@ trait CreatesServiceables
 {
     protected function createService($data = [])
     {
-        $createService = 'createService' . Str::studly(Config::get('serviceable.defaults.driver'));
+        $createService = 'createService' . Str::studly(Config::get('orchestration.defaults.driver'));
 
         return $this->$createService($data);
     }
@@ -26,7 +26,7 @@ trait CreatesServiceables
     {
         $data['id'] = $data['id'] ?? Str::lower($this->faker->unique()->word());
 
-        Config::set('serviceable.services.' . $data['id'], [
+        Config::set('orchestration.services.' . $data['id'], [
             'config' => Str::slug($data['id']),
         ]);
 
@@ -44,7 +44,7 @@ trait CreatesServiceables
         $service = $this->createService();
     }
 
-    $createProvider = 'createProvider' . Str::studly(Config::get('serviceable.defaults.driver'));
+    $createProvider = 'createProvider' . Str::studly(Config::get('orchestration.defaults.driver'));
 
     return $this->$createProvider($service, $data);
 }
@@ -76,7 +76,7 @@ trait CreatesServiceables
             $service = $this->createService();
         }
 
-        $createMerchant = 'createMerchant' . Str::studly(Config::get('serviceable.defaults.driver'));
+        $createMerchant = 'createMerchant' . Str::studly(Config::get('orchestration.defaults.driver'));
 
         return $this->$createMerchant($service, $data);
     }
@@ -99,7 +99,7 @@ trait CreatesServiceables
 
     protected function linkMerchantToProvider(Merchantable $merchant, Providable $provider, $data = [])
     {
-        $linkMerchantToProvider = 'linkMerchantToProvider' . Str::studly(Config::get('serviceable.defaults.driver'));
+        $linkMerchantToProvider = 'linkMerchantToProvider' . Str::studly(Config::get('orchestration.defaults.driver'));
 
         $this->$linkMerchantToProvider($merchant, $provider, $data);
     }

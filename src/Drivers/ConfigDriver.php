@@ -130,7 +130,7 @@ class ConfigDriver extends ServiceDriver
      */
     public static function services()
     {
-        return collect(Config::get('serviceable.services', []))->map(
+        return collect(Config::get('orchestration.services', []))->map(
             fn ($value, $key) => new Service(array_merge(['id' => $key], $value))
         )->values();
     }

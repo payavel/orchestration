@@ -7,7 +7,7 @@ use Payavel\Orchestration\Console\Commands\Install;
 use Payavel\Orchestration\Console\Commands\MakeProvider;
 use Payavel\Orchestration\Console\Commands\PublishStubs;
 
-class ServiceableServiceProvider extends ServiceProvider
+class OrchestrationServiceProvider extends ServiceProvider
 {
     public function boot()
     {
@@ -25,16 +25,16 @@ class ServiceableServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/serviceable.php',
-            'serviceable'
+            __DIR__ . '/../config/orchestration.php',
+            'orchestration'
         );
     }
 
     protected function registerPublishableAssets()
     {
         $this->publishes([
-            __DIR__ . '../database/migrations/0001_01_01_000001_create_base_serviceable_tables.php' => database_path('migrations/0001_01_01_000001_create_base_serviceable_tables.php'),
-        ], ['payavel', 'payavel-serviceable', 'payavel-migrations']);
+            __DIR__ . '../database/migrations/0001_01_01_000001_create_base_orchestration_tables.php' => database_path('migrations/0001_01_01_000001_create_base_orchestration_tables.php'),
+        ], ['payavel', 'payavel-orchestration', 'payavel-migrations']);
     }
 
     protected function registerCommands()

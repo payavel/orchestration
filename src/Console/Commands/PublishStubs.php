@@ -27,11 +27,11 @@ class PublishStubs extends Command
     protected $description = 'Publishes this package\'s stub files.';
 
     /**
-     * Stubs that can be overridden on the serviceable level.
+     * Stubs that can be overridden on the orchestration level.
      *
      * @var string[]
      */
-    public static $serviceableStubs = [
+    public static $baseStubs = [
       'config-service',
       'config-service-merchant',
       'config-service-merchant-providers',
@@ -47,7 +47,7 @@ class PublishStubs extends Command
      *
      * @var string[]
      */
-    public static $serviceStubs = [
+    public static $serviceSpecificStubs = [
         'service-request',
         'service-response',
     ];
@@ -60,8 +60,8 @@ class PublishStubs extends Command
     public function handle()
     {
         $stubs = is_null($this->option('service'))
-            ? static::$serviceableStubs
-            : static::$serviceStubs;
+            ? static::$baseStubs
+            : static::$serviceSpecificStubs;
 
         if (! is_null($this->argument('stub'))) {
             if (! in_array($this->argument('stub'), $stubs)) {
@@ -73,7 +73,7 @@ class PublishStubs extends Command
             $stubs = [$this->argument('stub')];
         }
 
-        $directory = 'stubs/serviceable' . (
+        $directory = 'stubs/orchestration' . (
             is_null($this->option('service'))
                 ? ''
                 : ('/' . $this->option('service'))

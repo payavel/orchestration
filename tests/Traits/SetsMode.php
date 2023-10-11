@@ -9,6 +9,6 @@ trait SetsMode
 {
     protected function setMode($service = null)
     {
-        Config::set(($service ? Str::slug($service->getId()) : 'serviceable') . '.test_mode', $this->fake ?? false);
+        Config::set(($service ? Str::slug($service->getId()) : 'orchestration') . '.test_mode', $this->fake ?? false);
     }
 }

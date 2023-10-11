@@ -4,10 +4,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Serviceable Defaults
+    | Orchestration Defaults
     |--------------------------------------------------------------------------
     |
-    | This option determines the default serviceable settings for your application.
+    | This option determines the default orchestration settings for your application.
     | It is recommended to use the config driver over the database driver unless
     | you onboard new services, providers and/or merchants automatically.
     |
@@ -33,7 +33,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Serviceable Test Mode
+    | Orchestration Test Mode
     |--------------------------------------------------------------------------
     |
     | When set to true, the provider & merchant will be shared with the respective

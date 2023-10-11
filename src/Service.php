@@ -252,13 +252,13 @@ class Service
     }
 
     /**
-     * Get the default serviceable driver.
+     * Get the default orchestration driver.
      *
      * @return string|int
      */
     private static function driver()
     {
-        return Config::get('serviceable.drivers.' . Config::get('serviceable.defaults.driver'));
+        return Config::get('orchestration.drivers.' . Config::get('orchestration.defaults.driver'));
     }
 
     /**
@@ -272,8 +272,10 @@ class Service
     }
 
     /**
+     * Find a serviceable via the default driver.
+     *
      * @param string|int $id
-     * @return \Payavel\Serviceable\Contracts\Serviceable|null
+     * @return \Payavel\Orchestration\Contracts\Serviceable|null
      */
     public static function find($id)
     {
