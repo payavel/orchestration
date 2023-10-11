@@ -1,15 +1,15 @@
-<p align="center"><a href="https://payavel.com" target="_blank"><img src="https://github.com/payavel/serviceable/assets/13485445/7fdecd04-adc1-4518-9ba3-6981b896d287" width="400"></a></p>
+<p align="center"><a href="https://payavel.com" target="_blank"><img src="https://github.com/payavel/orchestration/assets/13485445/7fdecd04-adc1-4518-9ba3-6981b896d287" width="400"></a></p>
 
 <p align="center">
-<a href="https://packagist.org/packages/payavel/serviceable" target="_blank"><img src="https://img.shields.io/packagist/v/payavel/serviceable" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/payavel/serviceable" target="_blank"><img src="https://img.shields.io/packagist/dt/payavel/serviceable" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/payavel/serviceable" target="_blank"><img src="https://img.shields.io/packagist/l/payavel/serviceable" alt="License"></a>
-<a href="https://github.com/payavel/serviceable/actions/workflows/run-tests.yml"><img src="https://github.com/payavel/serviceable/actions/workflows/run-tests.yml/badge.svg" alt="Build Status"></a>
-<a href="https://codecov.io/gh/payavel/serviceable" target="_blank"><img src="https://codecov.io/github/payavel/serviceable/branch/master/graph/badge.svg?token=WHCCF8U5S9" alt="Codecov"/></a>
+<a href="https://packagist.org/packages/payavel/orchestration" target="_blank"><img src="https://img.shields.io/packagist/v/payavel/orchestration" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/payavel/orchestration" target="_blank"><img src="https://img.shields.io/packagist/dt/payavel/orchestration" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/payavel/orchestration" target="_blank"><img src="https://img.shields.io/packagist/l/payavel/orchestration" alt="License"></a>
+<a href="https://github.com/payavel/orchestration/actions/workflows/run-tests.yml"><img src="https://github.com/payavel/orchestration/actions/workflows/run-tests.yml/badge.svg" alt="Build Status"></a>
+<a href="https://codecov.io/gh/payavel/orchestration" target="_blank"><img src="https://codecov.io/github/payavel/orchestration/branch/master/graph/badge.svg?token=WHCCF8U5S9" alt="Codecov"/></a>
 </p>
 
 ## About
-Payavel Serviceable is a package that integrates seamlessly within the Laravel ecosystem. It helps you generate services that support multiple provider & merchant integrations. It also provides a very simple way to test your services.
+Payavel Orchestration is a package that integrates seamlessly within the Laravel ecosystem. It helps you generate services that support multiple provider & merchant integrations. It also provides a very simple way to test those services.
 
 ---
 Please reference the [documentation](https://payavel.com) to get started.
