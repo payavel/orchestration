@@ -14,8 +14,8 @@ class PublishStubsCommandTest extends TestCase
             ->expectsOutput('Successfully published stubs!')
             ->assertExitCode(0);
 
-        foreach(PublishStubs::$serviceableStubs as $stub) {
-            $this->assertFileExists(base_path('stubs/serviceable/' . $stub . '.stub'));
+        foreach(PublishStubs::$baseStubs as $stub) {
+            $this->assertFileExists(base_path('stubs/orchestration/' . $stub . '.stub'));
         }
     }
 
@@ -28,8 +28,8 @@ class PublishStubsCommandTest extends TestCase
             ->expectsOutput('Successfully published stubs!')
             ->assertExitCode(0);
 
-        foreach(PublishStubs::$serviceStubs as $stub) {
-            $this->assertFileExists(base_path('stubs/serviceable/mock/' . $stub . '.stub'));
+        foreach(PublishStubs::$serviceSpecificStubs as $stub) {
+            $this->assertFileExists(base_path('stubs/orchestration/mock/' . $stub . '.stub'));
         }
     }
 
@@ -37,12 +37,12 @@ class PublishStubsCommandTest extends TestCase
     public function publish_stubs_command_publishes_single_stub_file()
     {
         $this->artisan('service:stubs', [
-            'stub' => $stub = $this->faker->randomElement(PublishStubs::$serviceableStubs),
+            'stub' => $stub = $this->faker->randomElement(PublishStubs::$baseStubs),
         ])
             ->expectsOutput('Successfully published stub!')
             ->assertExitCode(0);
 
-        $this->assertFileExists(base_path('stubs/serviceable/' . $stub . '.stub'));
+        $this->assertFileExists(base_path('stubs/orchestration/' . $stub . '.stub'));
     }
 
     /** @test */
@@ -54,6 +54,6 @@ class PublishStubsCommandTest extends TestCase
             ->expectsOutput('The stub file you wish to publish is not available.')
             ->assertExitCode(0);
 
-        $this->assertFileDoesNotExist(base_path('stubs/serviceable/stub.stub'));
+        $this->assertFileDoesNotExist(base_path('stubs/orchestration/stub.stub'));
     }
 }

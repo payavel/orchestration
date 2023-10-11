@@ -19,7 +19,7 @@ class DatabaseDriver extends ServiceDriver
     public function resolveProvider($provider)
     {
         if (! $provider instanceof Provider) {
-            $serviceProvider = config('serviceable.models.' . Provider::class, Provider::class);
+            $serviceProvider = config('orchestration.models.' . Provider::class, Provider::class);
 
             $provider = $serviceProvider::find($provider);
         }
@@ -55,7 +55,7 @@ class DatabaseDriver extends ServiceDriver
     public function resolveMerchant($merchant)
     {
         if (! $merchant instanceof Merchant) {
-            $serviceMerchant = config('serviceable.models.' . Merchant::class, Merchant::class);
+            $serviceMerchant = config('orchestration.models.' . Merchant::class, Merchant::class);
 
             $merchant = $serviceMerchant::find($merchant);
         }

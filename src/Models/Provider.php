@@ -48,7 +48,7 @@ class Provider extends Model implements Providable
     }
 
     /**
-     * Get the entity service.
+     * Get the entity's service.
      *
      * @return \Payavel\Orchestration\Contracts\Serviceable
      */

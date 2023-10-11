@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Schema;
-use Payavel\Orchestration\ServiceableServiceProvider;
+use Payavel\Orchestration\OrchestrationServiceProvider;
 use Payavel\Orchestration\Tests\Traits\SetsDriver;
 
 class TestCase extends \Orchestra\Testbench\TestCase
@@ -20,14 +20,14 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app)
     {
         return [
-            ServiceableServiceProvider::class,
+            OrchestrationServiceProvider::class,
         ];
     }
 
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('database.default', 'serviceable_test');
-        $app['config']->set('database.connections.serviceable_test', [
+        $app['config']->set('database.default', 'orchestration_test');
+        $app['config']->set('database.connections.orchestration_test', [
             'driver' => 'sqlite',
             'database' => ':memory:',
         ]);
@@ -56,7 +56,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function tearDown(): void
     {
-        if (file_exists($config = config_path('serviceable.php'))) {
+        if (file_exists($config = config_path('orchestration.php'))) {
             unlink($config);
         }
 
