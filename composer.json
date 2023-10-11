@@ -1,5 +1,5 @@
 {
-    "name": "payavel/serviceable",
+    "name": "payavel/orchestration",
     "description": "Service generator for Laravel.",
     "license": "MIT",
     "authors": [
@@ -10,14 +10,14 @@
     ],
     "autoload": {
         "psr-4": {
-            "Payavel\\Serviceable\\": "src/",
-            "Payavel\\Serviceable\\Database\\Factories\\": "database/factories/",
-            "Payavel\\Serviceable\\Tests\\Traits\\": "tests/Traits"
+            "Payavel\\Orchestration\\": "src/",
+            "Payavel\\Orchestration\\Database\\Factories\\": "database/factories/",
+            "Payavel\\Orchestration\\Tests\\Traits\\": "tests/Traits"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Payavel\\Serviceable\\Tests\\": "tests/"
+            "Payavel\\Orchestration\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -30,7 +30,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Payavel\\Serviceable\\ServiceableServiceProvider"
+                "Payavel\\Orchestration\\ServiceableServiceProvider"
             ]
         }
     }
