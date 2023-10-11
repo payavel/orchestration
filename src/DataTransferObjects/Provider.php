@@ -1,12 +1,12 @@
 <?php
 
-namespace Payavel\Serviceable\DataTransferObjects;
+namespace Payavel\Orchestration\DataTransferObjects;
 
 use Illuminate\Support\Str;
-use Payavel\Serviceable\Contracts\Providable;
-use Payavel\Serviceable\Contracts\Serviceable;
-use Payavel\Serviceable\Traits\ServesConfig;
-use Payavel\Serviceable\Traits\SimulatesAttributes;
+use Payavel\Orchestration\Contracts\Providable;
+use Payavel\Orchestration\Contracts\Serviceable;
+use Payavel\Orchestration\Traits\ServesConfig;
+use Payavel\Orchestration\Traits\SimulatesAttributes;
 
 class Provider implements Providable
 {
@@ -16,7 +16,7 @@ class Provider implements Providable
     /**
      * The compatible service.
      *
-     * @var \Payavel\Serviceable\Contracts\Serviceable
+     * @var \Payavel\Orchestration\Contracts\Serviceable
      */
     public Serviceable $service;
 
@@ -50,7 +50,7 @@ class Provider implements Providable
     /**
      * Get the entity service.
      *
-     * @return \Payavel\Serviceable\Contracts\Serviceable
+     * @return \Payavel\Orchestration\Contracts\Serviceable
      */
     public function getService()
     {

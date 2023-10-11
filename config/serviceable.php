@@ -23,12 +23,12 @@ return [
     |
     | You may define & register custom service drivers for your application or
     | leverage any existing one. In order for the driver to be compatible
-    | it must extend the \Payavel\Serviceable\ServiceDriver::class.
+    | it must extend the \Payavel\Orchestration\ServiceDriver::class.
     |
     */
     'drivers' => [
-        'config' => \Payavel\Serviceable\Drivers\ConfigDriver::class,
-        'database' => \Payavel\Serviceable\Drivers\DatabaseDriver::class,
+        'config' => \Payavel\Orchestration\Drivers\ConfigDriver::class,
+        'database' => \Payavel\Orchestration\Drivers\DatabaseDriver::class,
     ],
 
     /*

@@ -1,6 +1,6 @@
 <?php
 
-namespace Payavel\Serviceable\Contracts;
+namespace Payavel\Orchestration\Contracts;
 
 interface Serviceable
 {

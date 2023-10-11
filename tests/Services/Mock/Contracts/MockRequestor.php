@@ -1,6 +1,6 @@
 <?php
 
-namespace Payavel\Serviceable\Tests\Services\Mock\Contracts;
+namespace Payavel\Orchestration\Tests\Services\Mock\Contracts;
 
 interface MockRequestor
 {

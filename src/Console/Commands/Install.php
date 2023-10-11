@@ -1,13 +1,13 @@
 <?php
 
-namespace Payavel\Serviceable\Console\Commands;
+namespace Payavel\Orchestration\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-use Payavel\Serviceable\DataTransferObjects\Service;
-use Payavel\Serviceable\Traits\AsksQuestions;
-use Payavel\Serviceable\Traits\GeneratesFiles;
+use Payavel\Orchestration\DataTransferObjects\Service;
+use Payavel\Orchestration\Traits\AsksQuestions;
+use Payavel\Orchestration\Traits\GeneratesFiles;
 
 class Install extends Command
 {
@@ -32,7 +32,7 @@ class Install extends Command
     /**
      * The serviceable to be saved.
      *
-     * @var \Payavel\Serviceable\Contracts\Serviceable
+     * @var \Payavel\Orchestration\Contracts\Serviceable
      */
     protected $service;
 

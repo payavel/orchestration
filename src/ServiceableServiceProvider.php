@@ -1,11 +1,11 @@
 <?php
 
-namespace Payavel\Serviceable;
+namespace Payavel\Orchestration;
 
 use Illuminate\Support\ServiceProvider;
-use Payavel\Serviceable\Console\Commands\Install;
-use Payavel\Serviceable\Console\Commands\MakeProvider;
-use Payavel\Serviceable\Console\Commands\PublishStubs;
+use Payavel\Orchestration\Console\Commands\Install;
+use Payavel\Orchestration\Console\Commands\MakeProvider;
+use Payavel\Orchestration\Console\Commands\PublishStubs;
 
 class ServiceableServiceProvider extends ServiceProvider
 {

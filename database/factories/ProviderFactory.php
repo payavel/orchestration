@@ -1,11 +1,11 @@
 <?php
 
-namespace Payavel\Serviceable\Database\Factories;
+namespace Payavel\Orchestration\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use Payavel\Serviceable\Models\Provider;
-use Payavel\Serviceable\Models\Service;
+use Payavel\Orchestration\Models\Provider;
+use Payavel\Orchestration\Models\Service;
 
 class ProviderFactory extends Factory
 {

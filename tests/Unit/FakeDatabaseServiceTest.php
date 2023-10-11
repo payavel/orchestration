@@ -1,6 +1,6 @@
 <?php
 
-namespace Payavel\Serviceable\Tests\Unit;
+namespace Payavel\Orchestration\Tests\Unit;
 
 class FakeDatabaseServiceTest extends TestService
 {

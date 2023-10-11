@@ -1,6 +1,6 @@
 <?php
 
-namespace Payavel\Serviceable\Traits;
+namespace Payavel\Orchestration\Traits;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory as HasEloquentFactory;
@@ -35,6 +35,6 @@ trait HasFactory
      */
     protected static function getFactoryNamespace()
     {
-        return 'Payavel\\Serviceable\\Database\\Factories';
+        return 'Payavel\\Orchestration\\Database\\Factories';
     }
 }

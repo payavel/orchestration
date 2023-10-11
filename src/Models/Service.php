@@ -1,11 +1,11 @@
 <?php
 
-namespace Payavel\Serviceable\Models;
+namespace Payavel\Orchestration\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Payavel\Serviceable\Contracts\Serviceable;
-use Payavel\Serviceable\Traits\HasFactory;
+use Payavel\Orchestration\Contracts\Serviceable;
+use Payavel\Orchestration\Traits\HasFactory;
 
 class Service extends Model implements Serviceable
 {

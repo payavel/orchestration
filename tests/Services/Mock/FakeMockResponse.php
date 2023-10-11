@@ -1,9 +1,9 @@
 <?php
 
-namespace Payavel\Serviceable\Tests\Services\Mock;
+namespace Payavel\Orchestration\Tests\Services\Mock;
 
-use Payavel\Serviceable\ServiceResponse;
-use Payavel\Serviceable\Tests\Services\Mock\Contracts\MockResponder;
+use Payavel\Orchestration\ServiceResponse;
+use Payavel\Orchestration\Tests\Services\Mock\Contracts\MockResponder;
 
 class FakeMockResponse extends ServiceResponse implements MockResponder
 {

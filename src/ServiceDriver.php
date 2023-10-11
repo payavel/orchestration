@@ -1,11 +1,11 @@
 <?php
 
-namespace Payavel\Serviceable;
+namespace Payavel\Orchestration;
 
-use Payavel\Serviceable\Contracts\Merchantable;
-use Payavel\Serviceable\Contracts\Providable;
-use Payavel\Serviceable\Contracts\Serviceable;
-use Payavel\Serviceable\Traits\ServesConfig;
+use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Providable;
+use Payavel\Orchestration\Contracts\Serviceable;
+use Payavel\Orchestration\Traits\ServesConfig;
 
 abstract class ServiceDriver
 {
@@ -14,14 +14,14 @@ abstract class ServiceDriver
     /**
      * The compatible service.
      *
-     * @var \Payavel\Serviceable\Contracts\Serviceable
+     * @var \Payavel\Orchestration\Contracts\Serviceable
      */
     protected Serviceable $service;
 
     /**
      * Assigns the service to the driver.
      *
-     * @param \Payavel\Serviceable\Contracts\Serviceable $service
+     * @param \Payavel\Orchestration\Contracts\Serviceable $service
      * @return void
      */
     public function __construct(Serviceable $service)
@@ -32,15 +32,15 @@ abstract class ServiceDriver
     /**
      * Resolve the providable instance.
      *
-     * @param \Payavel\Serviceable\Contracts\Providable|string|int $provider
-     * @return \Payavel\Serviceable\Contracts\Providable|null
+     * @param \Payavel\Orchestration\Contracts\Providable|string|int $provider
+     * @return \Payavel\Orchestration\Contracts\Providable|null
      */
     abstract public function resolveProvider($provider);
 
     /**
      * Get the default providable identifier.
      *
-     * @param \Payavel\Serviceable\Contracts\Merchantable|null $merchant
+     * @param \Payavel\Orchestration\Contracts\Merchantable|null $merchant
      * @return string|int
      */
     public function getDefaultProvider(Merchantable $merchant = null)
@@ -51,15 +51,15 @@ abstract class ServiceDriver
     /**
      * Resolve the merchantable instance.
      *
-     * @param \Payavel\Serviceable\Contracts\Merchantable|string|int $merchant
-     * @return \Payavel\Serviceable\Contracts\Merchantable|null
+     * @param \Payavel\Orchestration\Contracts\Merchantable|string|int $merchant
+     * @return \Payavel\Orchestration\Contracts\Merchantable|null
      */
     abstract public function resolveMerchant($merchant);
 
     /**
      * Get the default merchantable identifier.
      *
-     * @param \Payavel\Serviceable\Contracts\Providable|null $provider
+     * @param \Payavel\Orchestration\Contracts\Providable|null $provider
      * @return string|int
      */
     public function getDefaultMerchant(Providable $provider = null)
@@ -70,8 +70,8 @@ abstract class ServiceDriver
     /**
      * Verify that the merchant is compatible with the provider.
      *
-     * @param \Payavel\Serviceable\Contracts\Providable
-     * @param \Payavel\Serviceable\Contracts\Merchantable
+     * @param \Payavel\Orchestration\Contracts\Providable
+     * @param \Payavel\Orchestration\Contracts\Merchantable
      * @return bool
      */
     abstract public function check($provider, $merchant);
@@ -79,7 +79,7 @@ abstract class ServiceDriver
     /**
      * Resolve the gateway class.
      *
-     * @param \Payavel\Serviceable\Contracts\Providable $provider
+     * @param \Payavel\Orchestration\Contracts\Providable $provider
      * @return string
      */
     abstract public function resolveGatewayClass($provider);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Payavel\Serviceable\Tests\Traits;
+namespace Payavel\Orchestration\Tests\Traits;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;

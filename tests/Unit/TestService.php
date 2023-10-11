@@ -1,19 +1,19 @@
 <?php
 
-namespace Payavel\Serviceable\Tests\Unit;
+namespace Payavel\Orchestration\Tests\Unit;
 
 use Exception;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-use Payavel\Serviceable\Service;
-use Payavel\Serviceable\ServiceResponse;
-use Payavel\Serviceable\Tests\Services\Mock\FakeMockRequest;
-use Payavel\Serviceable\Tests\Services\Mock\FakeMockResponse;
-use Payavel\Serviceable\Tests\Services\Mock\TestMockRequest;
-use Payavel\Serviceable\Tests\Services\Mock\TestMockResponse;
-use Payavel\Serviceable\Tests\TestCase;
-use Payavel\Serviceable\Tests\Traits\CreatesServiceables;
-use Payavel\Serviceable\Tests\Traits\SetsMode;
+use Payavel\Orchestration\Service;
+use Payavel\Orchestration\ServiceResponse;
+use Payavel\Orchestration\Tests\Services\Mock\FakeMockRequest;
+use Payavel\Orchestration\Tests\Services\Mock\FakeMockResponse;
+use Payavel\Orchestration\Tests\Services\Mock\TestMockRequest;
+use Payavel\Orchestration\Tests\Services\Mock\TestMockResponse;
+use Payavel\Orchestration\Tests\TestCase;
+use Payavel\Orchestration\Tests\Traits\CreatesServiceables;
+use Payavel\Orchestration\Tests\Traits\SetsMode;
 
 class TestService extends TestCase
 {
