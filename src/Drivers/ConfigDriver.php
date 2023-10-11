@@ -1,14 +1,14 @@
 <?php
 
-namespace Payavel\Serviceable\Drivers;
+namespace Payavel\Orchestration\Drivers;
 
 use Illuminate\Support\Facades\Config;
-use Payavel\Serviceable\Contracts\Merchantable;
-use Payavel\Serviceable\Contracts\Serviceable;
-use Payavel\Serviceable\DataTransferObjects\Merchant;
-use Payavel\Serviceable\DataTransferObjects\Provider;
-use Payavel\Serviceable\DataTransferObjects\Service;
-use Payavel\Serviceable\ServiceDriver;
+use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Serviceable;
+use Payavel\Orchestration\DataTransferObjects\Merchant;
+use Payavel\Orchestration\DataTransferObjects\Provider;
+use Payavel\Orchestration\DataTransferObjects\Service;
+use Payavel\Orchestration\ServiceDriver;
 
 class ConfigDriver extends ServiceDriver
 {
@@ -41,8 +41,8 @@ class ConfigDriver extends ServiceDriver
     /**
      * Resolve the providable instance.
      *
-     * @param \Payavel\Serviceable\Contracts\Providable|string $provider
-     * @return \Payavel\Serviceable\Contracts\Providable|null
+     * @param \Payavel\Orchestration\Contracts\Providable|string $provider
+     * @return \Payavel\Orchestration\Contracts\Providable|null
      */
     public function resolveProvider($provider)
     {
@@ -63,8 +63,8 @@ class ConfigDriver extends ServiceDriver
     /**
      * Get the default providable identifier.
      *
-     * @param \Payavel\Serviceable\Contracts\Merchantable|null $merchant
-     * @return string|int|\Payavel\Serviceable\Contracts\Providable
+     * @param \Payavel\Orchestration\Contracts\Merchantable|null $merchant
+     * @return string|int|\Payavel\Orchestration\Contracts\Providable
      */
     public function getDefaultProvider(Merchantable $merchant = null)
     {
@@ -81,8 +81,8 @@ class ConfigDriver extends ServiceDriver
     /**
      * Resolve the merchantable instance.
      *
-     * @param \Payavel\Serviceable\Contracts\Merchantable|string $merchant
-     * @return \Payavel\Serviceable\Contracts\Merchantable|null
+     * @param \Payavel\Orchestration\Contracts\Merchantable|string $merchant
+     * @return \Payavel\Orchestration\Contracts\Merchantable|null
      */
     public function resolveMerchant($merchant)
     {
@@ -103,8 +103,8 @@ class ConfigDriver extends ServiceDriver
     /**
      * Verify that the merchant is compatible with the provider.
      *
-     * @param \Payavel\Serviceable\Contracts\Providable
-     * @param \Payavel\Serviceable\Contracts\Merchantable
+     * @param \Payavel\Orchestration\Contracts\Providable
+     * @param \Payavel\Orchestration\Contracts\Merchantable
      * @return bool
      */
     public function check($provider, $merchant)
@@ -115,7 +115,7 @@ class ConfigDriver extends ServiceDriver
     /**
      * Resolve the gateway class.
      *
-     * @param \Payavel\Serviceable\Contracts\Providable $provider
+     * @param \Payavel\Orchestration\Contracts\Providable $provider
      * @return string
      */
     public function resolveGatewayClass($provider)

@@ -1,9 +1,9 @@
 <?php
 
-namespace Payavel\Serviceable\Tests\Feature\Console\Commands;
+namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 
-use Payavel\Serviceable\Console\Commands\PublishStubs;
-use Payavel\Serviceable\Tests\TestCase;
+use Payavel\Orchestration\Console\Commands\PublishStubs;
+use Payavel\Orchestration\Tests\TestCase;
 
 class PublishStubsCommandTest extends TestCase
 {

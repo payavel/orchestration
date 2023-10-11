@@ -3,7 +3,7 @@
 namespace App\Services\{{ Service }};
 
 use App\Services\{{ Service }}\Contracts\{{ Service }}Requestor;
-use Payavel\Serviceable\ServiceRequest;
+use Payavel\Orchestration\ServiceRequest;
 
 class {{ Provider }}{{ Service }}Request extends ServiceRequest implements {{ Service }}Requestor
 {

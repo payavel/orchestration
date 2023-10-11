@@ -1,10 +1,10 @@
 <?php
 
-namespace Payavel\Serviceable\DataTransferObjects;
+namespace Payavel\Orchestration\DataTransferObjects;
 
 use Illuminate\Support\Str;
-use Payavel\Serviceable\Contracts\Serviceable;
-use Payavel\Serviceable\Traits\SimulatesAttributes;
+use Payavel\Orchestration\Contracts\Serviceable;
+use Payavel\Orchestration\Traits\SimulatesAttributes;
 
 class Service implements Serviceable
 {

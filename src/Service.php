@@ -1,12 +1,12 @@
 <?php
 
-namespace Payavel\Serviceable;
+namespace Payavel\Orchestration;
 
 use Exception;
 use Illuminate\Support\Facades\Config;
-use Payavel\Serviceable\Contracts\Serviceable;
-use Payavel\Serviceable\Traits\ServesConfig;
-use Payavel\Serviceable\Traits\SimulatesAttributes;
+use Payavel\Orchestration\Contracts\Serviceable;
+use Payavel\Orchestration\Traits\ServesConfig;
+use Payavel\Orchestration\Traits\SimulatesAttributes;
 
 class Service
 {
@@ -16,42 +16,42 @@ class Service
     /**
      * The service.
      *
-     * @var \Payavel\Serviceable\Contracts\Serviceable
+     * @var \Payavel\Orchestration\Contracts\Serviceable
      */
     private $service;
 
     /**
      * The service driver that will handle provider & merchant configurations.
      *
-     * @var \Payavel\Serviceable\ServiceDriver
+     * @var \Payavel\Orchestration\ServiceDriver
      */
     private $driver;
 
     /**
      * The provider requests will be forwarded to.
      *
-     * @var \Payavel\Serviceable\Contracts\Providable
+     * @var \Payavel\Orchestration\Contracts\Providable
      */
     private $provider;
 
     /**
      * The merchant that will be passed to the provider's gateway.
      *
-     * @var \Payavel\Serviceable\Contracts\Merchantable
+     * @var \Payavel\Orchestration\Contracts\Merchantable
      */
     private $merchant;
 
     /**
      * The gateway class where requests will be executed.
      *
-     * @var \Payavel\Serviceable\ServiceRequest
+     * @var \Payavel\Orchestration\ServiceRequest
      */
     private $gateway;
 
     /**
      * Determines the service and sets up the driver for it.
      *
-     * @param \Payavel\Serviceable\Contracts\Serviceable $service
+     * @param \Payavel\Orchestration\Contracts\Serviceable $service
      * @return void
      *
      * @throws Exception
@@ -70,8 +70,8 @@ class Service
     /**
      * Fluent provider setter.
      *
-     * @param \Payavel\Serviceable\Contracts\Providable|string|int $provider
-     * @return \Payavel\Serviceable\Service
+     * @param \Payavel\Orchestration\Contracts\Providable|string|int $provider
+     * @return \Payavel\Orchestration\Service
      */
     public function provider($provider)
     {
@@ -83,7 +83,7 @@ class Service
     /**
      * Get the current provider.
      *
-     * @return \Payavel\Serviceable\Contracts\Providable
+     * @return \Payavel\Orchestration\Contracts\Providable
      */
     public function getProvider()
     {
@@ -97,7 +97,7 @@ class Service
     /**
      * Set the provider.
      *
-     * @param \Payavel\Serviceable\Contracts\Providable|string|int $provider
+     * @param \Payavel\Orchestration\Contracts\Providable|string|int $provider
      * @return void
      *
      * @throws Exception
@@ -116,7 +116,7 @@ class Service
     /**
      * Get the default service provider.
      *
-     * @return string|int|\Payavel\Serviceable\Contracts\Providable
+     * @return string|int|\Payavel\Orchestration\Contracts\Providable
      */
     public function getDefaultProvider()
     {
@@ -126,8 +126,8 @@ class Service
     /**
      * Fluent merchant setter.
      *
-     * @param \Payavel\Serviceable\Contracts\Merchantable|string|int $merchant
-     * @return \Payavel\Serviceable\Service
+     * @param \Payavel\Orchestration\Contracts\Merchantable|string|int $merchant
+     * @return \Payavel\Orchestration\Service
      */
     public function merchant($merchant)
     {
@@ -139,7 +139,7 @@ class Service
     /**
      * Get the current merchant.
      *
-     * @return \Payavel\Serviceable\Contracts\Merchantable
+     * @return \Payavel\Orchestration\Contracts\Merchantable
      */
     public function getMerchant()
     {
@@ -153,7 +153,7 @@ class Service
     /**
      * Set the specified merchant.
      *
-     * @param \Payavel\Serviceable\Contracts\Merchantable|string|int $merchant
+     * @param \Payavel\Orchestration\Contracts\Merchantable|string|int $merchant
      * @return void
      *
      * @throws Exception
@@ -172,7 +172,7 @@ class Service
     /**
      * Get the default merchant.
      *
-     * @return string|int|\Payavel\Serviceable\Contracts\Merchantable
+     * @return string|int|\Payavel\Orchestration\Contracts\Merchantable
      */
     public function getDefaultMerchant()
     {
@@ -182,7 +182,7 @@ class Service
     /**
      * Get the serviceable gateway.
      *
-     * @return \Payavel\Serviceable\ServiceRequest
+     * @return \Payavel\Orchestration\ServiceRequest
      */
     protected function getGateway()
     {

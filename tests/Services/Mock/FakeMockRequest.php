@@ -1,9 +1,9 @@
 <?php
 
-namespace Payavel\Serviceable\Tests\Services\Mock;
+namespace Payavel\Orchestration\Tests\Services\Mock;
 
-use Payavel\Serviceable\ServiceRequest;
-use Payavel\Serviceable\Tests\Services\Mock\Contracts\MockRequestor;
+use Payavel\Orchestration\ServiceRequest;
+use Payavel\Orchestration\Tests\Services\Mock\Contracts\MockRequestor;
 
 class FakeMockRequest extends ServiceRequest implements MockRequestor
 {

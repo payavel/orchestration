@@ -1,12 +1,12 @@
 <?php
 
-namespace Payavel\Serviceable\Models;
+namespace Payavel\Orchestration\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Payavel\Serviceable\Contracts\Providable;
-use Payavel\Serviceable\Traits\HasFactory;
-use Payavel\Serviceable\Traits\ServesConfig;
+use Payavel\Orchestration\Contracts\Providable;
+use Payavel\Orchestration\Traits\HasFactory;
+use Payavel\Orchestration\Traits\ServesConfig;
 
 class Provider extends Model implements Providable
 {
@@ -50,7 +50,7 @@ class Provider extends Model implements Providable
     /**
      * Get the entity service.
      *
-     * @return \Payavel\Serviceable\Contracts\Serviceable
+     * @return \Payavel\Orchestration\Contracts\Serviceable
      */
     public function getService()
     {

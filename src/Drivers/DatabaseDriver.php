@@ -1,20 +1,20 @@
 <?php
 
-namespace Payavel\Serviceable\Drivers;
+namespace Payavel\Orchestration\Drivers;
 
-use Payavel\Serviceable\Contracts\Merchantable;
-use Payavel\Serviceable\Models\Merchant;
-use Payavel\Serviceable\Models\Provider;
-use Payavel\Serviceable\Models\Service;
-use Payavel\Serviceable\ServiceDriver;
+use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Models\Merchant;
+use Payavel\Orchestration\Models\Provider;
+use Payavel\Orchestration\Models\Service;
+use Payavel\Orchestration\ServiceDriver;
 
 class DatabaseDriver extends ServiceDriver
 {
     /**
      * Resolve the providable instance.
      *
-     * @param \Payavel\Serviceable\Contracts\Providable|string $provider
-     * @return \Payavel\Serviceable\Contracts\Providable|null
+     * @param \Payavel\Orchestration\Contracts\Providable|string $provider
+     * @return \Payavel\Orchestration\Contracts\Providable|null
      */
     public function resolveProvider($provider)
     {
@@ -34,7 +34,7 @@ class DatabaseDriver extends ServiceDriver
     /**
      * Get the default providable identifier.
      *
-     * @param \Payavel\Serviceable\Contracts\Merchantable|null $merchant
+     * @param \Payavel\Orchestration\Contracts\Merchantable|null $merchant
      * @return string|int
      */
     public function getDefaultProvider(Merchantable $merchant = null)
@@ -49,8 +49,8 @@ class DatabaseDriver extends ServiceDriver
     /**
      * Resolve the merchantable instance.
      *
-     * @param \Payavel\Serviceable\Contracts\Merchantable|string $merchant
-     * @return \Payavel\Serviceable\Contracts\Merchantable|null
+     * @param \Payavel\Orchestration\Contracts\Merchantable|string $merchant
+     * @return \Payavel\Orchestration\Contracts\Merchantable|null
      */
     public function resolveMerchant($merchant)
     {
@@ -70,8 +70,8 @@ class DatabaseDriver extends ServiceDriver
     /**
      * Verify that the merchant is compatible with the provider.
      *
-     * @param \Payavel\Serviceable\Contracts\Providable
-     * @param \Payavel\Serviceable\Contracts\Merchantable
+     * @param \Payavel\Orchestration\Contracts\Providable
+     * @param \Payavel\Orchestration\Contracts\Merchantable
      * @return bool
      */
     public function check($provider, $merchant)
@@ -86,7 +86,7 @@ class DatabaseDriver extends ServiceDriver
     /**
      * Resolve the gateway class.
      *
-     * @param \Payavel\Serviceable\Contracts\Providable $provider
+     * @param \Payavel\Orchestration\Contracts\Providable $provider
      * @return string
      */
     public function resolveGatewayClass($provider)

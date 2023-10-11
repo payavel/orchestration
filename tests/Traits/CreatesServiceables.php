@@ -1,17 +1,17 @@
 <?php
 
-namespace Payavel\Serviceable\Tests\Traits;
+namespace Payavel\Orchestration\Tests\Traits;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-use Payavel\Serviceable\Contracts\Merchantable;
-use Payavel\Serviceable\Contracts\Providable;
-use Payavel\Serviceable\DataTransferObjects\Merchant as MerchantDto;
-use Payavel\Serviceable\DataTransferObjects\Provider as ProviderDto;
-use Payavel\Serviceable\DataTransferObjects\Service as ServiceDto;
-use Payavel\Serviceable\Models\Merchant as MerchantModel;
-use Payavel\Serviceable\Models\Provider as ProviderModel;
-use Payavel\Serviceable\Models\Service as ServiceModel;
+use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Providable;
+use Payavel\Orchestration\DataTransferObjects\Merchant as MerchantDto;
+use Payavel\Orchestration\DataTransferObjects\Provider as ProviderDto;
+use Payavel\Orchestration\DataTransferObjects\Service as ServiceDto;
+use Payavel\Orchestration\Models\Merchant as MerchantModel;
+use Payavel\Orchestration\Models\Provider as ProviderModel;
+use Payavel\Orchestration\Models\Service as ServiceModel;
 
 trait CreatesServiceables
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Payavel\Serviceable\Tests\Traits;
+namespace Payavel\Orchestration\Tests\Traits;
 
 use Illuminate\Support\Str;
-use Payavel\Serviceable\Contracts\Providable;
-use Payavel\Serviceable\Contracts\Serviceable;
+use Payavel\Orchestration\Contracts\Providable;
+use Payavel\Orchestration\Contracts\Serviceable;
 
 trait AssertsGatewayExists
 {

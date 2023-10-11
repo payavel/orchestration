@@ -1,10 +1,10 @@
 <?php
 
-namespace Payavel\Serviceable\Console\Commands;
+namespace Payavel\Orchestration\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Payavel\Serviceable\Traits\GeneratesFiles;
+use Payavel\Orchestration\Traits\GeneratesFiles;
 
 class PublishStubs extends Command
 {

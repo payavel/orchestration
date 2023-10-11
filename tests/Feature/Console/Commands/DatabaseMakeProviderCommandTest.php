@@ -1,6 +1,6 @@
 <?php
 
-namespace Payavel\Serviceable\Tests\Feature\Console\Commands;
+namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 
 class DatabaseMakeProviderCommandTest extends TestMakeProviderCommand
 {

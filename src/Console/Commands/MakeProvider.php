@@ -1,13 +1,13 @@
 <?php
 
-namespace Payavel\Serviceable\Console\Commands;
+namespace Payavel\Orchestration\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Payavel\Serviceable\Service;
-use Payavel\Serviceable\Traits\AsksQuestions;
-use Payavel\Serviceable\Traits\GeneratesFiles;
-use Payavel\Serviceable\Traits\ServesConfig;
+use Payavel\Orchestration\Service;
+use Payavel\Orchestration\Traits\AsksQuestions;
+use Payavel\Orchestration\Traits\GeneratesFiles;
+use Payavel\Orchestration\Traits\ServesConfig;
 
 class MakeProvider extends Command
 {
@@ -35,7 +35,7 @@ class MakeProvider extends Command
     /**
      * The provider's service.
      *
-     * @var \Payavel\Serviceable\Contracts\Serviceable
+     * @var \Payavel\Orchestration\Contracts\Serviceable
      */
     protected $service;
 

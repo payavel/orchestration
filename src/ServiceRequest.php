@@ -1,29 +1,29 @@
 <?php
 
-namespace Payavel\Serviceable;
+namespace Payavel\Orchestration;
 
-use Payavel\Serviceable\Contracts\Merchantable;
-use Payavel\Serviceable\Contracts\Providable;
+use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Providable;
 
 abstract class ServiceRequest
 {
     /**
      * The service provider.
      *
-     * @var \Payavel\Serviceable\Contracts\Providable
+     * @var \Payavel\Orchestration\Contracts\Providable
      */
     protected $provider;
 
     /**
      * The service merchant.
      *
-     * @var \Payavel\Serviceable\Contracts\Merchantable
+     * @var \Payavel\Orchestration\Contracts\Merchantable
      */
     protected $merchant;
 
     /**
-     * @param  \Payavel\Serviceable\Contracts\Providable $provider
-     * @param  \Payavel\Serviceable\Contracts\Merchantable $merchant
+     * @param  \Payavel\Orchestration\Contracts\Providable $provider
+     * @param  \Payavel\Orchestration\Contracts\Merchantable $merchant
      */
     public function __construct(Providable $provider, Merchantable $merchant)
     {

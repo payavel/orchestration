@@ -1,6 +1,6 @@
 <?php
 
-namespace Payavel\Serviceable\Traits;
+namespace Payavel\Orchestration\Traits;
 
 use RuntimeException;
 

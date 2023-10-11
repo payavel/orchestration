@@ -1,13 +1,13 @@
 <?php
 
-namespace Payavel\Serviceable\DataTransferObjects;
+namespace Payavel\Orchestration\DataTransferObjects;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Payavel\Serviceable\Contracts\Merchantable;
-use Payavel\Serviceable\Contracts\Serviceable;
-use Payavel\Serviceable\Traits\ServesConfig;
-use Payavel\Serviceable\Traits\SimulatesAttributes;
+use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Serviceable;
+use Payavel\Orchestration\Traits\ServesConfig;
+use Payavel\Orchestration\Traits\SimulatesAttributes;
 
 class Merchant implements Merchantable
 {
@@ -17,7 +17,7 @@ class Merchant implements Merchantable
     /**
      * The compatible service.
      *
-     * @var \Payavel\Serviceable\Contracts\Serviceable
+     * @var \Payavel\Orchestration\Contracts\Serviceable
      */
     public Serviceable $service;
 
@@ -51,7 +51,7 @@ class Merchant implements Merchantable
     /**
      * Get the entity service.
      *
-     * @return \Payavel\Serviceable\Contracts\Serviceable
+     * @return \Payavel\Orchestration\Contracts\Serviceable
      */
     public function getService()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Payavel\Serviceable\Tests;
+namespace Payavel\Orchestration\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Schema;
-use Payavel\Serviceable\ServiceableServiceProvider;
-use Payavel\Serviceable\Tests\Traits\SetsDriver;
+use Payavel\Orchestration\ServiceableServiceProvider;
+use Payavel\Orchestration\Tests\Traits\SetsDriver;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Payavel\Serviceable\Tests\Feature\Console\Commands;
+namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 
 use Illuminate\Support\Str;
-use Payavel\Serviceable\Service;
-use Payavel\Serviceable\Tests\TestCase;
-use Payavel\Serviceable\Tests\Traits\AssertsGatewayExists;
-use Payavel\Serviceable\Tests\Traits\CreatesServiceables;
+use Payavel\Orchestration\Service;
+use Payavel\Orchestration\Tests\TestCase;
+use Payavel\Orchestration\Tests\Traits\AssertsGatewayExists;
+use Payavel\Orchestration\Tests\Traits\CreatesServiceables;
 
 class TestMakeProviderCommand extends TestCase
 {

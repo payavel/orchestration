@@ -1,13 +1,13 @@
 <?php
 
-namespace Payavel\Serviceable\Contracts;
+namespace Payavel\Orchestration\Contracts;
 
 interface Merchantable extends Serviceable
 {
     /**
      * Get the entity service.
      *
-     * @return \Payavel\Serviceable\Contracts\Serviceable
+     * @return \Payavel\Orchestration\Contracts\Serviceable
      */
     public function getService();
 }

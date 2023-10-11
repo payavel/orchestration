@@ -1,12 +1,12 @@
 <?php
 
-namespace Payavel\Serviceable\Models;
+namespace Payavel\Orchestration\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Payavel\Serviceable\Contracts\Merchantable;
-use Payavel\Serviceable\Traits\HasFactory;
-use Payavel\Serviceable\Traits\ServesConfig;
+use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Traits\HasFactory;
+use Payavel\Orchestration\Traits\ServesConfig;
 
 class Merchant extends Model implements Merchantable
 {
@@ -50,7 +50,7 @@ class Merchant extends Model implements Merchantable
     /**
      * Get the entity service.
      *
-     * @return \Payavel\Serviceable\Contracts\Serviceable
+     * @return \Payavel\Orchestration\Contracts\Serviceable
      */
     public function getService()
     {
