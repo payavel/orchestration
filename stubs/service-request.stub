@@ -2,10 +2,10 @@
 
 namespace App\Services\{{ Service }};
 
-use App\Services\{{ Service }}\Contracts\{{ Service }}Requestor;
+use App\Services\{{ Service }}\Contracts\{{ Service }}Requester;
 use Payavel\Orchestration\ServiceRequest;
 
-class {{ Provider }}{{ Service }}Request extends ServiceRequest implements {{ Service }}Requestor
+class {{ Provider }}{{ Service }}Request extends ServiceRequest implements {{ Service }}Requester
 {
     /**
      * Set up the request.

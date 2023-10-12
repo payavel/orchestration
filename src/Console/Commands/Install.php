@@ -100,9 +100,9 @@ class Install extends Command
         ]);
 
         $this->putFile(
-            app_path("Services/{$studlyService}/Contracts/{$studlyService}Requestor.php"),
+            app_path("Services/{$studlyService}/Contracts/{$studlyService}Requester.php"),
             $this->makeFile(
-                $this->getStub('service-requestor'),
+                $this->getStub('service-requester'),
                 [
                     'Service' => $studlyService,
                 ]
