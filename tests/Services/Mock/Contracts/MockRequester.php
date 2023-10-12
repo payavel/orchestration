@@ -2,7 +2,7 @@
 
 namespace Payavel\Orchestration\Tests\Services\Mock\Contracts;
 
-interface MockRequestor
+interface MockRequester
 {
     public function getIdentity();
 }

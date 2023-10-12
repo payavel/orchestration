@@ -37,7 +37,7 @@ class PublishStubs extends Command
       'config-service-merchant-providers',
       'config-service-provider',
       'service-request',
-      'service-requestor',
+      'service-requester',
       'service-responder',
       'service-response',
     ];
