@@ -23,9 +23,11 @@
     "scripts": {
         "test": "vendor/bin/phpunit"
     },
-    "require": {},
+    "require": {
+        "laravel/prompts": "^0.1.11"
+    },
     "require-dev": {
-        "orchestra/testbench": "^6.0|^7.0"
+        "orchestra/testbench": "^7.0|^8.0"
     },
     "extra": {
         "laravel": {
