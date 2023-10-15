@@ -41,7 +41,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/payavel/serviceable' }
+      { icon: 'github', link: 'https://github.com/payavel/orchestration' }
     ]
   }
 })
