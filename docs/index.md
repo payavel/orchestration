@@ -14,7 +14,7 @@ hero:
       link: /guide
     - theme: alt
       text: View on Github
-      link: 'https://github.com/payavel/serviceable'
+      link: 'https://github.com/payavel/orchestration'
 
 features:
   - title: Feature A
