@@ -14,7 +14,7 @@ Payavel Orchestration is a package that integrates seamlessly within the Laravel
 ---
 Please reference the [documentation](https://payavel.com) to get started.
 ## Contributing
-All contributions are welcome! If you are not sure how to contribute, please feel free to [start a discussion](https://github.com/payavel/serviceable/discussions) to suggest an idea or ask any relevant questions regarding this package.
+All contributions are welcome! If you are not sure how to contribute, please feel free to [start a discussion](https://github.com/payavel/orchestration/discussions) to suggest an idea or ask any relevant questions regarding this package.
 
 ## License
 
