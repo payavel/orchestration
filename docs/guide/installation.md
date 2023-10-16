@@ -80,3 +80,6 @@ It's also worth mentioning that the first time you run the `service:install` com
 installations, you will be forced to register those services within that config file. 
 :::
 
+## Manual Configuration
+
+Work in progress...
