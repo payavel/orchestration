@@ -24,6 +24,6 @@ Payavel began as an open-source Laravel package for payments with
 [payavel/checkout](https://github.com/payavel/checkout). Later, we
 released [payavel/subscription](https://github.com/payavel/subscription)
 to compliment the checkout package. That's when we noticed both these
-packages had the same foundation, so we decided to extract it into the
+packages rely on a similar foundation, so we decided to extract it into the
 [payavel/orchestration](https://github.com/payavel/orchestration) package 
-that can be leveraged by the Laravel community.
+so it can be leveraged by the Laravel community.
