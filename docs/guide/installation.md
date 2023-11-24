@@ -74,7 +74,7 @@ Stripe payment gateway generated successfully!
 The command will take care of generating all the relevant config files, the service's contracts
 & each of the specified provider gateways along with a fake gateway to compliment the service.
 
-::: info :memo:
+::: info :memo: Note
 It's also worth mentioning that the first time you run the `service:install` command, a
 "config/orchestration.php" file will be generated. Unfortunately, for consecutive service
 installations, you will be forced to register those services within that config file. 
