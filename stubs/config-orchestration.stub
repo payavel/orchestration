@@ -2,6 +2,16 @@
 
 return [
 
+    /*
+    |--------------------------------------------------------------------------
+    | Orchestration Services
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify all of the application's services that need
+    | to be wrapped by the orchestration service layer. Each one must
+    | be keyed by it's id and provide the name of it's config file.
+    |
+    */
     'services' => [
 
         '{{ id }}' => [
