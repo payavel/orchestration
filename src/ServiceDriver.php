@@ -41,6 +41,16 @@ abstract class ServiceDriver
     }
 
     /**
+     * Refresh the driver's properties if necessary.
+     *
+     * @return void
+     */
+    public function refresh()
+    {
+        //
+    }
+
+    /**
      * Resolve the providable instance.
      *
      * @param \Payavel\Orchestration\Contracts\Providable|string|int $provider

@@ -3,6 +3,8 @@
 namespace Payavel\Orchestration\Drivers;
 
 use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Providable;
+use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\Models\Merchant;
 use Payavel\Orchestration\Models\Provider;
 use Payavel\Orchestration\Models\Service;
@@ -10,6 +12,31 @@ use Payavel\Orchestration\ServiceDriver;
 
 class DatabaseDriver extends ServiceDriver
 {
+    /**
+     * Resolve the serviceable instance.
+     *
+     * @param \Payavel\Orchestration\Contracts\Serviceable $service
+     * @return \Payavel\Orchestration\Contracts\Serviceable
+     */
+    public function resolveService(Serviceable $service)
+    {
+        if (! $service instanceof Service) {
+            $service = Service::find($service->getId());
+        }
+
+        return $service;
+    }
+
+    /**
+     * Refresh the service & all of it's loaded relations.
+     *
+     * @return void
+     */
+    public function refresh()
+    {
+        $this->service->refresh();
+    }
+
     /**
      * Resolve the providable instance.
      *
@@ -39,8 +66,8 @@ class DatabaseDriver extends ServiceDriver
      */
     public function getDefaultProvider(Merchantable $merchant = null)
     {
-        if (! $merchant instanceof Merchant || is_null($provider = $merchant->providers()->wherePivot('is_default', true)->first())) {
-            return parent::getDefaultProvider();
+        if (! $merchant instanceof Merchant || is_null($provider = $merchant->default_provider_id)) {
+            $provider = $this->service->default_provider_id;
         }
 
         return $provider;
@@ -65,6 +92,17 @@ class DatabaseDriver extends ServiceDriver
         }
 
         return $merchant;
+    }
+
+    /**
+     * Get the default merchantable identifier.
+     *
+     * @param \Payavel\Orchestration\Contracts\Providable|null $provider
+     * @return string|int
+     */
+    public function getDefaultMerchant(Providable $provider = null)
+    {
+        return $this->service->default_merchant_id;
     }
 
     /**

@@ -231,9 +231,9 @@ class Service
      */
     public function reset()
     {
-        $this->provider = null;
-        $this->merchant = null;
-        $this->gateway = null;
+        $this->driver->refresh();
+
+        $this->gateway = $this->merchant = $this->provider = null;
     }
 
     /**
