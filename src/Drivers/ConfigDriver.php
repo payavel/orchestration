@@ -4,6 +4,7 @@ namespace Payavel\Orchestration\Drivers;
 
 use Illuminate\Support\Facades\Config;
 use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\DataTransferObjects\Merchant;
 use Payavel\Orchestration\DataTransferObjects\Provider;
@@ -36,6 +37,21 @@ class ConfigDriver extends ServiceDriver
 
         $this->providers = collect($this->config($this->service->getId(), 'providers'));
         $this->merchants = collect($this->config($this->service->getId(), 'merchants'));
+    }
+
+    /**
+     * Resolve the serviceable instance.
+     *
+     * @param \Payavel\Orchestration\Contracts\Serviceable $service
+     * @return \Payavel\Orchestration\Contracts\Serviceable
+     */
+    public function resolveService(Serviceable $service)
+    {
+        if (! $service instanceof Service) {
+            $service = Service::fromServiceable($service);
+        }
+
+        return $service;
     }
 
     /**
@@ -72,7 +88,7 @@ class ConfigDriver extends ServiceDriver
             ! $merchant instanceof Merchant ||
             is_null($provider = $merchant->providers->first())
         ) {
-            return parent::getDefaultProvider();
+            return $this->config($this->service->getId(), 'defaults.provider');
         }
 
         return $provider['id'];
@@ -98,6 +114,17 @@ class ConfigDriver extends ServiceDriver
             $this->service,
             array_merge(['id' => $merchant], $attributes)
         );
+    }
+
+    /**
+     * Get the default merchantable identifier.
+     *
+     * @param \Payavel\Orchestration\Contracts\Providable|null $provider
+     * @return string|int
+     */
+    public function getDefaultMerchant(Providable $provider = null)
+    {
+        return $this->config($this->service->getId(), 'defaults.merchant');
     }
 
     /**
