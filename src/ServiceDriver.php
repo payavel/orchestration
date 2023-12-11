@@ -26,7 +26,18 @@ abstract class ServiceDriver
      */
     public function __construct(Serviceable $service)
     {
-        $this->service = $service;
+        $this->service = $this->resolveService($service);
+    }
+
+    /**
+     * Resolve the serviceable instance.
+     *
+     * @param \Payavel\Orchestration\Contracts\Serviceable $service
+     * @return \Payavel\Orchestration\Contracts\Serviceable
+     */
+    public function resolveService(Serviceable $service)
+    {
+        return $service;
     }
 
     /**
@@ -43,10 +54,7 @@ abstract class ServiceDriver
      * @param \Payavel\Orchestration\Contracts\Merchantable|null $merchant
      * @return string|int
      */
-    public function getDefaultProvider(Merchantable $merchant = null)
-    {
-        return $this->config($this->service->getId(), 'defaults.provider');
-    }
+    abstract public function getDefaultProvider(Merchantable $merchant = null);
 
     /**
      * Resolve the merchantable instance.
@@ -62,10 +70,7 @@ abstract class ServiceDriver
      * @param \Payavel\Orchestration\Contracts\Providable|null $provider
      * @return string|int
      */
-    public function getDefaultMerchant(Providable $provider = null)
-    {
-        return $this->config($this->service->getId(), 'defaults.merchant');
-    }
+    abstract public function getDefaultMerchant(Providable $provider = null);
 
     /**
      * Verify that the merchant is compatible with the provider.
