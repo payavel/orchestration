@@ -46,8 +46,8 @@ class TestService extends TestCase
 
         $this->linkMerchantToProvider($this->merchantable, $this->providable);
 
-        Config::set(Str::slug($this->serviceable->getId()) . '.defaults.provider', $this->providable->getId());
-        Config::set(Str::slug($this->serviceable->getId()) . '.defaults.merchant', $this->merchantable->getId());
+        $this->setDefaultsForService($this->serviceable, $this->merchantable, $this->providable);
+
         Config::set(Str::slug($this->serviceable->getId()) . '.testing', [
             'request_class' => FakeMockRequest::class,
             'response_class' => FakeMockResponse::class,

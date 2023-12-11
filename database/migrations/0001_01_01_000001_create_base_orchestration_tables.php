@@ -19,12 +19,12 @@ class CreateBaseOrchestrationTables extends Migration
         if ($usingDatabaseDriver) {
             Schema::create('services', function (Blueprint $table) {
                 $table->string('id')->primary();
-                $table->string('default_provider')->nullable();
-                $table->string('default_merchant')->nullable();
+                $table->string('default_provider_id')->nullable();
+                $table->string('default_merchant_id')->nullable();
                 $table->timestamps();
 
-                $table->foreign('default_provider')->references('id')->on('providers')->onDelete('set null');
-                $table->foreign('default_merchant')->references('id')->on('merchants')->onDelete('set null');
+                $table->foreign('default_provider_id')->references('id')->on('providers')->onUpdate('cascade')->onDelete('set null');
+                $table->foreign('default_merchant_id')->references('id')->on('merchants')->onUpdate('cascade')->onDelete('set null');
             });
 
             Schema::create('providers', function (Blueprint $table) {
@@ -40,16 +40,17 @@ class CreateBaseOrchestrationTables extends Migration
             Schema::create('merchants', function (Blueprint $table) {
                 $table->string('id')->primary();
                 $table->string('service_id');
+                $table->string('default_provider_id')->nullable();
                 $table->timestamps();
 
                 $table->foreign('service_id')->references('id')->on('services')->onUpdate('cascade')->onDelete('cascade');
+                $table->foreign('default_provider_id')->references('id')->on('providers')->onUpdate('cascade')->onDelete('set null');
             });
 
             Schema::create('merchant_provider', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('merchant_id');
                 $table->string('provider_id');
-                $table->boolean('is_default')->default(false);
                 $table->json('config')->nullable();
                 $table->timestamps();
 

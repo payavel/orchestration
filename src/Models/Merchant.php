@@ -74,7 +74,7 @@ class Merchant extends Model implements Merchantable
      */
     public function providers()
     {
-        return $this->belongsToMany($this->getProviderModelClass(), 'merchant_provider', 'merchant_id', 'provider_id')->withPivot(['default'])->withTimestamps();
+        return $this->belongsToMany($this->getProviderModelClass(), 'merchant_provider', 'merchant_id', 'provider_id')->withTimestamps();
     }
 
     /**

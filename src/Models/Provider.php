@@ -74,7 +74,7 @@ class Provider extends Model implements Providable
      */
     public function merchants()
     {
-        return $this->belongsToMany($this->getMerchantModelClass(), 'merchant_provider', 'provider_id', 'merchant_id')->withPivot(['default'])->withTimestamps();
+        return $this->belongsToMany($this->getMerchantModelClass(), 'merchant_provider', 'provider_id', 'merchant_id')->withTimestamps();
     }
 
     /**

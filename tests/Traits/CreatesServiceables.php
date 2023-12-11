@@ -2,10 +2,12 @@
 
 namespace Payavel\Orchestration\Tests\Traits;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Merchantable;
 use Payavel\Orchestration\Contracts\Providable;
+use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\DataTransferObjects\Merchant as MerchantDto;
 use Payavel\Orchestration\DataTransferObjects\Provider as ProviderDto;
 use Payavel\Orchestration\DataTransferObjects\Service as ServiceDto;
@@ -39,15 +41,15 @@ trait CreatesServiceables
     }
 
     protected function createProvider($service = null, $data = [])
-{
-    if (is_null($service)) {
-        $service = $this->createService();
+    {
+        if (is_null($service)) {
+            $service = $this->createService();
+        }
+
+        $createProvider = 'createProvider' . Str::studly(Config::get('orchestration.defaults.driver'));
+
+        return $this->$createProvider($service, $data);
     }
-
-    $createProvider = 'createProvider' . Str::studly(Config::get('orchestration.defaults.driver'));
-
-    return $this->$createProvider($service, $data);
-}
 
     protected function createProviderConfig($service, $data)
     {
@@ -118,5 +120,45 @@ trait CreatesServiceables
     protected function linkMerchantToProviderDatabase(Merchantable $merchant, Providable $provider, $data)
     {
         $merchant->providers()->sync([$provider->getId() => $data], false);
+    }
+
+    protected function setDefaultsForService(Serviceable $service, Merchantable $merchant = null, Providable $provider = null)
+    {
+        $setDefaultsForService = 'setDefaultsForService' . Str::studly(Config::get('orchestration.defaults.driver'));
+
+        $this->$setDefaultsForService($service, $merchant, $provider);
+    }
+
+    protected function setDefaultsForServiceConfig(Serviceable $service, Merchantable $merchant = null, Providable $provider = null)
+    {
+        Config::set(
+            Str::slug($service->getId()) . '.defaults.merchant',
+            $merchant instanceof Merchantable ? $merchant->getId() : $merchant
+        );
+
+        if (is_null($provider) && ! is_null($merchant)) {
+            $provider = Collection::make(
+                Config::get(Str::slug($service->getId()) . '.merchants.' . $merchant->getId() . '.providers')
+            )
+                ->keys()
+                ->first();
+        }
+
+        Config::set(
+            Str::slug($service->getId()) . '.defaults.provider',
+            $provider instanceof Providable ? $provider->getId() : $provider
+        );
+    }
+
+    protected function setDefaultsForServiceDatabase(Serviceable $service, Merchantable $merchant = null, Providable $provider = null)
+    {
+        if (is_null($provider) && ! is_null($merchant)) {
+            $provider = $merchant->default_provider_id;
+        }
+
+        $service->update([
+            'default_merchant_id' => $merchant instanceof Merchantable ? $merchant->getId() : $merchant,
+            'default_provider_id' => $provider instanceof  Providable ? $provider->getId() : $provider,
+        ]);
     }
 }
