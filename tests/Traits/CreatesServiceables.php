@@ -55,11 +55,9 @@ trait CreatesServiceables
     {
         $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower(Str::remove(['\'', ','], $this->faker->unique()->company())));
         $data['request_class'] = $data['request_class'] ?? 'App\\Services\\' . Str::studly($service->getId()) . '\\' . Str::studly($data['id']) . Str::studly($service->getId()) . 'Request';
-        $data['response_class'] = $data['response_class'] ?? 'App\\Services\\' . Str::studly($service->getId()) . '\\' . Str::studly($data['id']) . Str::studly($service->getId()) . 'Response';
 
         Config::set(Str::slug($service->getId()) . '.providers.' . $data['id'], [
             'request_class' => $data['request_class'],
-            'response_class' => $data['response_class'],
         ]);
 
         return new ProviderDto($service, $data);

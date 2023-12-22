@@ -52,10 +52,6 @@ class ProviderFactory extends Factory
             if (is_null($provider->request_class)) {
                 $provider->request_class = "\App\Services\{$studlyService}\{$studlyProvider}{$studlyService}Request";
             }
-
-            if (is_null($provider->response_class)) {
-                $provider->response_class = "\App\Services\{$studlyService}\{$studlyProvider}{$studlyService}Response";
-            }
         });
     }
 }
