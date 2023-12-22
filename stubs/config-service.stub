@@ -41,7 +41,6 @@ return [
     */
     'testing' => [
         'request_class' => \App\Services\{{ Service }}\Fake{{ Service }}Request::class,
-        'response_class' => \App\Services\{{ Service }}\Fake{{ Service }}Response::class,
     ],
 
     /*

@@ -31,7 +31,6 @@ class CreateBaseOrchestrationTables extends Migration
                 $table->string('id')->primary();
                 $table->string('service_id');
                 $table->string('request_class');
-                $table->string('response_class');
                 $table->timestamps();
 
                 $table->foreign('service_id')->references('id')->on('services')->onUpdate('cascade')->onDelete('cascade');

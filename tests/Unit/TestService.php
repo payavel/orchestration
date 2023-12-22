@@ -37,7 +37,6 @@ class TestService extends TestCase
         $this->providable = $this->createProvider($this->serviceable, [
             'id' => 'test',
             'request_class' => TestMockRequest::class,
-            'response_class' => TestMockResponse::class,
         ]);
 
         $this->merchantable = $this->createMerchant($this->serviceable, [
@@ -51,7 +50,6 @@ class TestService extends TestCase
         // ToDo: Find a place to define the test mode classes when using the database driver.
         Config::set(Str::slug($this->serviceable->getId()) . '.testing', [
             'request_class' => FakeMockRequest::class,
-            'response_class' => FakeMockResponse::class,
         ]);
 
         $this->setMode($this->serviceable);

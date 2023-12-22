@@ -201,7 +201,6 @@ return [
 
     'testing' => [
         'request_class' => \App\Services\Checkout\FakeCheckoutRequest::class,
-        'response_class' => \App\Services\Checkout\FakeCheckoutResponse::class,
     ],
 
 ];
@@ -217,12 +216,10 @@ return [
     
         'adyen' => [
             'request_class' => \App\Services\Checkout\AdyenCheckoutRequest::class,
-            'response_class' => \App\Services\Checkout\AdyenCheckoutResponse::class,
         ],
         
         'stripe' => [
             'request_class' => \App\Services\Checkout\StripeCheckoutRequest::class,
-            'response_class' => \App\Services\Checkout\StripeCheckoutResponse::class,
         ],
         
     ],
