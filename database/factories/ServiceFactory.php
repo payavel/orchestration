@@ -22,10 +22,26 @@ class ServiceFactory extends Factory
      */
     public function definition()
     {
-        $service = $this->faker->unique()->word();
-
         return [
-            'id' => Str::lower($service),
+            'id' => Str::lower($this->faker->unique()->word()),
         ];
+    }
+
+    /**
+     * Configure the model factory.
+     *
+     * @return $this
+     */
+    public function configure()
+    {
+        return $this->afterMaking(function (Service $service) {
+            if (! is_null($service->test_gateway)) {
+                return;
+            }
+
+            $studlyService = Str::studly($service->id);
+
+            $service->test_gateway = "\App\Services\{$studlyService}\Fake{$studlyService}Request";
+        });
     }
 }
