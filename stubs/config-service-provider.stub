@@ -1,4 +1,4 @@
 
         '{{ id }}' => [
-            'request_class' => \App\Services\{{ Service }}\{{ Provider }}{{ Service }}Request::class,
+            'gateway' => \App\Services\{{ Service }}\{{ Provider }}{{ Service }}Request::class,
         ],

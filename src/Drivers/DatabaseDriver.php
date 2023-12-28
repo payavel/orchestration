@@ -129,7 +129,7 @@ class DatabaseDriver extends ServiceDriver
      */
     public function resolveGatewayClass($provider)
     {
-        return $provider->request_class;
+        return $provider->gateway;
     }
 
     /**

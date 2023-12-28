@@ -210,13 +210,13 @@ class Service
         }
 
         $gateway = $this->config($this->service->getId(), 'test_mode')
-            ? $this->config($this->service->getId(), 'testing.request_class')
+            ? $this->config($this->service->getId(), 'testing.gateway')
             : $this->driver->resolveGatewayClass($provider);
 
         if (! class_exists($gateway)) {
             throw new Exception(
                 is_null($gateway)
-                    ? "You must set a request_class for the {$provider->getName()} {$this->service->getName()} provider."
+                    ? "You must set a gateway for the {$provider->getName()} {$this->service->getName()} provider."
                     : "The {$gateway}::class does not exist."
             );
         }
