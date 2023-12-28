@@ -21,6 +21,7 @@ class CreateBaseOrchestrationTables extends Migration
                 $table->string('id')->primary();
                 $table->string('default_provider_id')->nullable();
                 $table->string('default_merchant_id')->nullable();
+                $table->string('test_gateway')->nullable();
                 $table->timestamps();
 
                 $table->foreign('default_provider_id')->references('id')->on('providers')->onUpdate('cascade')->onDelete('set null');
