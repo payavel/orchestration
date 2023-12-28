@@ -40,7 +40,7 @@ return [
     |
     */
     'testing' => [
-        'request_class' => \App\Services\{{ Service }}\Fake{{ Service }}Request::class,
+        'gateway' => \App\Services\{{ Service }}\Fake{{ Service }}Request::class,
     ],
 
     /*

@@ -49,8 +49,8 @@ class ProviderFactory extends Factory
             $studlyProvider = Str::studly($provider->id);
             $studlyService = Str::studly($provider->service_id);
 
-            if (is_null($provider->request_class)) {
-                $provider->request_class = "\App\Services\{$studlyService}\{$studlyProvider}{$studlyService}Request";
+            if (is_null($provider->gateway)) {
+                $provider->gateway = "\App\Services\{$studlyService}\{$studlyProvider}{$studlyService}Request";
             }
         });
     }

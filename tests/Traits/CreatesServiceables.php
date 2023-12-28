@@ -54,10 +54,10 @@ trait CreatesServiceables
     protected function createProviderConfig($service, $data)
     {
         $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower(Str::remove(['\'', ','], $this->faker->unique()->company())));
-        $data['request_class'] = $data['request_class'] ?? 'App\\Services\\' . Str::studly($service->getId()) . '\\' . Str::studly($data['id']) . Str::studly($service->getId()) . 'Request';
+        $data['gateway'] = $data['gateway'] ?? 'App\\Services\\' . Str::studly($service->getId()) . '\\' . Str::studly($data['id']) . Str::studly($service->getId()) . 'Request';
 
         Config::set(Str::slug($service->getId()) . '.providers.' . $data['id'], [
-            'request_class' => $data['request_class'],
+            'gateway' => $data['gateway'],
         ]);
 
         return new ProviderDto($service, $data);

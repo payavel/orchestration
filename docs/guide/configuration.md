@@ -200,7 +200,7 @@ Here you should register the service's fake classes that will mock your provider
 return [
 
     'testing' => [
-        'request_class' => \App\Services\Checkout\FakeCheckoutRequest::class,
+        'gateway' => \App\Services\Checkout\FakeCheckoutRequest::class,
     ],
 
 ];
@@ -215,11 +215,11 @@ return [
     'providers' => [
     
         'adyen' => [
-            'request_class' => \App\Services\Checkout\AdyenCheckoutRequest::class,
+            'gateway' => \App\Services\Checkout\AdyenCheckoutRequest::class,
         ],
         
         'stripe' => [
-            'request_class' => \App\Services\Checkout\StripeCheckoutRequest::class,
+            'gateway' => \App\Services\Checkout\StripeCheckoutRequest::class,
         ],
         
     ],
