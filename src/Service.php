@@ -197,31 +197,13 @@ class Service
      * Instantiate a new instance of the serviceable gateway.
      *
      * @return void
-     *
-     * @throws Exception
      */
     protected function setGateway()
     {
         $provider = $this->getProvider();
         $merchant = $this->getMerchant();
 
-        if (! $this->driver->check($provider, $merchant)) {
-            throw new Exception("The {$merchant->getName()} merchant is not supported by the {$provider->getName()} provider.");
-        }
-
-        $gateway = $this->config($this->service->getId(), 'test_mode')
-            ? $this->config($this->service->getId(), 'testing.gateway')
-            : $this->driver->resolveGatewayClass($provider);
-
-        if (! class_exists($gateway)) {
-            throw new Exception(
-                is_null($gateway)
-                    ? "You must set a gateway for the {$provider->getName()} {$this->service->getName()} provider."
-                    : "The {$gateway}::class does not exist."
-            );
-        }
-
-        $this->gateway = new $gateway($provider, $merchant);
+        $this->gateway = $this->driver->resolveGateway($provider, $merchant);
     }
 
     /**
