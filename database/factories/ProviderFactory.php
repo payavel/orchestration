@@ -50,7 +50,7 @@ class ProviderFactory extends Factory
             $studlyService = Str::studly($provider->service_id);
 
             if (is_null($provider->gateway)) {
-                $provider->gateway = "\App\Services\{$studlyService}\{$studlyProvider}{$studlyService}Request";
+                $provider->gateway = "\\App\\Services\\{$studlyService}\\{$studlyProvider}{$studlyService}Request";
             }
         });
     }
