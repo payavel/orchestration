@@ -92,12 +92,13 @@ abstract class ServiceDriver
     abstract public function check($provider, $merchant);
 
     /**
-     * Resolve the gateway class.
+     * Resolve the gateway.
      *
      * @param \Payavel\Orchestration\Contracts\Providable $provider
-     * @return string
+     * @param \Payavel\Orchestration\Contracts\Merchantable $merchant
+     * @return \Payavel\Orchestration\ServiceRequest
      */
-    abstract public function resolveGatewayClass($provider);
+    abstract public function resolveGateway($provider, $merchant);
 
     /**
      * Get a collection of existing serviceables.

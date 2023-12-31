@@ -2,6 +2,7 @@
 
 namespace Payavel\Orchestration\Drivers;
 
+use Exception;
 use Payavel\Orchestration\Contracts\Merchantable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
@@ -110,26 +111,45 @@ class DatabaseDriver extends ServiceDriver
      *
      * @param \Payavel\Orchestration\Contracts\Providable
      * @param \Payavel\Orchestration\Contracts\Merchantable
-     * @return bool
+     * @return void
+     * 
+     * @throws Exception
      */
     public function check($provider, $merchant)
     {
-        if (! $merchant->providers->contains($provider)) {
-            return false;
+        if ($merchant->providers->contains($provider)) {
+            return;
         }
 
-        return true;
+        throw new Exception("The {$merchant->getName()} merchant is not supported by the {$provider->getName()} provider.");
     }
 
     /**
-     * Resolve the gateway class.
+     * Resolve the gateway.
      *
      * @param \Payavel\Orchestration\Contracts\Providable $provider
-     * @return string
+     * @param \Payavel\Orchestration\Contracts\Merchantable $merchant
+     * @return \Payavel\Orchestration\ServiceRequest
+     * 
+     * @throws Exception
      */
-    public function resolveGatewayClass($provider)
+    public function resolveGateway($provider, $merchant)
     {
-        return $provider->gateway;
+        $this->check($provider, $merchant);
+
+        $gateway = $this->config($this->service->getId(), 'test_mode')
+            ? $this->service->test_gateway
+            : $provider->gateway;
+
+        if (! class_exists($gateway)) {
+            throw new Exception(
+                is_null($gateway)
+                    ? "You must set a gateway for the {$provider->getName()} {$this->service->getName()} provider."
+                    : "The {$gateway}::class does not exist."
+            );
+        }
+
+        return new $gateway($provider, $merchant);
     }
 
     /**
