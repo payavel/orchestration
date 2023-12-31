@@ -27,12 +27,15 @@ trait CreatesServiceables
     protected function createServiceConfig($data)
     {
         $data['id'] = $data['id'] ?? Str::lower($this->faker->unique()->word());
+        $data['test_gateway'] = $data['test_gateway'] ?? '\\App\\Services\\' . Str::studly($data['id']) . '\\Fake' . Str::studly($data['id']) . 'Request';
 
         Config::set('orchestration.services.' . $data['id'], [
-            'config' => Str::slug($data['id']),
+            'config' => $serviceSlug = Str::slug($data['id']),
         ]);
 
-        return new ServiceDto($data);;
+        Config::set($serviceSlug . '.testing.gateway', $data['test_gateway']);
+
+        return new ServiceDto($data);
     }
 
     protected function createServiceDatabase($data)
