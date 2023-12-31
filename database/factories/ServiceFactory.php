@@ -41,7 +41,7 @@ class ServiceFactory extends Factory
 
             $studlyService = Str::studly($service->id);
 
-            $service->test_gateway = "\App\Services\{$studlyService}\Fake{$studlyService}Request";
+            $service->test_gateway = "\\App\\Services\\{$studlyService}\\Fake{$studlyService}Request";
         });
     }
 }
