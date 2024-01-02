@@ -39,9 +39,7 @@ return [
     | is set to true. Also, feel free to add any other settings here.
     |
     */
-    'testing' => [
-        'gateway' => \App\Services\{{ Service }}\Fake{{ Service }}Request::class,
-    ],
+    'test_gateway' => \App\Services\{{ Service }}\Fake{{ Service }}Request::class,
 
     /*
     |--------------------------------------------------------------------------
