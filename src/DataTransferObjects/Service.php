@@ -44,9 +44,11 @@ class Service implements Serviceable
      */
     public static function fromServiceable(Serviceable $service)
     {
+        $config = Config::get('orchestration.services.' . $service->getId(), []);
+
         return new static(array_merge(
             ['id' => $service->getId()],
-            Config::get('orchestration.services.' . $service->getId(), [])
+            is_array($config) ? $config : Config::get($config)
         ));
     }
 }

@@ -29,9 +29,7 @@ trait CreatesServiceables
         $data['id'] = $data['id'] ?? Str::lower($this->faker->unique()->word());
         $data['test_gateway'] = $data['test_gateway'] ?? '\\App\\Services\\' . Str::studly($data['id']) . '\\Fake' . Str::studly($data['id']) . 'Request';
 
-        Config::set('orchestration.services.' . $data['id'], [
-            'config' => $serviceSlug = Str::slug($data['id']),
-        ]);
+        Config::set('orchestration.services.' . $data['id'], $serviceSlug = Str::slug($data['id']));
 
         Config::set($serviceSlug . '.testing.gateway', $data['test_gateway']);
 
