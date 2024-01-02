@@ -14,9 +14,7 @@ return [
     */
     'services' => [
 
-        '{{ id }}' => [
-            'config' => '{{ config }}',
-        ],
+        '{{ id }}' => '{{ config }}',
 
     ],
 
