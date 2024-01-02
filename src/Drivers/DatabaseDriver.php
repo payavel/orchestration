@@ -115,7 +115,7 @@ class DatabaseDriver extends ServiceDriver
      * 
      * @throws Exception
      */
-    public function check($provider, $merchant)
+    protected function check($provider, $merchant)
     {
         if ($merchant->providers->contains($provider)) {
             return;
