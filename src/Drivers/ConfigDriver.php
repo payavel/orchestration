@@ -137,7 +137,7 @@ class ConfigDriver extends ServiceDriver
      * 
      * @throws Exception
      */
-    public function check($provider, $merchant)
+    protected function check($provider, $merchant)
     {
         if ($merchant->providers->contains('id', $provider->id)) {
             return;

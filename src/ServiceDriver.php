@@ -83,15 +83,6 @@ abstract class ServiceDriver
     abstract public function getDefaultMerchant(Providable $provider = null);
 
     /**
-     * Verify that the merchant is compatible with the provider.
-     *
-     * @param \Payavel\Orchestration\Contracts\Providable
-     * @param \Payavel\Orchestration\Contracts\Merchantable
-     * @return bool
-     */
-    abstract public function check($provider, $merchant);
-
-    /**
      * Resolve the gateway.
      *
      * @param \Payavel\Orchestration\Contracts\Providable $provider
