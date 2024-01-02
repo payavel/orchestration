@@ -17,7 +17,11 @@ trait ServesConfig
      */
     public function config($service, $key, $default = null)
     {
-        $config = Config::get('orchestration.services.' . $service . '.config', Str::slug($service));
+        $config = Config::get('orchestration.services.' . $service, Str::slug($service));
+
+        if (is_array($config)) {
+            return Config::get('orchestration.services.' . $service . '.' . $key, $default);
+        }
 
         return Config::get(
             $config .  '.' . $key,
