@@ -195,13 +195,11 @@ return [
 ```
 
 ### Testing
-Here you should register the service's fake classes that will mock your provider's response when in test mode.
+Here you should register the service's fake gateway that will mock your provider's response when in test mode.
 ```php
 return [
 
-    'testing' => [
-        'gateway' => \App\Services\Checkout\FakeCheckoutRequest::class,
-    ],
+    'test_gateway' => \App\Services\Checkout\FakeCheckoutRequest::class,
 
 ];
 ```
