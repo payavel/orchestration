@@ -95,9 +95,7 @@ class Install extends Command
             );
         }
 
-        Config::set('orchestration.services.' . $this->service->getId(), [
-            'config' => Str::slug($this->service->getId()),
-        ]);
+        Config::set('orchestration.services.' . $this->service->getId(), Str::slug($this->service->getId()));
 
         $this->putFile(
             app_path("Services/{$studlyService}/Contracts/{$studlyService}Requester.php"),
