@@ -9,7 +9,7 @@ use Payavel\Orchestration\Traits\AsksQuestions;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 use Payavel\Orchestration\Traits\ServesConfig;
 
-class MakeProvider extends Command
+class OrchestrateProvider extends Command
 {
     use AsksQuestions,
         GeneratesFiles,
@@ -20,7 +20,7 @@ class MakeProvider extends Command
      *
      * @var string
      */
-    protected $signature = 'service:provider
+    protected $signature = 'orchestrate:provider
                             {provider? : The provider}
                             {--service= : The service}
                             {--fake : Generates a gateway to be used for testing purposes}';
@@ -140,7 +140,7 @@ class MakeProvider extends Command
         }
 
         if (! isset($service)) {
-            $this->error('Your must first set up a service! Please call the service:install artisan command.');
+            $this->error('Your must first set up a service! Please call the orchestrate:service artisan command.');
 
             return false;
         }

@@ -2,7 +2,7 @@
 
 namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 
-class ConfigInstallCommandTest extends TestInstallCommand
+class ConfigOrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
 {
     public $driver = 'config';
 }

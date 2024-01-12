@@ -7,7 +7,7 @@ use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Tests\Traits\AssertsGatewayExists;
 use Payavel\Orchestration\Tests\Traits\CreatesServiceables;
 
-class TestInstallCommand extends TestCase
+class TestOrchestrateServiceCommand extends TestCase
 {
     use AssertsGatewayExists,
         CreatesServiceables;
@@ -22,7 +22,7 @@ class TestInstallCommand extends TestCase
 
         $merchant = $this->createMerchant($service);
 
-        $this->artisan('service:install')
+        $this->artisan('orchestrate:service')
             ->expectsQuestion('What service would you like to add?', $service->getName())
             ->expectsQuestion('How would you like to identify the ' . $service->getName() . ' service?', $service->getId())
             ->expectsQuestion('What ' . $lowerCaseService . ' provider would you like to add?', $provider->getName())
@@ -65,7 +65,7 @@ class TestInstallCommand extends TestCase
         $merchant2 = $this->createMerchant($service);
         $merchant3 = $this->createMerchant($service);
 
-        $this->artisan('service:install')
+        $this->artisan('orchestrate:service')
             ->expectsQuestion('What service would you like to add?', $service->getName())
             ->expectsQuestion('How would you like to identify the ' . $service->getName() . ' service?', $service->getId())
             ->expectsQuestion('What ' . $lowerCaseService . ' provider would you like to add?', $provider1->getName())

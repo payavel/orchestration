@@ -3,8 +3,8 @@
 namespace Payavel\Orchestration;
 
 use Illuminate\Support\ServiceProvider;
-use Payavel\Orchestration\Console\Commands\Install;
-use Payavel\Orchestration\Console\Commands\MakeProvider;
+use Payavel\Orchestration\Console\Commands\OrchestrateService;
+use Payavel\Orchestration\Console\Commands\OrchestrateProvider;
 use Payavel\Orchestration\Console\Commands\PublishStubs;
 
 class OrchestrationServiceProvider extends ServiceProvider
@@ -40,8 +40,8 @@ class OrchestrationServiceProvider extends ServiceProvider
     protected function registerCommands()
     {
         $this->commands([
-            Install::class,
-            MakeProvider::class,
+            OrchestrateService::class,
+            OrchestrateProvider::class,
             PublishStubs::class,
         ]);
     }

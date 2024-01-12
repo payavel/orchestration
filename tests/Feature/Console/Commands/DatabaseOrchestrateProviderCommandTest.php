@@ -2,7 +2,7 @@
 
 namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 
-class DatabaseMakeProviderCommandTest extends TestMakeProviderCommand
+class DatabaseOrchestrateProviderCommandTest extends TestOrchestrateProviderCommand
 {
     public $driver = 'database';
 }

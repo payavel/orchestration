@@ -8,7 +8,7 @@ use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Tests\Traits\AssertsGatewayExists;
 use Payavel\Orchestration\Tests\Traits\CreatesServiceables;
 
-class TestMakeProviderCommand extends TestCase
+class TestOrchestrateProviderCommand extends TestCase
 {
     use AssertsGatewayExists,
         CreatesServiceables;
@@ -21,7 +21,7 @@ class TestMakeProviderCommand extends TestCase
 
         $services = Service::all()->map(fn ($service) => $service->getId());
 
-        $this->artisan('service:provider')
+        $this->artisan('orchestrate:provider')
             ->expectsChoice('Which service will the provider be offering?', $services->search($provider->getService()->getId()), $services->all())
             ->expectsQuestion('What ' . Str::replace('_', ' ', $provider->getService()->getId()) . ' provider would you like to add?', $provider->getName())
             ->expectsQuestion('How would you like to identify the ' . $provider->getName() . ' ' . Str::replace('_', ' ', $service->getId()) . ' provider?', $provider->getId())
@@ -36,7 +36,7 @@ class TestMakeProviderCommand extends TestCase
     {
         $provider = $this->createProvider();
 
-        $this->artisan('service:provider', [
+        $this->artisan('orchestrate:provider', [
             'provider' => $provider->getId(),
             '--service' => $provider->getService()->getId(),
         ])
@@ -51,7 +51,7 @@ class TestMakeProviderCommand extends TestCase
     {
         $service = $this->createService();
 
-        $this->artisan('service:provider', [
+        $this->artisan('orchestrate:provider', [
             '--service' => $service->getId(),
             '--fake' => true,
         ])
@@ -66,7 +66,7 @@ class TestMakeProviderCommand extends TestCase
     {
         $this->createService();
 
-        $this->artisan('service:provider', [
+        $this->artisan('orchestrate:provider', [
             '--service' => 'fake',
         ])
             ->expectsOutput('Service with id fake does not exist.')
@@ -76,8 +76,8 @@ class TestMakeProviderCommand extends TestCase
     /** @test */
     public function make_provider_command_when_no_services_exist()
     {
-        $this->artisan('service:provider')
-            ->expectsOutput('Your must first set up a service! Please call the service:install artisan command.')
+        $this->artisan('orchestrate:provider')
+            ->expectsOutput('Your must first set up a service! Please call the orchestrate:service artisan command.')
             ->assertExitCode(0);
     }
 }

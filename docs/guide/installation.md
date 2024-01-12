@@ -15,7 +15,7 @@ To quickly get started you can run the following artisan command and follow the 
 It can't get any easier than that!
 
 ```bash
-php artisan service:install
+php artisan orchestrate:service
 ```
 
 This is what the command looks like, it may differ for you based on your responses,
@@ -75,7 +75,7 @@ The command will take care of generating all the relevant config files, the serv
 & each of the specified provider gateways along with a fake gateway to compliment the service.
 
 ::: info :memo: Note
-It's also worth mentioning that the first time you run the `service:install` command, a
+It's also worth mentioning that the first time you run the `orchestrate:service` command, a
 "config/orchestration.php" file will be generated. Unfortunately, for consecutive service
 installations, you will be forced to register those services within that config file. 
 :::

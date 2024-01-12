@@ -5,7 +5,7 @@ but for now let's focus on the essential configurations.
 
 
 ## Orchestration Config
-After running the `service:install` command, you should see a new config file in
+After running the `orchestrate:service` command, you should see a new config file in
 `config/orchestration.php`. This file will serve as a global config file for all your services,
 you can look at it as the default configuration for your services to be used as a fallback if
 they haven't specified a service-level configuration.

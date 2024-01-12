@@ -9,7 +9,7 @@ use Payavel\Orchestration\DataTransferObjects\Service;
 use Payavel\Orchestration\Traits\AsksQuestions;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
-class Install extends Command
+class OrchestrateService extends Command
 {
     use AsksQuestions,
         GeneratesFiles;
@@ -19,7 +19,7 @@ class Install extends Command
      *
      * @var string
      */
-    protected $signature = 'service:install
+    protected $signature = 'orchestrate:service
                             {service? : The service}';
 
     /**
@@ -140,11 +140,11 @@ class Install extends Command
 
     protected function generateProviders()
     {
-        $this->call("service:provider", ['--service' => $this->service->getId(), '--fake' => true]);
+        $this->call("orchestrate:provider", ['--service' => $this->service->getId(), '--fake' => true]);
 
         $this->providers->each(
             fn ($provider) =>  $this->call(
-                "service:provider",
+                "orchestrate:provider",
                 [
                     'provider' => $provider['id'],
                     '--service' => $this->service->getId(),
