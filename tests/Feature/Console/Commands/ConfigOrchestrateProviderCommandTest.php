@@ -2,7 +2,7 @@
 
 namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 
-class ConfigMakeProviderCommandTest extends TestMakeProviderCommand
+class ConfigOrchestrateProviderCommandTest extends TestOrchestrateProviderCommand
 {
     public $driver = 'config';
 }
