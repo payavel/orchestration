@@ -8,33 +8,13 @@ use Illuminate\Support\Str;
 trait GeneratesFiles
 {
     /**
-     * The filesystem instance.
-     *
-     * @var \Illuminate\Filesystem\Filesystem
-     */
-    protected $fileSystem;
-
-    /**
-     * Create a new filesystem command instance.
-     *
-     * @param \Illuminate\Filesystem\Filesystem $fileSystem
-     * @return void
-     */
-    public function __construct(Filesystem $files)
-    {
-        parent::__construct();
-
-        $this->fileSystem = $files;
-    }
-
-    /**
      * Get the contents of the file.
      *
      * @param string $stub
      * @param array $data
      * @return string
      */
-    protected function makeFile($stub, $data)
+    protected static function makeFile($stub, $data)
     {
         $file = file_get_contents($stub);
 
@@ -53,12 +33,14 @@ trait GeneratesFiles
      * @param string $file
      * @return void
      */
-    protected function putFile($path, $file)
+    protected static function putFile($path, $file)
     {
-        $directory = collect(explode('/', $path, -1))->join('/');
-        $this->fileSystem->ensureDirectoryExists($directory);
+        $fileSystem = new Filesystem;
 
-        $this->fileSystem->put($path, $file);
+        $directory = collect(explode('/', $path, -1))->join('/');
+        $fileSystem->ensureDirectoryExists($directory);
+
+        $fileSystem->put($path, $file);
     }
 
     /**
@@ -68,7 +50,7 @@ trait GeneratesFiles
      * @param $service
      * @return string
      */
-    protected function getStub($stub, $service = null)
+    protected static function getStub($stub, $service = null)
     {
         if (
             (

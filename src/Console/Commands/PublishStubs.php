@@ -80,7 +80,7 @@ class PublishStubs extends Command
             );
 
         foreach($stubs as $stub) {
-            $this->putFile(
+            static::putFile(
                 base_path($directory . '/' . $stub . '.stub'),
                 file_get_contents(__DIR__ . '/../../../stubs/' . $stub . '.stub')
             );
