@@ -66,6 +66,8 @@ class OrchestrateService extends Command
     {
         $this->setProperties();
 
+        $this->makeSureOrchestraIsReady();
+
         $this->generateService();
 
         $this->generateProviders();
@@ -81,19 +83,6 @@ class OrchestrateService extends Command
     protected  function generateService()
     {
         $studlyService = Str::studly($this->service->getId());
-
-        if (! file_exists(config_path('orchestration.php'))) {
-            $this->putFile(
-                config_path('orchestration.php'),
-                $this->makeFile(
-                    $this->getStub('config-orchestration'),
-                    [
-                        'id' => $this->service->getId(),
-                        'config' => Str::slug($this->service->getId()),
-                    ]
-                )
-            );
-        }
 
         Config::set('orchestration.services.' . $this->service->getId(), Str::slug($this->service->getId()));
 
@@ -248,6 +237,25 @@ class OrchestrateService extends Command
         $this->config['defaults']['merchant'] = $this->merchants->count() > 1
             ? $this->choice('Which merchant will be used as default?', $this->merchants->pluck('id')->all())
             : $this->merchants->first()['id'];
+    }
+
+    protected function makeSureOrchestraIsReady()
+    {
+        if (file_exists(config_path('orchestration.php'))) {
+            return;
+        }
+
+        $this->putFile(
+            config_path('orchestration.php'),
+            $this->makeFile(
+                $this->getStub('config-orchestration'),
+                [
+                    'driver' => $this->choice('Choose a default driver for your orchestra.', array_keys(Config::get('orchestration.drivers'))),
+                    'id' => $this->service->getId(),
+                    'config' => Str::slug($this->service->getId()),
+                ]
+            )
+        );
     }
 
     /**

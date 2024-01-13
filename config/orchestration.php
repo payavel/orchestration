@@ -9,7 +9,7 @@ return [
     |
     | This option determines the default orchestration settings for your application.
     | It is recommended to use the config driver over the database driver unless
-    | you onboard new services, providers and/or merchants automatically.
+    | you plan to automate the onboarding of new services dynamically.
     |
     */
     'defaults' => [
