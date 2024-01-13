@@ -86,30 +86,30 @@ class OrchestrateService extends Command
 
         Config::set('orchestration.services.' . $this->service->getId(), Str::slug($this->service->getId()));
 
-        $this->putFile(
+        static::putFile(
             app_path("Services/{$studlyService}/Contracts/{$studlyService}Requester.php"),
-            $this->makeFile(
-                $this->getStub('service-requester'),
+            static::makeFile(
+                static::getStub('service-requester'),
                 [
                     'Service' => $studlyService,
                 ]
             )
         );
 
-        $this->putFile(
+        static::putFile(
             app_path("Services/{$studlyService}/Contracts/{$studlyService}Responder.php"),
-            $this->makeFile(
-                $this->getStub('service-responder'),
+            static::makeFile(
+                static::getStub('service-responder'),
                 [
                     'Service' => $studlyService,
                 ]
             )
         );
 
-        $this->putFile(
+        static::putFile(
             config_path(Str::slug($this->service->getId()) . '.php'),
-            $this->makeFile(
-                $this->getStub('config-service'),
+            static::makeFile(
+                static::getStub('config-service'),
                 [
                     'Title' => $this->service->getName(),
                     'Service' => Str::studly($this->service->getId()),
@@ -173,8 +173,8 @@ class OrchestrateService extends Command
         $this->config['providers'] = $this->providers->reduce(
             fn ($config, $provider) =>
                 $config .
-                $this->makeFile(
-                    $this->getStub('config-service-provider'),
+                static::makeFile(
+                    static::getStub('config-service-provider'),
                     $provider
                 ),
             ""
@@ -214,8 +214,8 @@ class OrchestrateService extends Command
             $merchant['providers'] = collect($providers)->reduce(
                 fn ($config, $provider, $index) =>
                     $config .
-                    $this->makeFile(
-                        $this->getStub('config-service-merchant-providers'),
+                    static::makeFile(
+                        static::getStub('config-service-merchant-providers'),
                         ['id' => $provider]
                     ) .
                     ($index < count($providers) - 1 ? "\n" : ""),
@@ -227,8 +227,8 @@ class OrchestrateService extends Command
 
         $this->config['merchants'] = $this->merchants->reduce(
             fn ($config, $merchant) =>
-                $config . $this->makeFile(
-                    $this->getStub('config-service-merchant'),
+                $config . static::makeFile(
+                    static::getStub('config-service-merchant'),
                     $merchant
             ),
             ""
@@ -245,10 +245,10 @@ class OrchestrateService extends Command
             return;
         }
 
-        $this->putFile(
+        static::putFile(
             config_path('orchestration.php'),
-            $this->makeFile(
-                $this->getStub('config-orchestration'),
+            static::makeFile(
+                static::getStub('config-orchestration'),
                 [
                     'driver' => $this->choice('Choose a default driver for your orchestra.', array_keys(Config::get('orchestration.drivers'))),
                     'id' => $this->service->getId(),
