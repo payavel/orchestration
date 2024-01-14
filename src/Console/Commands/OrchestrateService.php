@@ -37,6 +37,13 @@ class OrchestrateService extends Command
     protected $service;
 
     /**
+     * The driver to execute the new service.
+     * 
+     * @var Payavel\Orchestration\ServiceDriver
+     */
+    protected $driver;
+
+    /**
      * The collected providers.
      *
      * @var \Illuminate\Support\Collection
@@ -76,6 +83,7 @@ class OrchestrateService extends Command
     protected function setProperties()
     {
         $this->setService();
+        $this->setDriver();
         $this->setProviders();
         $this->setMerchants();
     }
@@ -106,23 +114,7 @@ class OrchestrateService extends Command
             )
         );
 
-        static::putFile(
-            config_path(Str::slug($this->service->getId()) . '.php'),
-            static::makeFile(
-                static::getStub('config-service'),
-                [
-                    'Title' => $this->service->getName(),
-                    'Service' => Str::studly($this->service->getId()),
-                    'service' => Str::lower($this->service->getName()),
-                    'SERVICE' => Str::upper(Str::slug($this->service->getId(), '_')),
-                    'provider' => $this->config['defaults']['provider'],
-                    'providers' => $this->config['providers'],
-                    'merchant' => $this->config['defaults']['merchant'],
-                    'merchants' => $this->config['merchants'],
-                    'additional' => $this->getAdditionalConfig(),
-                ]
-            )
-        );
+        $this->driver::generateService($this->service, $this->config);
 
         $this->info('The ' . Str::lower($this->service->getName()) . ' config has been successfully generated.');
     }
@@ -149,6 +141,19 @@ class OrchestrateService extends Command
         $this->service = new Service([
             'id' => $this->askId('service', $name),
         ]);
+    }
+
+    protected function setDriver()
+    {
+        $driver = trim(
+            $this->choice(
+                'Which driver will handle the ' . $this->service->getName() . ' service?',
+                array_keys(Config::get('orchestration.drivers')),
+                'config'
+            )
+        );
+
+        $this->driver = Config::get('orchestration.drivers.' . $driver);
     }
 
     /**
@@ -256,15 +261,5 @@ class OrchestrateService extends Command
                 ]
             )
         );
-    }
-
-    /**
-     * Get additional config for the service.
-     *
-     * @return string
-     */
-    protected function getAdditionalConfig()
-    {
-        return '';
     }
 }

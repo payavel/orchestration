@@ -4,6 +4,7 @@ namespace Payavel\Orchestration\Drivers;
 
 use Exception;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Merchantable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
@@ -11,9 +12,12 @@ use Payavel\Orchestration\DataTransferObjects\Merchant;
 use Payavel\Orchestration\DataTransferObjects\Provider;
 use Payavel\Orchestration\DataTransferObjects\Service;
 use Payavel\Orchestration\ServiceDriver;
+use Payavel\Orchestration\Traits\GeneratesFiles;
 
 class ConfigDriver extends ServiceDriver
 {
+    use GeneratesFiles;
+
     /**
      * Collection of the service's providers.
      *
@@ -172,6 +176,26 @@ class ConfigDriver extends ServiceDriver
         }
 
         return new $gateway($provider, $merchant);
+    }
+
+    public static function generateService(Serviceable $service, array $config)
+    {
+        static::putFile(
+            config_path(Str::slug($service->getId()) . '.php'),
+            static::makeFile(
+                static::getStub('config-service'),
+                [
+                    'Title' => $service->getName(),
+                    'Service' => Str::studly($service->getId()),
+                    'service' => Str::lower($service->getName()),
+                    'SERVICE' => Str::upper(Str::slug($service->getId(), '_')),
+                    'provider' => $config['defaults']['provider'],
+                    'providers' => $config['providers'],
+                    'merchant' => $config['defaults']['merchant'],
+                    'merchants' => $config['merchants'],
+                ]
+            )
+        );
     }
 
     /**
