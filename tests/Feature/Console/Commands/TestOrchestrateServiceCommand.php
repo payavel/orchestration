@@ -2,6 +2,7 @@
 
 namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Tests\Traits\AssertsGatewayExists;
@@ -22,16 +23,19 @@ class TestOrchestrateServiceCommand extends TestCase
 
         $merchant = $this->createMerchant($service);
 
+        $drivers = array_keys(Config::get('orchestration.drivers'));
+
         $this->artisan('orchestrate:service')
             ->expectsQuestion('What service would you like to add?', $service->getName())
             ->expectsQuestion('How would you like to identify the ' . $service->getName() . ' service?', $service->getId())
+            ->expectsChoice('Which driver will handle the ' . $service->getName() . ' service?', Config::get('orchestration.defaults.driver'), $drivers)
             ->expectsQuestion('What ' . $lowerCaseService . ' provider would you like to add?', $provider->getName())
             ->expectsQuestion('How would you like to identify the ' . $provider->getName() . ' ' . $lowerCaseService . ' provider?', $provider->getId())
             ->expectsConfirmation('Would you like to add another ' . $lowerCaseService . ' provider?', 'no')
             ->expectsQuestion('What ' . $lowerCaseService . ' merchant would you like to add?', $merchant->getName())
             ->expectsQuestion('How would you like to identify the ' . $merchant->getName() . ' ' . $lowerCaseService . ' merchant?', $merchant->getId())
             ->expectsConfirmation('Would you like to add another ' . $lowerCaseService . ' merchant?', 'no')
-            ->expectsChoice('Choose a default driver for your orchestra.', config('orchestration.defaults.driver'), array_keys(config('orchestration.drivers')))
+            ->expectsChoice('Choose a default driver for your orchestra.', Config::get('orchestration.defaults.driver'), $drivers)
             ->expectsOutput('The ' . $lowerCaseService . ' config has been successfully generated.')
             ->expectsOutput('Fake ' . $lowerCaseService . ' gateway generated successfully!')
             ->expectsOutput($provider->getName() . ' ' . $lowerCaseService . ' gateway generated successfully!')
@@ -46,7 +50,9 @@ class TestOrchestrateServiceCommand extends TestCase
 
         $this->assertEquals($provider->getId(), $config['defaults']['provider']);
         $this->assertEquals($merchant->getId(), $config['defaults']['merchant']);
-        $this->assertNotNull($config['merchants'][$merchant->getId()]['providers'][$provider->getId()]);
+
+        // ToDo: Config driver specific, related to https://github.com/payavel/orchestration/issues/39.
+        // $this->assertNotNull($config['merchants'][$merchant->getId()]['providers'][$provider->getId()]);
 
         $this->assertGatewayExists($provider);
 
@@ -66,9 +72,12 @@ class TestOrchestrateServiceCommand extends TestCase
         $merchant2 = $this->createMerchant($service);
         $merchant3 = $this->createMerchant($service);
 
+        $drivers = array_keys(Config::get('orchestration.drivers'));
+
         $this->artisan('orchestrate:service')
             ->expectsQuestion('What service would you like to add?', $service->getName())
             ->expectsQuestion('How would you like to identify the ' . $service->getName() . ' service?', $service->getId())
+            ->expectsChoice('Which driver will handle the ' . $service->getName() . ' service?', Config::get('orchestration.defaults.driver'), $drivers)
             ->expectsQuestion('What ' . $lowerCaseService . ' provider would you like to add?', $provider1->getName())
             ->expectsQuestion('How would you like to identify the ' . $provider1->getName() . ' ' . $lowerCaseService . ' provider?', $provider1->getId())
             ->expectsConfirmation('Would you like to add another ' . $lowerCaseService . ' provider?', 'yes')
@@ -109,7 +118,7 @@ class TestOrchestrateServiceCommand extends TestCase
                 $merchant1->getId(),
                 [$merchant1->getId(), $merchant2->getId(), $merchant3->getId()]
             )
-            ->expectsChoice('Choose a default driver for your orchestra.', config('orchestration.defaults.driver'), array_keys(config('orchestration.drivers')))
+            ->expectsChoice('Choose a default driver for your orchestra.', Config::get('orchestration.defaults.driver'), $drivers)
             ->expectsOutput('The ' . $lowerCaseService . ' config has been successfully generated.')
             ->expectsOutput('Fake ' . $lowerCaseService . ' gateway generated successfully!')
             ->expectsOutput($provider1->getName() . ' ' . $lowerCaseService . ' gateway generated successfully!')
@@ -127,12 +136,14 @@ class TestOrchestrateServiceCommand extends TestCase
         $this->assertEquals($merchant1->getId(), $config['defaults']['merchant']);
 
         $randomProvider = $this->faker->randomElement([$provider1, $provider2]);
-        $this->assertNotNull($config['providers'][$randomProvider->getId()]);
         $this->assertGatewayExists($randomProvider);
 
-        $randomMerchant = $this->faker->randomElement([$merchant1, $merchant2, $merchant3]);
-        $this->assertNotNull($config['merchants'][$randomMerchant->getId()]);
-        $this->assertNotEmpty($config['merchants'][$randomMerchant->getId()]['providers']);
+        // ToDo: Config driver specific, related to https://github.com/payavel/orchestration/issues/39.
+        // $this->assertNotNull($config['providers'][$randomProvider->getId()]);
+        
+        // $randomMerchant = $this->faker->randomElement([$merchant1, $merchant2, $merchant3]);
+        // $this->assertNotEmpty($config['merchants'][$randomMerchant->getId()]['providers']);
+        // $this->assertNotNull($config['merchants'][$randomMerchant->getId()]);
 
         $this->assertTrue(unlink(config_path($configFile)));
     }

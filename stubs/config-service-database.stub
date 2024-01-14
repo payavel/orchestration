@@ -41,32 +41,4 @@ return [
     */
     'test_gateway' => \App\Services\{{ Service }}\Fake{{ Service }}Request::class,
 
-    /*
-    |--------------------------------------------------------------------------
-    | {{ Title }} Providers
-    |--------------------------------------------------------------------------
-    |
-    | Here you may provide the location for each {{ service }} provider's
-    | implementation by mapping the request & response classes to it.
-    | You may also add relevant provider specific configurations.
-    |
-    */
-    'providers' => [
-{{ providers }}
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | {{ Title }} Merchants
-    |--------------------------------------------------------------------------
-    |
-    | This is where you should define all the merchants that will be leveraging the
-    | {{ service }} service, along with required provider specific configurations
-    | This is the perfect place to set each merchant's api keys & secrets.
-    |
-    */
-    'merchants' => [
-{{ merchants }}
-    ],
-
 ];

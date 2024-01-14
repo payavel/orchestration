@@ -91,6 +91,11 @@ abstract class ServiceDriver
      */
     abstract public function resolveGateway($provider, $merchant);
 
+    public static function generateService(Serviceable $service, array $config)
+    {
+        //
+    }
+
     /**
      * Get a collection of existing serviceables.
      *

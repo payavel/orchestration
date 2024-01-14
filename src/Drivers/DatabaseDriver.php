@@ -3,6 +3,7 @@
 namespace Payavel\Orchestration\Drivers;
 
 use Exception;
+use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Merchantable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
@@ -10,9 +11,12 @@ use Payavel\Orchestration\Models\Merchant;
 use Payavel\Orchestration\Models\Provider;
 use Payavel\Orchestration\Models\Service;
 use Payavel\Orchestration\ServiceDriver;
+use Payavel\Orchestration\Traits\GeneratesFiles;
 
 class DatabaseDriver extends ServiceDriver
 {
+    use GeneratesFiles;
+
     /**
      * Resolve the serviceable instance.
      *
@@ -150,6 +154,26 @@ class DatabaseDriver extends ServiceDriver
         }
 
         return new $gateway($provider, $merchant);
+    }
+
+    public static function generateService(Serviceable $service, array $config)
+    {
+        static::putFile(
+            config_path(Str::slug($service->getId()) . '.php'),
+            static::makeFile(
+                static::getStub('config-service-database'),
+                [
+                    'Title' => $service->getName(),
+                    'Service' => Str::studly($service->getId()),
+                    'service' => Str::lower($service->getName()),
+                    'SERVICE' => Str::upper(Str::slug($service->getId(), '_')),
+                    'provider' => $config['defaults']['provider'],
+                    'merchant' => $config['defaults']['merchant'],
+                ]
+            )
+        );
+
+        // ToDo: Generate migrations here.
     }
 
     /**
