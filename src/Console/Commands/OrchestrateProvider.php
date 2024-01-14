@@ -94,10 +94,10 @@ class OrchestrateProvider extends Command
         $service = Str::studly($this->service->getId());
         $provider = Str::studly($this->id);
 
-        $this->putFile(
+        static::putFile(
             app_path("Services/{$service}/{$provider}{$service}Request.php"),
-            $this->makeFile(
-                $this->getStub('service-request', $this->service->getId()),
+            static::makeFile(
+                static::getStub('service-request', $this->service->getId()),
                 [
                     'Provider' => $provider,
                     'Service' => $service,
@@ -105,10 +105,10 @@ class OrchestrateProvider extends Command
             )
         );
 
-        $this->putFile(
+        static::putFile(
             app_path("Services/{$service}/{$provider}{$service}Response.php"),
-            $this->makeFile(
-                $this->getStub('service-response', $this->service->getId()),
+            static::makeFile(
+                static::getStub('service-response', $this->service->getId()),
                 [
                     'Provider' => $provider,
                     'Service' => $service,
