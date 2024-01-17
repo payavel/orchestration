@@ -80,6 +80,11 @@ class OrchestrateService extends Command
         $this->generateProviders();
     }
 
+    /**
+     * Sets the properties necessary to handle this command.
+     *
+     * @return void
+     */
     protected function setProperties()
     {
         $this->setService();
@@ -88,6 +93,11 @@ class OrchestrateService extends Command
         $this->setMerchants();
     }
 
+    /**
+     * Generates the service skeleton.
+     *
+     * @return void
+     */
     protected  function generateService()
     {
         $studlyService = Str::studly($this->service->getId());
@@ -119,6 +129,11 @@ class OrchestrateService extends Command
         $this->info('The ' . Str::lower($this->service->getName()) . ' config has been successfully generated.');
     }
 
+    /**
+     * Generates the service implementation for each provider.
+     *
+     * @return void
+     */
     protected function generateProviders()
     {
         $this->call("orchestrate:provider", ['--service' => $this->service->getId(), '--fake' => true]);
@@ -134,6 +149,11 @@ class OrchestrateService extends Command
         );
     }
 
+    /**
+     * Query the service information and set the serviceable.
+     *
+     * @return void
+     */
     protected function setService()
     {
         $name = trim($this->argument('service') ?? $this->askName('service'));
@@ -143,6 +163,11 @@ class OrchestrateService extends Command
         ]);
     }
 
+    /**
+     * Query for driver information and set the corresponding class.
+     *
+     * @return void
+     */
     protected function setDriver()
     {
         $driver = trim(
@@ -244,6 +269,11 @@ class OrchestrateService extends Command
             : $this->merchants->first()['id'];
     }
 
+    /**
+     * If orchestration config does not exist yet, generate it.
+     *
+     * @return void
+     */
     protected function makeSureOrchestraIsReady()
     {
         if (file_exists(config_path('orchestration.php'))) {
