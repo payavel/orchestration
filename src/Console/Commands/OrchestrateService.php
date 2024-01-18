@@ -285,7 +285,6 @@ class OrchestrateService extends Command
             static::makeFile(
                 static::getStub('config-orchestration'),
                 [
-                    'driver' => $this->choice('Choose a default driver for your orchestra.', array_keys(Config::get('orchestration.drivers'))),
                     'id' => $this->service->getId(),
                     'config' => Str::slug($this->service->getId()),
                 ]
