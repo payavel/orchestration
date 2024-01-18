@@ -5,7 +5,7 @@ namespace Payavel\Orchestration;
 use Illuminate\Support\ServiceProvider;
 use Payavel\Orchestration\Console\Commands\OrchestrateService;
 use Payavel\Orchestration\Console\Commands\OrchestrateProvider;
-use Payavel\Orchestration\Console\Commands\PublishStubs;
+use Payavel\Orchestration\Console\Commands\OrchestrateStubs;
 
 class OrchestrationServiceProvider extends ServiceProvider
 {
@@ -42,7 +42,7 @@ class OrchestrationServiceProvider extends ServiceProvider
         $this->commands([
             OrchestrateService::class,
             OrchestrateProvider::class,
-            PublishStubs::class,
+            OrchestrateStubs::class,
         ]);
     }
 

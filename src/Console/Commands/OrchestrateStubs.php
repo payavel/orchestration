@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
-class PublishStubs extends Command
+class OrchestrateStubs extends Command
 {
     use GeneratesFiles;
 
@@ -15,7 +15,7 @@ class PublishStubs extends Command
      *
      * @var string
      */
-    protected $signature = 'service:stubs
+    protected $signature = 'orchestrate:stubs
                             {stub? : The stub file}
                             {--service= : The service}';
 
