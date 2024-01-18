@@ -156,6 +156,13 @@ class DatabaseDriver extends ServiceDriver
         return new $gateway($provider, $merchant);
     }
 
+    /**
+     * Generate the service skeleton based on the current driver.
+     *
+     * @param \Payavel\Orchestration\Contracts\Serviceable $service
+     * @param array $config
+     * @return void
+     */
     public static function generateService(Serviceable $service, array $config)
     {
         static::putFile(
