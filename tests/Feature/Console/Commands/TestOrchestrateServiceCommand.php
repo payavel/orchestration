@@ -35,7 +35,6 @@ class TestOrchestrateServiceCommand extends TestCase
             ->expectsQuestion('What ' . $lowerCaseService . ' merchant would you like to add?', $merchant->getName())
             ->expectsQuestion('How would you like to identify the ' . $merchant->getName() . ' ' . $lowerCaseService . ' merchant?', $merchant->getId())
             ->expectsConfirmation('Would you like to add another ' . $lowerCaseService . ' merchant?', 'no')
-            ->expectsChoice('Choose a default driver for your orchestra.', Config::get('orchestration.defaults.driver'), $drivers)
             ->expectsOutput('The ' . $lowerCaseService . ' config has been successfully generated.')
             ->expectsOutput('Fake ' . $lowerCaseService . ' gateway generated successfully!')
             ->expectsOutput($provider->getName() . ' ' . $lowerCaseService . ' gateway generated successfully!')
@@ -118,7 +117,6 @@ class TestOrchestrateServiceCommand extends TestCase
                 $merchant1->getId(),
                 [$merchant1->getId(), $merchant2->getId(), $merchant3->getId()]
             )
-            ->expectsChoice('Choose a default driver for your orchestra.', Config::get('orchestration.defaults.driver'), $drivers)
             ->expectsOutput('The ' . $lowerCaseService . ' config has been successfully generated.')
             ->expectsOutput('Fake ' . $lowerCaseService . ' gateway generated successfully!')
             ->expectsOutput($provider1->getName() . ' ' . $lowerCaseService . ' gateway generated successfully!')
