@@ -1,0 +1,70 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Payavel\Orchestration\Models\Merchant;
+use Payavel\Orchestration\Models\Provider;
+use Payavel\Orchestration\Models\Service;
+
+return new class extends Migration
+{
+    /**
+     * The service to be added.
+     */
+    private string $service = '{{ service }}';
+
+    /**
+     * The providers to be added.
+     *
+     * @var array
+     */
+    private array $providers = [
+{{ providers }}
+    ];
+
+    /**
+     * The merchants to be added.
+     *
+     * @var array
+     */
+    private array $merchants = [
+{{ merchants }}
+    ];
+
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        $service = Service::create([
+            'id' => $this->service,
+        ]);
+
+        foreach ($this->providers as $provider => $gateway) {
+            Provider::create([
+                'id' => $provider,
+                'service_id' => $service->id,
+                'gateway' => $gateway,
+            ]);
+        }
+
+        foreach ($this->merchants as $merchant => $providers) {
+            Merchant::create([
+                'id' => $merchant,
+                'service_id' => $service->id,
+                'default_provider_id' => $providers[0],
+            ])
+            ->providers()
+            ->sync($providers);
+        }
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Service::where('id', $this->service)->delete();
+
+        // Note: This will delete the service entirely, and cascade all of it's providers & merchants.
+    }
+};
