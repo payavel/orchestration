@@ -183,6 +183,19 @@ class DatabaseDriver extends ServiceDriver
             )
         );
 
+        
+        $providers = $providers->reduce(
+            fn ($array, $provider) =>
+                $array . static::makeFile(
+                    static::getStub('migration-service-providers'),
+                    [
+                        'provider' => $provider['id'],
+                        'gateway' => $provider['gateway'],
+                    ]
+            ),
+            ""
+        );
+
         // ToDo: Generate migrations here.
     }
 
