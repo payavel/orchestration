@@ -3,6 +3,7 @@
 namespace Payavel\Orchestration\Drivers;
 
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Merchantable;
@@ -185,15 +186,29 @@ class DatabaseDriver extends ServiceDriver
 
         
         $providers = $providers->reduce(
-            fn ($array, $provider) =>
+            fn ($array, $provider, $index) =>
                 $array . static::makeFile(
                     static::getStub('migration-service-providers'),
                     [
                         'provider' => $provider['id'],
                         'gateway' => $provider['gateway'],
                     ]
-            ),
-            ""
+                ) .
+                ($index < count($providers) - 1 ? "\n" : ""),
+                ""
+        );
+
+        $merchants = $merchants->reduce(
+            fn ($array, $merchant, $index) =>
+                $array . static::makeFile(
+                    static::getStub('migration-service-merchants'),
+                    [
+                        'merchant' => $merchant['id'],
+                        'providers' => Arr::join(Arr::map($merchant['providers'], fn ($provider) => "'$provider'"), ', '),
+                    ]
+                ) .
+                ($index < count($merchants) - 1 ? "\n" : ""),
+                ""
         );
 
         // ToDo: Generate migrations here.

@@ -205,6 +205,27 @@ class ConfigDriver extends ServiceDriver
             ""
         );
 
+        $config['merchants'] = $merchants->reduce(
+            fn ($config, $merchant) =>
+                $config . static::makeFile(
+                    static::getStub('config-service-merchant'),
+                    [
+                        'id' => $merchant['id'],
+                        'providers' => Collection::make($merchant['providers'])->reduce(
+                            fn ($config, $provider, $index) =>
+                                $config .
+                                static::makeFile(
+                                    static::getStub('config-service-merchant-providers'),
+                                    ['id' => $provider]
+                                ) .
+                                ($index < count($providers) - 1 ? "\n" : ""),
+                                ""
+                        )
+                    ]
+                ),
+                ""
+        );
+
         static::putFile(
             config_path(Str::slug($service->getId()) . '.php'),
             static::makeFile(
@@ -217,7 +238,7 @@ class ConfigDriver extends ServiceDriver
                     'provider' => $defaults['provider'],
                     'providers' => $config['providers'],
                     'merchant' => $defaults['merchant'],
-                    'merchants' => $defaults['merchants'],
+                    'merchants' => $config['merchants'],
                 ]
             )
         );

@@ -218,41 +218,19 @@ class OrchestrateService extends Command
 
             $merchant = [
                 'id' => $this->askId('merchant', $name),
+                'providers' => $this->providers->count() > 1
+                    ? $this->choice(
+                        "Which providers will the {$name} merchant be integrating? (default first)",
+                        $this->providers->pluck('id')->all(),
+                        null,
+                        null,
+                        true
+                    )
+                    : [$this->providers->first()['id']],
             ];
-
-            $providers = $this->providers->count() > 1
-                ? $this->choice(
-                    "Which providers will the {$name} merchant be integrating? (default first)",
-                    $this->providers->pluck('id')->all(),
-                    null,
-                    null,
-                    true
-                )
-                : [$this->providers->first()['id']];
-
-            $merchant['providers'] = collect($providers)->reduce(
-                fn ($config, $provider, $index) =>
-                    $config .
-                    static::makeFile(
-                        static::getStub('config-service-merchant-providers'),
-                        ['id' => $provider]
-                    ) .
-                    ($index < count($providers) - 1 ? "\n" : ""),
-                ""
-            );
 
             $this->merchants->push($merchant);
         } while ($this->confirm('Would you like to add another ' . Str::lower($this->service->getName()) . ' merchant?', false));
-
-        // ToDo: Move this to the ConfigDriver.
-        $this->defaults['merchants'] = $this->merchants->reduce(
-            fn ($config, $merchant) =>
-                $config . static::makeFile(
-                    static::getStub('config-service-merchant'),
-                    $merchant
-            ),
-            ""
-        );
 
         $this->defaults['merchant'] = $this->merchants->count() > 1
             ? $this->choice('Which merchant will be used as default?', $this->merchants->pluck('id')->all())
