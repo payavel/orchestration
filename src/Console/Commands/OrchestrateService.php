@@ -195,21 +195,9 @@ class OrchestrateService extends Command
 
             $this->providers->push([
                 'id' => $id = $this->askId('provider', $name),
-                'Provider' => Str::studly($id),
-                'Service' => Str::studly($this->service->getId()),
+                'gateway' => 'App\\Services\\' . ($studlyService = Str::studly($this->service->getId())) . '\\' . Str::studly($id) . $studlyService . 'Request',
             ]);
         } while ($this->confirm('Would you like to add another '. Str::lower($this->service->getName()) .' provider?', false));
-
-        // ToDo: Move this to the ConfigDriver.
-        $this->defaults['providers'] = $this->providers->reduce(
-            fn ($config, $provider) =>
-                $config .
-                static::makeFile(
-                    static::getStub('config-service-provider'),
-                    $provider
-                ),
-            ""
-        );
 
         $this->defaults['provider'] = $this->providers->count() > 1
             ? $this->choice('Which provider will be used as default?', $this->providers->pluck('id')->all())

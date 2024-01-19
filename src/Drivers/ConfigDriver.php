@@ -190,6 +190,21 @@ class ConfigDriver extends ServiceDriver
      */
     public static function generateService(Serviceable $service, Collection $providers, Collection $merchants, array $defaults)
     {
+        $config = [];
+
+        $config['providers'] = $providers->reduce(
+            fn ($config, $provider) =>
+                $config .
+                static::makeFile(
+                    static::getStub('config-service-provider'),
+                    [
+                        'id' => $provider['id'],
+                        'gateway' => $provider['gateway'],
+                    ]
+                ),
+            ""
+        );
+
         static::putFile(
             config_path(Str::slug($service->getId()) . '.php'),
             static::makeFile(
@@ -200,7 +215,7 @@ class ConfigDriver extends ServiceDriver
                     'service' => Str::lower($service->getName()),
                     'SERVICE' => Str::upper(Str::slug($service->getId(), '_')),
                     'provider' => $defaults['provider'],
-                    'providers' => $defaults['providers'],
+                    'providers' => $config['providers'],
                     'merchant' => $defaults['merchant'],
                     'merchants' => $defaults['merchants'],
                 ]
