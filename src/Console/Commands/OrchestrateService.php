@@ -58,11 +58,11 @@ class OrchestrateService extends Command
     protected $merchants;
 
     /**
-     * The config to be set.
+     * The defaults to be set.
      *
      * @var array
      */
-    protected $config = [];
+    protected $defaults = [];
 
     /**
      * Execute the console command.
@@ -124,7 +124,7 @@ class OrchestrateService extends Command
             )
         );
 
-        $this->driver::generateService($this->service, $this->providers, $this->merchants, $this->config);
+        $this->driver::generateService($this->service, $this->providers, $this->merchants, $this->defaults);
 
         $this->info('The ' . Str::lower($this->service->getName()) . ' config has been successfully generated.');
     }
@@ -201,7 +201,7 @@ class OrchestrateService extends Command
         } while ($this->confirm('Would you like to add another '. Str::lower($this->service->getName()) .' provider?', false));
 
         // ToDo: Move this to the ConfigDriver.
-        $this->config['providers'] = $this->providers->reduce(
+        $this->defaults['providers'] = $this->providers->reduce(
             fn ($config, $provider) =>
                 $config .
                 static::makeFile(
@@ -211,7 +211,7 @@ class OrchestrateService extends Command
             ""
         );
 
-        $this->config['defaults']['provider'] = $this->providers->count() > 1
+        $this->defaults['provider'] = $this->providers->count() > 1
             ? $this->choice('Which provider will be used as default?', $this->providers->pluck('id')->all())
             : $this->providers->first()['id'];
     }
@@ -257,7 +257,7 @@ class OrchestrateService extends Command
         } while ($this->confirm('Would you like to add another ' . Str::lower($this->service->getName()) . ' merchant?', false));
 
         // ToDo: Move this to the ConfigDriver.
-        $this->config['merchants'] = $this->merchants->reduce(
+        $this->defaults['merchants'] = $this->merchants->reduce(
             fn ($config, $merchant) =>
                 $config . static::makeFile(
                     static::getStub('config-service-merchant'),
@@ -266,7 +266,7 @@ class OrchestrateService extends Command
             ""
         );
 
-        $this->config['defaults']['merchant'] = $this->merchants->count() > 1
+        $this->defaults['merchant'] = $this->merchants->count() > 1
             ? $this->choice('Which merchant will be used as default?', $this->merchants->pluck('id')->all())
             : $this->merchants->first()['id'];
     }

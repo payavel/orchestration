@@ -98,10 +98,10 @@ abstract class ServiceDriver
      * @param \Payavel\Orchestration\Contracts\Serviceable $service
      * @param \Illuminate\Support\Collection $providers
      * @param \Illuminate\Support\Collection $merchants
-     * @param array $config
+     * @param array $defaults
      * @return void
      */
-    public static function generateService(Serviceable $service, Collection $providers, Collection $merchants, array $config)
+    public static function generateService(Serviceable $service, Collection $providers, Collection $merchants, array $defaults)
     {
         //
     }
