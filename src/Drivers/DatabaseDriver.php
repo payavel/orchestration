@@ -163,10 +163,10 @@ class DatabaseDriver extends ServiceDriver
      * @param \Payavel\Orchestration\Contracts\Serviceable $service
      * @param \Illuminate\Support\Collection $providers
      * @param \Illuminate\Support\Collection $merchants
-     * @param array $config
+     * @param array $defaults
      * @return void
      */
-    public static function generateService(Serviceable $service, Collection $providers, Collection $merchants, array $config)
+    public static function generateService(Serviceable $service, Collection $providers, Collection $merchants, array $defaults)
     {
         static::putFile(
             config_path(Str::slug($service->getId()) . '.php'),
@@ -177,8 +177,8 @@ class DatabaseDriver extends ServiceDriver
                     'Service' => Str::studly($service->getId()),
                     'service' => Str::lower($service->getName()),
                     'SERVICE' => Str::upper(Str::slug($service->getId(), '_')),
-                    'provider' => $config['defaults']['provider'],
-                    'merchant' => $config['defaults']['merchant'],
+                    'provider' => $defaults['provider'],
+                    'merchant' => $defaults['merchant'],
                 ]
             )
         );
