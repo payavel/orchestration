@@ -2,6 +2,7 @@
 
 namespace Payavel\Orchestration;
 
+use Illuminate\Support\Collection;
 use Payavel\Orchestration\Contracts\Merchantable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
@@ -95,10 +96,12 @@ abstract class ServiceDriver
      * Generate the service skeleton based on the current driver.
      *
      * @param \Payavel\Orchestration\Contracts\Serviceable $service
+     * @param \Illuminate\Support\Collection $providers
+     * @param \Illuminate\Support\Collection $merchants
      * @param array $config
      * @return void
      */
-    public static function generateService(Serviceable $service, array $config)
+    public static function generateService(Serviceable $service, Collection $providers, Collection $merchants, array $config)
     {
         //
     }

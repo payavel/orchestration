@@ -124,7 +124,7 @@ class OrchestrateService extends Command
             )
         );
 
-        $this->driver::generateService($this->service, $this->config);
+        $this->driver::generateService($this->service, $this->providers, $this->merchants, $this->config);
 
         $this->info('The ' . Str::lower($this->service->getName()) . ' config has been successfully generated.');
     }
@@ -200,6 +200,7 @@ class OrchestrateService extends Command
             ]);
         } while ($this->confirm('Would you like to add another '. Str::lower($this->service->getName()) .' provider?', false));
 
+        // ToDo: Move this to the ConfigDriver.
         $this->config['providers'] = $this->providers->reduce(
             fn ($config, $provider) =>
                 $config .
@@ -255,6 +256,7 @@ class OrchestrateService extends Command
             $this->merchants->push($merchant);
         } while ($this->confirm('Would you like to add another ' . Str::lower($this->service->getName()) . ' merchant?', false));
 
+        // ToDo: Move this to the ConfigDriver.
         $this->config['merchants'] = $this->merchants->reduce(
             fn ($config, $merchant) =>
                 $config . static::makeFile(
