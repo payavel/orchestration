@@ -3,6 +3,7 @@
 namespace Payavel\Orchestration\Drivers;
 
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Merchantable;
 use Payavel\Orchestration\Contracts\Providable;
@@ -160,10 +161,12 @@ class DatabaseDriver extends ServiceDriver
      * Generate the service skeleton based on the current driver.
      *
      * @param \Payavel\Orchestration\Contracts\Serviceable $service
+     * @param \Illuminate\Support\Collection $providers
+     * @param \Illuminate\Support\Collection $merchants
      * @param array $config
      * @return void
      */
-    public static function generateService(Serviceable $service, array $config)
+    public static function generateService(Serviceable $service, Collection $providers, Collection $merchants, array $config)
     {
         static::putFile(
             config_path(Str::slug($service->getId()) . '.php'),
