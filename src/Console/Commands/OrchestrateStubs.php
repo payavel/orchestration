@@ -33,9 +33,13 @@ class OrchestrateStubs extends Command
      */
     public static $baseStubs = [
       'config-service',
+      'config-service-database',
       'config-service-merchant',
       'config-service-merchant-providers',
       'config-service-provider',
+      'migration-service',
+      'migration-service-merchants',
+      'migration-service-providers',
       'service-request',
       'service-requester',
       'service-responder',
