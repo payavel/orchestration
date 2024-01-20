@@ -3,7 +3,6 @@
 namespace Payavel\Orchestration\Drivers;
 
 use Exception;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -205,7 +204,7 @@ class DatabaseDriver extends ServiceDriver
                     static::getStub('migration-service-merchants'),
                     [
                         'merchant' => $merchant['id'],
-                        'providers' => Arr::join(Arr::map($merchant['providers'], fn ($provider) => "'$provider'"), ', '),
+                        'providers' => implode(', ', array_map(fn ($provider) => "'$provider'", $merchant['providers'])),
                     ]
                 ) .
                 ($index < count($merchants) - 1 ? "\n" : ""),
