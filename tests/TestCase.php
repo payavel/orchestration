@@ -9,12 +9,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Schema;
 use Payavel\Orchestration\OrchestrationServiceProvider;
-use Payavel\Orchestration\Tests\Traits\SetsDriver;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
-    use SetsDriver,
-        RefreshDatabase,
+    use RefreshDatabase,
         WithFaker;
 
     protected function getPackageProviders($app)
@@ -65,6 +63,16 @@ class TestCase extends \Orchestra\Testbench\TestCase
         }
 
         parent::tearDown();
+    }
+
+    /**
+     * Set the driver.
+     *
+     * @return void
+     */
+    protected function setDriver()
+    {
+        //
     }
 }
 
