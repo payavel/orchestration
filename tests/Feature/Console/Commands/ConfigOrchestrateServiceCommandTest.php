@@ -3,10 +3,10 @@
 namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 
 use Payavel\Orchestration\Tests\Traits\CreatesConfigServiceables;
+use Payavel\Orchestration\Tests\Traits\SetsConfigDriver;
 
 class ConfigOrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
 {
-    use CreatesConfigServiceables;
-
-    public $driver = 'config';
+    use CreatesConfigServiceables,
+        SetsConfigDriver;
 }
