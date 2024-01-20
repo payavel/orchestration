@@ -4,14 +4,13 @@ namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Service;
+use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Tests\Traits\AssertsGatewayExists;
-use Payavel\Orchestration\Tests\Traits\CreatesServiceables;
 
-class TestOrchestrateProviderCommand extends TestCase
+abstract class TestOrchestrateProviderCommand extends TestCase implements CreatesServiceables
 {
-    use AssertsGatewayExists,
-        CreatesServiceables;
+    use AssertsGatewayExists;
 
     /** @test */
     public function make_payment_provider_command_will_prompt_for_missing_arguments()

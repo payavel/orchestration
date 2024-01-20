@@ -7,18 +7,15 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Service;
 use Payavel\Orchestration\ServiceResponse;
+use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\Services\Mock\FakeMockRequest;
-use Payavel\Orchestration\Tests\Services\Mock\FakeMockResponse;
 use Payavel\Orchestration\Tests\Services\Mock\TestMockRequest;
-use Payavel\Orchestration\Tests\Services\Mock\TestMockResponse;
 use Payavel\Orchestration\Tests\TestCase;
-use Payavel\Orchestration\Tests\Traits\CreatesServiceables;
 use Payavel\Orchestration\Tests\Traits\SetsMode;
 
-class TestService extends TestCase
+abstract class TestService extends TestCase implements CreatesServiceables
 {
-    use CreatesServiceables,
-        SetsMode;
+    use SetsMode;
 
     private $serviceable;
     private $providable;

@@ -4,14 +4,13 @@ namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
+use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Tests\Traits\AssertsGatewayExists;
-use Payavel\Orchestration\Tests\Traits\CreatesServiceables;
 
-class TestOrchestrateServiceCommand extends TestCase
+abstract class TestOrchestrateServiceCommand extends TestCase implements CreatesServiceables
 {
-    use AssertsGatewayExists,
-        CreatesServiceables;
+    use AssertsGatewayExists;
 
     /** @test */
     public function install_command_publishes_migration_and_generates_config_with_single_provider_and_merchant()
