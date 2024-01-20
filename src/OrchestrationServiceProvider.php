@@ -18,8 +18,6 @@ class OrchestrationServiceProvider extends ServiceProvider
         $this->registerPublishableAssets();
 
         $this->registerCommands();
-
-        $this->registerMigrations();
     }
 
     public function register()
@@ -33,7 +31,7 @@ class OrchestrationServiceProvider extends ServiceProvider
     protected function registerPublishableAssets()
     {
         $this->publishes([
-            __DIR__ . '../database/migrations/0001_01_01_000001_create_base_orchestration_tables.php' => database_path('migrations/0001_01_01_000001_create_base_orchestration_tables.php'),
+            __DIR__ . '/../database/migrations/2024_01_01_000001_create_base_orchestration_tables.php' => database_path('migrations/2024_01_01_000001_create_base_orchestration_tables.php'),
         ], ['payavel', 'payavel-orchestration', 'payavel-migrations']);
     }
 
@@ -44,10 +42,5 @@ class OrchestrationServiceProvider extends ServiceProvider
             OrchestrateProvider::class,
             OrchestrateStubs::class,
         ]);
-    }
-
-    protected function registerMigrations()
-    {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 }
