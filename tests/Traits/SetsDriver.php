@@ -2,6 +2,7 @@
 
 namespace Payavel\Orchestration\Tests\Traits;
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
@@ -27,5 +28,9 @@ trait SetsDriver
     protected function setDatabaseDriver()
     {
         Config::set('orchestration.defaults.driver', 'database');
+
+        Artisan::call('vendor:publish', [
+            '--tag' => 'payavel-migrations'
+        ]);
     }
 }

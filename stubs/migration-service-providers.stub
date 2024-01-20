@@ -1,1 +1,1 @@
-        '{{ provider }}' => {{ gateway }},
+        '{{ provider }}' => {{ gateway }}::class,

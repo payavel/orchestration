@@ -4,6 +4,7 @@ namespace Payavel\Orchestration\Drivers;
 
 use Exception;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Merchantable;
@@ -211,7 +212,17 @@ class DatabaseDriver extends ServiceDriver
                 ""
         );
 
-        // ToDo: Generate migrations here.
+        static::putFile(
+            database_path('migrations/' . Carbon::now()->format('Y_m_d_His') . '_add_providers_and_merchants_to_' . $service->getId() . '_service.php'),
+            static::makeFile(
+                static::getStub('migration-service'),
+                [
+                    'service' => $service->getId(),
+                    'providers' => $providers,
+                    'merchants' => $merchants,
+                ]
+            )
+        );
     }
 
     /**
