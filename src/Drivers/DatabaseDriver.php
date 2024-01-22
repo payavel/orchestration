@@ -212,7 +212,7 @@ class DatabaseDriver extends ServiceDriver
         );
 
         static::putFile(
-            database_path('migrations/' . Carbon::now()->format('Y_m_d_His') . '_add_providers_and_merchants_to_' . $service->getId() . '_service.php'),
+            database_path('migrations/' . Carbon::now()->format('Y_m_d_His') . '_add_providers_and_merchants_to_' . Str::slug($service->getId()) . '_service.php'),
             static::makeFile(
                 static::getStub('migration-service'),
                 [

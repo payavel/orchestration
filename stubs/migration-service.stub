@@ -53,8 +53,8 @@ return new class extends Migration
                 'service_id' => $service->id,
                 'default_provider_id' => $providers[0],
             ])
-            ->providers()
-            ->sync($providers);
+                ->providers()
+                ->sync($providers);
         }
     }
 

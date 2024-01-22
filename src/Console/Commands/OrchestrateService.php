@@ -195,7 +195,7 @@ class OrchestrateService extends Command
 
             $this->providers->push([
                 'id' => $id = $this->askId('provider', $name),
-                'gateway' => 'App\\Services\\' . ($studlyService = Str::studly($this->service->getId())) . '\\' . Str::studly($id) . $studlyService . 'Request',
+                'gateway' => '\\App\\Services\\' . ($studlyService = Str::studly($this->service->getId())) . '\\' . Str::studly($id) . $studlyService . 'Request',
             ]);
         } while ($this->confirm('Would you like to add another '. Str::lower($this->service->getName()) .' provider?', false));
 
