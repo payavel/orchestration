@@ -4,6 +4,9 @@ namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
+use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Providable;
+use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Tests\Traits\AssertsGatewayExists;
@@ -45,14 +48,14 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $config = require(config_path($configFile));
 
         $this->assertGatewayExists($service);
+        $this->assertGatewayExists($provider);
 
         $this->assertEquals($provider->getId(), $config['defaults']['provider']);
         $this->assertEquals($merchant->getId(), $config['defaults']['merchant']);
 
-        // ToDo: Config driver specific, related to https://github.com/payavel/orchestration/issues/39.
-        // $this->assertNotNull($config['merchants'][$merchant->getId()]['providers'][$provider->getId()]);
-
-        $this->assertGatewayExists($provider);
+        $this->makeSureProviderExists($service, $provider);
+        $this->makeSureMerchantExists($service, $merchant);
+        $this->makeSureProviderIsLinkedToMerchant($service, $provider, $merchant);
 
         $this->assertTrue(unlink(config_path($configFile)));
     }
@@ -127,21 +130,34 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $this->assertFileExists(config_path($configFile));
         $config = require(config_path($configFile));
 
+        $randomProvider = $this->faker->randomElement([$provider1, $provider2]);
+        $randomMerchant = $this->faker->randomElement([$merchant1, $merchant2, $merchant3]);
+
         $this->assertGatewayExists($service);
+        $this->assertGatewayExists($randomProvider);
 
         $this->assertEquals($provider1->getId(), $config['defaults']['provider']);
         $this->assertEquals($merchant1->getId(), $config['defaults']['merchant']);
 
-        $randomProvider = $this->faker->randomElement([$provider1, $provider2]);
-        $this->assertGatewayExists($randomProvider);
-
-        // ToDo: Config driver specific, related to https://github.com/payavel/orchestration/issues/39.
-        // $this->assertNotNull($config['providers'][$randomProvider->getId()]);
-        
-        // $randomMerchant = $this->faker->randomElement([$merchant1, $merchant2, $merchant3]);
-        // $this->assertNotEmpty($config['merchants'][$randomMerchant->getId()]['providers']);
-        // $this->assertNotNull($config['merchants'][$randomMerchant->getId()]);
+        $this->makeSureProviderExists($service, $randomProvider);
+        $this->makeSureMerchantExists($service, $randomMerchant);
+        $this->makeSureProviderIsLinkedToMerchant($service, $provider2, $merchant3);
 
         $this->assertTrue(unlink(config_path($configFile)));
+    }
+
+    protected function makeSureProviderExists(Serviceable $service, Providable $provider)
+    {
+        //
+    }
+
+    protected function makeSureMerchantExists(Serviceable $service, Merchantable $merchant)
+    {
+        //
+    }
+
+    protected function makeSureProviderIsLinkedToMerchant(Serviceable $service, Providable $provider, Merchantable $merchant)
+    {
+        //
     }
 }
