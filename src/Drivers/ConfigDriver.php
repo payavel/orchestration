@@ -243,16 +243,4 @@ class ConfigDriver extends ServiceDriver
             )
         );
     }
-
-    /**
-     * Get a collection of existing serviceables.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public static function services()
-    {
-        return collect(Config::get('orchestration.services', []))->map(
-            fn ($value, $key) => new Service(array_merge(['id' => $key], is_array($value) ? $value : Config::get($value)))
-        )->values();
-    }
 }
