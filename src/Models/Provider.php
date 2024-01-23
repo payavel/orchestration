@@ -5,6 +5,7 @@ namespace Payavel\Orchestration\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Providable;
+use Payavel\Orchestration\Service;
 use Payavel\Orchestration\Traits\HasFactory;
 use Payavel\Orchestration\Traits\ServesConfig;
 
@@ -54,17 +55,7 @@ class Provider extends Model implements Providable
      */
     public function getService()
     {
-        return $this->service;
-    }
-
-    /**
-     * Get the service this provider belongs to.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function service()
-    {
-        return $this->belongsTo($this->config($this->service_id, 'models.' . Service::class, Service::class));
+        return Service::find($this->service_id);
     }
 
     /**

@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Payavel\Orchestration\Models\Merchant;
 use Payavel\Orchestration\Models\Provider;
-use Payavel\Orchestration\Models\Service;
 
 return new class extends Migration
 {
@@ -35,14 +34,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $service = Service::create([
-            'id' => $this->service,
-        ]);
-
         foreach ($this->providers as $provider => $gateway) {
             Provider::create([
                 'id' => $provider,
-                'service_id' => $service->id,
+                'service_id' => $this->service,
                 'gateway' => $gateway,
             ]);
         }
@@ -50,7 +45,7 @@ return new class extends Migration
         foreach ($this->merchants as $merchant => $providers) {
             Merchant::create([
                 'id' => $merchant,
-                'service_id' => $service->id,
+                'service_id' => $this->service,
                 'default_provider_id' => $providers[0],
             ])
                 ->providers()
@@ -63,8 +58,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Service::where('id', $this->service)->delete();
-
-        // Note: This will delete the service entirely, and cascade all of it's providers & merchants.
+        Merchant::where('service_id', $this->service)->delete();
+        Provider::where('service_id', $this->service)->delete();
     }
 };

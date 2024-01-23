@@ -5,6 +5,7 @@ namespace Payavel\Orchestration;
 use Exception;
 use Illuminate\Support\Facades\Config;
 use Payavel\Orchestration\Contracts\Serviceable;
+use Payavel\Orchestration\DataTransferObjects\Service as ServiceDTO;
 use Payavel\Orchestration\Traits\ServesConfig;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
 
@@ -234,23 +235,15 @@ class Service
     }
 
     /**
-     * Get the default orchestration driver.
-     *
-     * @return string|int
-     */
-    private static function driver()
-    {
-        return Config::get('orchestration.drivers.' . Config::get('orchestration.defaults.driver'));
-    }
-
-    /**
      * Retrieve all service ids.
      *
      * @return \Illuminate\Support\Collection
      */
     public static function all()
     {
-        return static::driver()::services();
+        return collect(Config::get('orchestration.services', []))->map(
+            fn ($value, $key) => new ServiceDTO(array_merge(['id' => $key], is_array($value) ? $value : Config::get($value)))
+        )->values();
     }
 
     /**

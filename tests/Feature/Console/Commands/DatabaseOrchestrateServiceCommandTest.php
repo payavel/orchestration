@@ -8,7 +8,6 @@ use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\Models\Merchant;
 use Payavel\Orchestration\Models\Provider;
-use Payavel\Orchestration\Models\Service;
 use Payavel\Orchestration\Tests\Traits\CreatesDatabaseServiceables;
 use Payavel\Orchestration\Tests\Traits\SetsDatabaseDriver;
 
@@ -66,7 +65,6 @@ class DatabaseOrchestrateServiceCommandTest extends TestOrchestrateServiceComman
 
         Merchant::where('service_id', $service->getId())->delete();
         Provider::where('service_id', $service->getId())->delete();
-        Service::where('id', $service->getId())->delete();
 
         $this->artisan('migrate');
 

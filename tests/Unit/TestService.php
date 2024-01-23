@@ -11,9 +11,12 @@ use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\Services\Mock\FakeMockRequest;
 use Payavel\Orchestration\Tests\Services\Mock\TestMockRequest;
 use Payavel\Orchestration\Tests\TestCase;
+use Payavel\Orchestration\Tests\Traits\CreatesServices;
 
 abstract class TestService extends TestCase implements CreatesServiceables
 {
+    use CreatesServices;
+
     private $serviceable;
     private $providable;
     private $merchantable;

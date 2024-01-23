@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Models\Merchant;
-use Payavel\Orchestration\Models\Service;
+use Payavel\Orchestration\Service;
 
 class MerchantFactory extends Factory
 {
@@ -39,11 +39,9 @@ class MerchantFactory extends Factory
     {
         return $this->afterMaking(function (Merchant $merchant) {
             if(is_null($merchant->service_id)) {
-                $service = Service::inRandomOrder()->firstOr(
-                    fn () => Service::factory()->create()
-                );
-
-                $merchant->service_id = $service->id;
+                $$merchant->service_id = is_null($service = Service::all()->random())
+                    ? Str::lower($this->faker->unique()->word())
+                    : $service->getId();
             }
         });
     }

@@ -11,7 +11,6 @@ use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\Models\Merchant;
 use Payavel\Orchestration\Models\Provider;
-use Payavel\Orchestration\Models\Service;
 use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
@@ -27,21 +26,7 @@ class DatabaseDriver extends ServiceDriver
      */
     public function resolveService(Serviceable $service)
     {
-        if (! $service instanceof Service) {
-            $service = Service::find($service->getId());
-        }
-
         return $service;
-    }
-
-    /**
-     * Refresh the service & all of it's loaded relations.
-     *
-     * @return void
-     */
-    public function refresh()
-    {
-        $this->service->refresh();
     }
 
     /**
@@ -74,7 +59,7 @@ class DatabaseDriver extends ServiceDriver
     public function getDefaultProvider(Merchantable $merchant = null)
     {
         if (! $merchant instanceof Merchant || is_null($provider = $merchant->default_provider_id)) {
-            $provider = $this->service->default_provider_id;
+            $provider = $this->config($this->service->getId(), 'defaults.provider');
         }
 
         return $provider;
@@ -109,7 +94,7 @@ class DatabaseDriver extends ServiceDriver
      */
     public function getDefaultMerchant(Providable $provider = null)
     {
-        return $this->service->default_merchant_id;
+        return $this->config($this->service->getId(), 'defaults.merchant');
     }
 
     /**
@@ -222,15 +207,5 @@ class DatabaseDriver extends ServiceDriver
                 ]
             )
         );
-    }
-
-    /**
-     * Get a collection of existing serviceables.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public static function services()
-    {
-        return Service::all();
     }
 }

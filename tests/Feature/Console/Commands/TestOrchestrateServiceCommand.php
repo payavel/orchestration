@@ -10,10 +10,12 @@ use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Tests\Traits\AssertsGatewayExists;
+use Payavel\Orchestration\Tests\Traits\CreatesServices;
 
 abstract class TestOrchestrateServiceCommand extends TestCase implements CreatesServiceables
 {
-    use AssertsGatewayExists;
+    use AssertsGatewayExists,
+        CreatesServices;
 
     /** @test */
     public function install_command_publishes_migration_and_generates_config_with_single_provider_and_merchant()

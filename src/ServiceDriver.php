@@ -105,11 +105,4 @@ abstract class ServiceDriver
     {
         //
     }
-
-    /**
-     * Get a collection of existing serviceables.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    abstract public static function services();
 }
