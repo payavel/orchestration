@@ -27,18 +27,7 @@ abstract class ServiceDriver
      */
     public function __construct(Serviceable $service)
     {
-        $this->service = $this->resolveService($service);
-    }
-
-    /**
-     * Resolve the serviceable instance.
-     *
-     * @param \Payavel\Orchestration\Contracts\Serviceable $service
-     * @return \Payavel\Orchestration\Contracts\Serviceable
-     */
-    public function resolveService(Serviceable $service)
-    {
-        return $service;
+        $this->service = $service;
     }
 
     /**

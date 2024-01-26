@@ -19,17 +19,6 @@ class DatabaseDriver extends ServiceDriver
     use GeneratesFiles;
 
     /**
-     * Resolve the serviceable instance.
-     *
-     * @param \Payavel\Orchestration\Contracts\Serviceable $service
-     * @return \Payavel\Orchestration\Contracts\Serviceable
-     */
-    public function resolveService(Serviceable $service)
-    {
-        return $service;
-    }
-
-    /**
      * Resolve the providable instance.
      *
      * @param \Payavel\Orchestration\Contracts\Providable|string $provider
