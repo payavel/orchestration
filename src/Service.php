@@ -52,13 +52,17 @@ class Service
     /**
      * Determines the service and sets up the driver for it.
      *
-     * @param \Payavel\Orchestration\Contracts\Serviceable $service
+     * @param \Payavel\Orchestration\Contracts\Serviceable|string $service
      * @return void
      *
      * @throws Exception
      */
-    public function __construct(Serviceable $service)
+    public function __construct(Serviceable|string $service)
     {
+        if (! $service instanceof Serviceable && is_null($service = static::find($service))) {
+            throw new Exception('The provided service does not exist.');
+        }
+
         $this->service = $service;
 
         if (! class_exists($driver = $this->config($this->service->getId(), 'drivers.' . $this->config($this->service->getId(), 'defaults.driver')))) {

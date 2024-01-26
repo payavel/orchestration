@@ -4,14 +4,12 @@ namespace Payavel\Orchestration\Drivers;
 
 use Exception;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Merchantable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\DataTransferObjects\Merchant;
 use Payavel\Orchestration\DataTransferObjects\Provider;
-use Payavel\Orchestration\DataTransferObjects\Service;
 use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
@@ -43,21 +41,6 @@ class ConfigDriver extends ServiceDriver
 
         $this->providers = collect($this->config($this->service->getId(), 'providers'));
         $this->merchants = collect($this->config($this->service->getId(), 'merchants'));
-    }
-
-    /**
-     * Resolve the serviceable instance.
-     *
-     * @param \Payavel\Orchestration\Contracts\Serviceable $service
-     * @return \Payavel\Orchestration\Contracts\Serviceable
-     */
-    public function resolveService(Serviceable $service)
-    {
-        if (! $service instanceof Service) {
-            $service = Service::fromServiceable($service);
-        }
-
-        return $service;
     }
 
     /**
