@@ -13,6 +13,7 @@ use Payavel\Orchestration\Models\Merchant;
 use Payavel\Orchestration\Models\Provider;
 use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\GeneratesFiles;
+use Payavel\Orchestration\Support\ServiceConfig;
 
 class DatabaseDriver extends ServiceDriver
 {
@@ -48,7 +49,7 @@ class DatabaseDriver extends ServiceDriver
     public function getDefaultProvider(Merchantable $merchant = null)
     {
         if (! $merchant instanceof Merchant || is_null($provider = $merchant->default_provider_id)) {
-            $provider = $this->config($this->service->getId(), 'defaults.provider');
+            $provider = ServiceConfig::get($this->service, 'defaults.provider');
         }
 
         return $provider;
@@ -83,7 +84,7 @@ class DatabaseDriver extends ServiceDriver
      */
     public function getDefaultMerchant(Providable $provider = null)
     {
-        return $this->config($this->service->getId(), 'defaults.merchant');
+        return ServiceConfig::get($this->service, 'defaults.merchant');
     }
 
     /**
@@ -117,7 +118,7 @@ class DatabaseDriver extends ServiceDriver
     {
         $this->check($provider, $merchant);
 
-        $gateway = $this->config($this->service->getId(), 'test_mode')
+        $gateway = ServiceConfig::get($this->service, 'test_mode')
             ? $this->service->test_gateway
             : $provider->gateway;
 

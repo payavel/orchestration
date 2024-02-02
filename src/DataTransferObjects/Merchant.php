@@ -6,13 +6,12 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Merchantable;
 use Payavel\Orchestration\Contracts\Serviceable;
-use Payavel\Orchestration\Traits\ServesConfig;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
+use Payavel\Orchestration\Support\ServiceConfig;
 
 class Merchant implements Merchantable
 {
-    use ServesConfig,
-        SimulatesAttributes;
+    use SimulatesAttributes;
 
     /**
      * The compatible service.
@@ -61,17 +60,17 @@ class Merchant implements Merchantable
     public function getProviders()
     {
         if (! isset($this->providers)) {
-            $this->attributes['providers'] = (new Collection($this->config($this->service->getId(), 'merchants.' . $this->attributes['id'] . '.providers', [])))
+            $this->attributes['providers'] = (new Collection(ServiceConfig::get($this->service, 'merchants.' . $this->attributes['id'] . '.providers', [])))
                 ->map(fn ($provider, $key) =>
                     is_array($provider)
                         ? array_merge(
                             ['id' => $key],
-                            $this->config($this->service->getId(), 'providers.' . $key),
+                            ServiceConfig::get($this->service, 'providers.' . $key),
                             $provider
                         )
                         : array_merge(
                             ['id' => $provider],
-                            $this->config($this->service->getId(), 'providers.' . $provider)
+                            ServiceConfig::get($this->service, 'providers.' . $provider)
                         )
                 );
         }

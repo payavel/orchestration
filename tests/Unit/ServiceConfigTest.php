@@ -3,13 +3,12 @@
 namespace Payavel\Orchestration\Tests\Unit;
 
 use Illuminate\Support\Facades\Config;
+use Payavel\Orchestration\Service;
 use Payavel\Orchestration\Tests\TestCase;
-use Payavel\Orchestration\Traits\ServesConfig;
+use Payavel\Orchestration\Support\ServiceConfig;
 
-class ServesConfigTraitTest extends TestCase
+class ServiceConfigTest extends TestCase
 {
-    use ServesConfig;
-
     /** @test */
     public function set_service_config_in_separate_config()
     {
@@ -19,7 +18,8 @@ class ServesConfigTraitTest extends TestCase
             'assert' => true,
         ]);
 
-        $this->assertTrue($this->config('mock', 'assert'));
+        $this->assertTrue(ServiceConfig::get(Service::find('mock'), 'assert'));
+        $this->assertTrue(ServiceConfig::get('mock', 'assert'));
     }
 
     /** @test */
@@ -29,6 +29,7 @@ class ServesConfigTraitTest extends TestCase
             'assert' => true,
         ]);
 
-        $this->assertTrue($this->config('mock', 'assert'));
+        $this->assertTrue(ServiceConfig::get(Service::find('mock'), 'assert'));
+        $this->assertTrue(ServiceConfig::get('mock', 'assert'));
     }
 }

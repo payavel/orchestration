@@ -6,12 +6,9 @@ use Illuminate\Support\Collection;
 use Payavel\Orchestration\Contracts\Merchantable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
-use Payavel\Orchestration\Traits\ServesConfig;
 
 abstract class ServiceDriver
 {
-    use ServesConfig;
-
     /**
      * The compatible service.
      *
