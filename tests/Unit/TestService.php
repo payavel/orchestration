@@ -3,10 +3,9 @@
 namespace Payavel\Orchestration\Tests\Unit;
 
 use Exception;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Str;
 use Payavel\Orchestration\Service;
 use Payavel\Orchestration\ServiceResponse;
+use Payavel\Orchestration\Support\ServiceConfig;
 use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\Services\Mock\FakeMockRequest;
 use Payavel\Orchestration\Tests\Services\Mock\TestMockRequest;
@@ -50,13 +49,11 @@ abstract class TestService extends TestCase implements CreatesServiceables
 
     public function assertRealIsAlignedWithFake(callable $test)
     {
-        $config = Str::slug($this->serviceable->getId());
-
-        Config::set($config . '.test_mode', false);
+        ServiceConfig::set($this->serviceable, 'test_mode', false);
 
         $test();
 
-        Config::set($config . '.test_mode', true);
+        ServiceConfig::set($this->serviceable, 'test_mode', true);
 
         $this->service->reset();
 
@@ -73,7 +70,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
             ->getIdentity();
 
             $this->assertEquals(
-                Config::get(Str::slug($this->serviceable->getId()) . '.test_mode')
+                ServiceConfig::get($this->serviceable, 'test_mode')
                     ? 'Fake'
                     : 'Real',
                 $response->data
@@ -87,12 +84,12 @@ abstract class TestService extends TestCase implements CreatesServiceables
     public function setting_invalid_driver_throws_exception()
     {
         $this->assertRealIsAlignedWithFake(function () {
-            Config::set(Str::slug($this->serviceable->getId()) . '.defaults.driver', 'invalid');
+            ServiceConfig::set($this->serviceable, 'defaults.driver', 'invalid');
 
             $this->expectException(Exception::class);
             $this->expectExceptionMessage('Invalid driver provided.');
 
-            $service = new Service($this->serviceable);
+            new Service($this->serviceable);
         });
     }
 

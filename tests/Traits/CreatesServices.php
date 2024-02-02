@@ -9,6 +9,7 @@ use Payavel\Orchestration\Contracts\Merchantable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\DataTransferObjects\Service;
+use Payavel\Orchestration\Support\ServiceConfig;
 
 trait CreatesServices
 {
@@ -25,7 +26,7 @@ trait CreatesServices
 
         Config::set('orchestration.services.' . $data['id'], $serviceSlug = Str::slug($data['id']));
 
-        Config::set($serviceSlug . '.testing.gateway', $data['test_gateway']);
+        ServiceConfig::set($data['id'], 'testing.gateway', $data['test_gateway']);
 
         return new Service($data);
     }
@@ -40,21 +41,23 @@ trait CreatesServices
      */
     public function setDefaultsForService(Serviceable $service, Merchantable $merchant = null, Providable $provider = null)
     {
-        Config::set(
-            Str::slug($service->getId()) . '.defaults.merchant',
+        ServiceConfig::set(
+            $service,
+            'defaults.merchant',
             $merchant instanceof Merchantable ? $merchant->getId() : $merchant
         );
 
         if (is_null($provider) && ! is_null($merchant)) {
             $provider = Collection::make(
-                Config::get(Str::slug($service->getId()) . '.merchants.' . $merchant->getId() . '.providers')
+                ServiceConfig::get($service, 'merchants.' . $merchant->getId() . '.providers')
             )
                 ->keys()
                 ->first();
         }
 
-        Config::set(
-            Str::slug($service->getId()) . '.defaults.provider',
+        ServiceConfig::set(
+            $service,
+            'defaults.provider',
             $provider instanceof Providable ? $provider->getId() : $provider
         );
     }
