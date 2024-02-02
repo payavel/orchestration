@@ -57,7 +57,7 @@ class Service
      *
      * @throws Exception
      */
-    public function __construct(Serviceable|string $service)
+    public function __construct($service)
     {
         if (! $service instanceof Serviceable && is_null($service = static::find($service))) {
             throw new Exception('The provided service does not exist.');
