@@ -35,20 +35,4 @@ class Service implements Serviceable
     {
         return Str::headline($this->attributes['id']);
     }
-
-    /**
-     * Create a new static instance from a serviceable.
-     *
-     * @param Serviceable $service
-     * @return static
-     */
-    public static function fromServiceable(Serviceable $service)
-    {
-        $config = Config::get('orchestration.services.' . $service->getId(), []);
-
-        return new static(array_merge(
-            ['id' => $service->getId()],
-            is_array($config) ? $config : Config::get($config)
-        ));
-    }
 }
