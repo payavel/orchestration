@@ -6,13 +6,12 @@ use Exception;
 use Illuminate\Support\Facades\Config;
 use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\DataTransferObjects\Service as ServiceDTO;
-use Payavel\Orchestration\Traits\ServesConfig;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
+use Payavel\Orchestration\Support\ServiceConfig;
 
 class Service
 {
-    use ServesConfig,
-        SimulatesAttributes;
+    use SimulatesAttributes;
 
     /**
      * The service.
@@ -65,7 +64,7 @@ class Service
 
         $this->service = $service;
 
-        if (! class_exists($driver = $this->config($this->service->getId(), 'drivers.' . $this->config($this->service->getId(), 'defaults.driver')))) {
+        if (! class_exists($driver = ServiceConfig::get($this->service, 'drivers.' . ServiceConfig::get($this->service, 'defaults.driver')))) {
             throw new Exception('Invalid driver provided.');
         }
 

@@ -12,6 +12,7 @@ use Payavel\Orchestration\DataTransferObjects\Merchant;
 use Payavel\Orchestration\DataTransferObjects\Provider;
 use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\GeneratesFiles;
+use Payavel\Orchestration\Support\ServiceConfig;
 
 class ConfigDriver extends ServiceDriver
 {
@@ -39,8 +40,8 @@ class ConfigDriver extends ServiceDriver
     {
         parent::__construct($service);
 
-        $this->providers = collect($this->config($this->service->getId(), 'providers'));
-        $this->merchants = collect($this->config($this->service->getId(), 'merchants'));
+        $this->providers = collect(ServiceConfig::get($this->service, 'providers'));
+        $this->merchants = collect(ServiceConfig::get($this->service, 'merchants'));
     }
 
     /**
@@ -77,7 +78,7 @@ class ConfigDriver extends ServiceDriver
             ! $merchant instanceof Merchant ||
             is_null($provider = $merchant->providers->first())
         ) {
-            return $this->config($this->service->getId(), 'defaults.provider');
+            return ServiceConfig::get($this->service, 'defaults.provider');
         }
 
         return $provider['id'];
@@ -113,7 +114,7 @@ class ConfigDriver extends ServiceDriver
      */
     public function getDefaultMerchant(Providable $provider = null)
     {
-        return $this->config($this->service->getId(), 'defaults.merchant');
+        return ServiceConfig::get($this->service, 'defaults.merchant');
     }
 
     /**
@@ -147,8 +148,8 @@ class ConfigDriver extends ServiceDriver
     {
         $this->check($provider, $merchant);
 
-        $gateway = $this->config($this->service->getId(), 'test_mode')
-            ? $this->config($this->service->getId(), 'testing.gateway')
+        $gateway = ServiceConfig::get($this->service, 'test_mode')
+            ? ServiceConfig::get($this->service, 'testing.gateway')
             : $provider->gateway;
 
         if (! class_exists($gateway)) {

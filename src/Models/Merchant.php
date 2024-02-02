@@ -7,12 +7,11 @@ use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Merchantable;
 use Payavel\Orchestration\Service;
 use Payavel\Orchestration\Traits\HasFactory;
-use Payavel\Orchestration\Traits\ServesConfig;
+use Payavel\Orchestration\Support\ServiceConfig;
 
 class Merchant extends Model implements Merchantable
 {
-    use HasFactory,
-        ServesConfig;
+    use HasFactory;
 
      /**
      * Indicates if the model's ID is auto-incrementing.
@@ -79,7 +78,7 @@ class Merchant extends Model implements Merchantable
             $this->providerModelClass = $this->guessProviderModelClass();
         }
 
-        return $this->config($this->service_id, "models.{$this->providerModelClass}", $this->providerModelClass);
+        return ServiceConfig::get($this->service_id, "models.{$this->providerModelClass}", $this->providerModelClass);
     }
 
     /**

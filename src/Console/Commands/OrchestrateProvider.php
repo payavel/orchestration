@@ -7,13 +7,11 @@ use Illuminate\Support\Str;
 use Payavel\Orchestration\Service;
 use Payavel\Orchestration\Traits\AsksQuestions;
 use Payavel\Orchestration\Traits\GeneratesFiles;
-use Payavel\Orchestration\Traits\ServesConfig;
 
 class OrchestrateProvider extends Command
 {
     use AsksQuestions,
-        GeneratesFiles,
-        ServesConfig;
+        GeneratesFiles;
 
     /**
      * The name and signature of the console command.

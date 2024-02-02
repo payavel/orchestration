@@ -1,22 +1,27 @@
 <?php
 
-namespace Payavel\Orchestration\Traits;
+namespace Payavel\Orchestration\Support;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
+use Payavel\Orchestration\Contracts\Serviceable;
 
-trait ServesConfig
+class ServiceConfig
 {
     /**
      * Fetch the config from the corresponding service config, if not found, fall back to the orchestration config.
      *
-     * @param string|int $service
+     * @param \Payavel\Orchestration\Contracts\Serviceable|string|int $service
      * @param string $key
      * @param mixed $default
      * @return mixed
      */
-    public function config($service, $key, $default = null)
+    public static function get($service, $key, $default = null)
     {
+        if ($service instanceof Serviceable) {
+            $service = $service->getId();
+        }
+
         $config = Config::get('orchestration.services.' . $service, Str::slug($service));
 
         if (is_array($config)) {

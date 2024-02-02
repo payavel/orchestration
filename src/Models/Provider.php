@@ -7,12 +7,11 @@ use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Service;
 use Payavel\Orchestration\Traits\HasFactory;
-use Payavel\Orchestration\Traits\ServesConfig;
+use Payavel\Orchestration\Support\ServiceConfig;
 
 class Provider extends Model implements Providable
 {
-    use HasFactory,
-        ServesConfig;
+    use HasFactory;
 
     /**
      * Indicates if the model's ID is auto-incrementing.
@@ -79,7 +78,7 @@ class Provider extends Model implements Providable
             $this->merchantModelClass = $this->guessMerchantModelClass();
         }
 
-        return $this->config($this->service_id, "models.{$this->merchantModelClass}", $this->merchantModelClass);
+        return ServiceConfig::get($this->service_id, "models.{$this->merchantModelClass}", $this->merchantModelClass);
     }
 
 

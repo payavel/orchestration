@@ -5,13 +5,11 @@ namespace Payavel\Orchestration\DataTransferObjects;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
-use Payavel\Orchestration\Traits\ServesConfig;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
 
 class Provider implements Providable
 {
-    use ServesConfig,
-        SimulatesAttributes;
+    use SimulatesAttributes;
 
     /**
      * The compatible service.
