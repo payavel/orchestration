@@ -5,6 +5,7 @@ namespace Payavel\Orchestration\Drivers;
 use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Merchantable;
 use Payavel\Orchestration\Contracts\Providable;
@@ -28,7 +29,7 @@ class DatabaseDriver extends ServiceDriver
     public function resolveProvider($provider)
     {
         if (! $provider instanceof Provider) {
-            $serviceProvider = config('orchestration.models.' . Provider::class, Provider::class);
+            $serviceProvider = Config::get('orchestration.models.' . Provider::class, Provider::class);
 
             $provider = $serviceProvider::find($provider);
         }
@@ -64,7 +65,7 @@ class DatabaseDriver extends ServiceDriver
     public function resolveMerchant($merchant)
     {
         if (! $merchant instanceof Merchant) {
-            $serviceMerchant = config('orchestration.models.' . Merchant::class, Merchant::class);
+            $serviceMerchant = Config::get('orchestration.models.' . Merchant::class, Merchant::class);
 
             $merchant = $serviceMerchant::find($merchant);
         }
