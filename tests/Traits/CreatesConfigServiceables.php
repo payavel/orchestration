@@ -2,15 +2,13 @@
 
 namespace Payavel\Orchestration\Tests\Traits;
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Merchantable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\DataTransferObjects\Merchant;
 use Payavel\Orchestration\DataTransferObjects\Provider;
-use Payavel\Orchestration\DataTransferObjects\Service;
+use Payavel\Orchestration\Support\ServiceConfig;
 
 trait CreatesConfigServiceables
 {
@@ -30,9 +28,11 @@ trait CreatesConfigServiceables
         $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower(Str::remove(['\'', ','], $this->faker->unique()->company())));
         $data['gateway'] = $data['gateway'] ?? 'App\\Services\\' . Str::studly($service->getId()) . '\\' . Str::studly($data['id']) . Str::studly($service->getId()) . 'Request';
 
-        Config::set(Str::slug($service->getId()) . '.providers.' . $data['id'], [
-            'gateway' => $data['gateway'],
-        ]);
+        ServiceConfig::set(
+            $service,
+            'providers.' . $data['id'],
+            ['gateway' => $data['gateway']]
+        );
 
         return new Provider($service, $data);
     }
@@ -52,7 +52,7 @@ trait CreatesConfigServiceables
 
         $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower(Str::remove(['\'', ','], $this->faker->unique()->company())));
 
-        Config::set(Str::slug($service->getId()) . '.merchants.' . $data['id'], []);
+        ServiceConfig::set($service, 'merchants.' . $data['id'], []);
 
         return new Merchant($service, $data);
     }
@@ -67,10 +67,11 @@ trait CreatesConfigServiceables
      */
     public function linkMerchantToProvider(Merchantable $merchant, Providable $provider, $data = [])
     {
-        Config::set(
-            $providers = Str::slug($merchant->getService()->getId()) . '.merchants.' . $merchant->getId() . '.providers',
+        ServiceConfig::set(
+            $merchant->getService(),
+            'merchants.' . $merchant->getId() . '.providers',
             array_merge(
-                Config::get($providers, []),
+                ServiceConfig::get($merchant->getService(), 'merchants.' . $merchant->getId() . '.providers', []),
                 [$provider->getId() => $data]
             )
         );
