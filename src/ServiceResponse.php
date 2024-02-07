@@ -157,14 +157,14 @@ abstract class ServiceResponse
      *
      * @return string|null
      */
-    public abstract function getStatus();
+    public abstract function getStatusMessage();
 
     /**
      * Get a description of the response's status.
      *
      * @return string|null
      */
-    public abstract function getMessage();
+    public abstract function getStatusDescription();
 
     /**
      * Get the formatted details based on the request that was made.

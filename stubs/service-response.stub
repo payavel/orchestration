@@ -32,7 +32,7 @@ class {{ Provider }}{{ Service }}Response extends ServiceResponse implements {{ 
      *
      * @return string|null
      */
-    public function getStatus()
+    public function getStatusMessage()
     {
         //
     }
@@ -42,7 +42,7 @@ class {{ Provider }}{{ Service }}Response extends ServiceResponse implements {{ 
      *
      * @return string|null
      */
-    public function getMessage()
+    public function getStatusDescription()
     {
         //
     }
