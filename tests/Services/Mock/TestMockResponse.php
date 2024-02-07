@@ -19,7 +19,7 @@ class TestMockResponse extends ServiceResponse implements MockResponder
     /**
      * @inheritDoc
      */
-    public function getStatus()
+    public function getStatusMessage()
     {
         return 'Success';
     }
@@ -27,7 +27,7 @@ class TestMockResponse extends ServiceResponse implements MockResponder
     /**
      * @inheritDoc
      */
-    public function getMessage()
+    public function getStatusDescription()
     {
         return 'All good for now!';
     }
