@@ -12,12 +12,13 @@
 Payavel Orchestration is a package that integrates seamlessly within the Laravel ecosystem. It helps you generate services that support multiple provider & merchant integrations. It also provides a very simple way to test those services.
 
 ---
-Please reference the [documentation](https://payavel.com) to get started.
+Please reference the [documentation](https://orchestration.payavel.com) to get started.
+
 ## Contributing
 All contributions are welcome! If you are not sure how to contribute, please feel free to [start a discussion](https://github.com/payavel/orchestration/discussions) to suggest an idea or ask any relevant questions regarding this package.
 
 ## License
 
-Copyright © Robert Kujawa
+Copyright © 2024 Robert Kujawa
 
 Payavel is open-sourced software licensed under the [MIT license](LICENSE.md).
