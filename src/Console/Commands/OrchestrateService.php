@@ -136,7 +136,7 @@ class OrchestrateService extends Command
      */
     protected function generateProviders()
     {
-        $this->callSilently('config:cache');
+        $this->callSilently('config:clear');
 
         $this->call("orchestrate:provider", ['--service' => $this->service->getId(), '--fake' => true]);
 
