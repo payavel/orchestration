@@ -38,6 +38,10 @@ export default defineConfig({
             {
               text: 'Configuration',
               link: '/guide/configuration'
+            },
+            {
+                text: 'File Structure',
+                link: '/guide/file-structure'
             }
           ]
         }
