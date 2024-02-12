@@ -21,32 +21,76 @@ export default defineConfig({
       }
     ],
 
-    sidebar: {
-      '/guide': [
-        {
-          text: 'Getting Started',
-          collapsed: false,
-          items: [
-            {
-              text: 'What is Orchestration?',
-              link: '/guide'
-            },
-            {
-              text: 'Installation',
-              link: '/guide/installation'
-            },
-            {
-              text: 'Configuration',
-              link: '/guide/configuration'
-            },
-            {
-                text: 'File Structure',
-                link: '/guide/file-structure'
-            }
-          ]
-        }
-      ]
-    },
+    sidebar: [
+      {
+        text: 'Getting Started',
+        collapsed: false,
+        items: [
+          {
+            text: 'What is Orchestration?',
+            link: '/guide'
+          },
+          {
+            text: 'Installation',
+            link: '/guide/installation'
+          },
+          {
+            text: 'Configuration',
+            link: '/guide/configuration'
+          },
+          {
+              text: 'File Structure',
+              link: '/guide/file-structure'
+          }
+        ]
+      },
+      {
+        text: 'Services',
+        collapsed: false,
+        items: [
+          {
+            text: 'Overview',
+            link: '/services'
+          },
+          {
+            text: 'Status Management',
+            link: '/services/status-management'
+          },
+          {
+            text: 'Drivers',
+            link: '/services/drivers'
+          },
+        ]
+      },
+      {
+        text: 'Architecture',
+        collapsed: false,
+        items: [
+          {
+            text: 'Design Patterns',
+            link: '/architecture'
+          },
+          {
+            text: 'Facades',
+            link: '/architecture/facades'
+          }
+        ]
+      },
+      {
+        text: 'Testing',
+        collapsed: false,
+        items: [
+          {
+            text: 'Test Mode',
+            link: '/testing'
+          },
+          {
+            text: 'Recommendations',
+            link: '/testing/recommendations'
+          },
+        ]
+      }
+    ],
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/payavel/orchestration' }
