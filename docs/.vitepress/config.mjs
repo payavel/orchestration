@@ -53,12 +53,12 @@ export default defineConfig({
             link: '/services'
           },
           {
-            text: 'Status Management',
-            link: '/services/status-management'
-          },
-          {
             text: 'Drivers',
             link: '/services/drivers'
+          },
+          {
+            text: 'Status Management',
+            link: '/services/status-management'
           },
         ]
       },
