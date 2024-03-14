@@ -57,8 +57,12 @@ export default defineConfig({
             link: '/services/drivers'
           },
           {
-            text: 'Status Management',
-            link: '/services/status-management'
+            text: 'Requests',
+            link: '/services/requests'
+          },
+          {
+            text: 'Responses',
+            link: '/services/responses'
           },
         ]
       },
