@@ -12,8 +12,8 @@ use Payavel\Orchestration\OrchestrationServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
-    use RefreshDatabase,
-        WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     protected function getPackageProviders($app)
     {

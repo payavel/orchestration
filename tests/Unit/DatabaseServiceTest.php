@@ -7,6 +7,6 @@ use Payavel\Orchestration\Tests\Traits\SetsDatabaseDriver;
 
 class DatabaseServiceTest extends TestService
 {
-    use CreatesDatabaseServiceables,
-        SetsDatabaseDriver;
+    use CreatesDatabaseServiceables;
+    use SetsDatabaseDriver;
 }

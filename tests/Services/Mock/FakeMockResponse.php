@@ -7,7 +7,6 @@ use Payavel\Orchestration\Tests\Services\Mock\Contracts\MockResponder;
 
 class FakeMockResponse extends ServiceResponse implements MockResponder
 {
-
     /**
      * @inheritDoc
      */

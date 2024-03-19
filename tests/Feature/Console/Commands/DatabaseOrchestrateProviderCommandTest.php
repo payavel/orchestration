@@ -7,6 +7,6 @@ use Payavel\Orchestration\Tests\Traits\SetsDatabaseDriver;
 
 class DatabaseOrchestrateProviderCommandTest extends TestOrchestrateProviderCommand
 {
-    use CreatesDatabaseServiceables,
-        SetsDatabaseDriver;
+    use CreatesDatabaseServiceables;
+    use SetsDatabaseDriver;
 }

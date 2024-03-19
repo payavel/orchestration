@@ -11,8 +11,8 @@ use Payavel\Orchestration\Tests\Traits\CreatesServices;
 
 abstract class TestOrchestrateProviderCommand extends TestCase implements CreatesServiceables
 {
-    use AssertsGatewayExists,
-        CreatesServices;
+    use AssertsGatewayExists;
+    use CreatesServices;
 
     /** @test */
     public function make_payment_provider_command_will_prompt_for_missing_arguments()

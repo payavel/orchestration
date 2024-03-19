@@ -13,8 +13,8 @@ use Payavel\Orchestration\Tests\Traits\SetsDatabaseDriver;
 
 class DatabaseOrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
 {
-    use CreatesDatabaseServiceables,
-        SetsDatabaseDriver;
+    use CreatesDatabaseServiceables;
+    use SetsDatabaseDriver;
 
     /**
      * Determines if the generated migration has already been executed.
@@ -52,7 +52,7 @@ class DatabaseOrchestrateServiceCommandTest extends TestOrchestrateServiceComman
 
         $provider = Provider::find($provider->getId());
         $merchant = Merchant::find($merchant->getId());
-        
+
         $this->assertNotNull($provider->merchants()->where('merchants.id', $merchant->id)->first());
         $this->assertNotNull($merchant->providers()->where('providers.id', $provider->id)->first());
     }

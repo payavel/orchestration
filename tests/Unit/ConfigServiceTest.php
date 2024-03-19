@@ -7,6 +7,6 @@ use Payavel\Orchestration\Tests\Traits\SetsConfigDriver;
 
 class ConfigServiceTest extends TestService
 {
-    use CreatesConfigServiceables,
-        SetsConfigDriver;
+    use CreatesConfigServiceables;
+    use SetsConfigDriver;
 }

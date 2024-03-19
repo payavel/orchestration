@@ -11,8 +11,8 @@ use Payavel\Orchestration\Tests\Traits\SetsConfigDriver;
 
 class ConfigOrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
 {
-    use CreatesConfigServiceables,
-        SetsConfigDriver;
+    use CreatesConfigServiceables;
+    use SetsConfigDriver;
 
     protected function makeSureProviderExists(Serviceable $service, Providable $provider)
     {
