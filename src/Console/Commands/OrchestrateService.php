@@ -11,8 +11,8 @@ use Payavel\Orchestration\Traits\GeneratesFiles;
 
 class OrchestrateService extends Command
 {
-    use AsksQuestions,
-        GeneratesFiles;
+    use AsksQuestions;
+    use GeneratesFiles;
 
     /**
      * The name and signature of the console command.
@@ -38,7 +38,7 @@ class OrchestrateService extends Command
 
     /**
      * The driver to execute the new service.
-     * 
+     *
      * @var Payavel\Orchestration\ServiceDriver
      */
     protected $driver;
@@ -98,7 +98,7 @@ class OrchestrateService extends Command
      *
      * @return void
      */
-    protected  function generateService()
+    protected function generateService()
     {
         $studlyService = Str::studly($this->service->getId());
 
@@ -126,6 +126,10 @@ class OrchestrateService extends Command
 
         $this->driver::generateService($this->service, $this->providers, $this->merchants, $this->defaults);
 
+        if (file_exists($serviceConfig = config_path(Str::slug($this->service->getId()) . '.php'))) {
+            Config::set(Str::slug($this->service->getId()), require($serviceConfig));
+        }
+
         $this->info('The ' . Str::lower($this->service->getName()) . ' config has been successfully generated.');
     }
 
@@ -136,8 +140,6 @@ class OrchestrateService extends Command
      */
     protected function generateProviders()
     {
-        $this->callSilently('config:clear');
-
         $this->call("orchestrate:provider", ['--service' => $this->service->getId(), '--fake' => true]);
 
         $this->providers->each(
