@@ -93,7 +93,7 @@ class DatabaseDriver extends ServiceDriver
      * @param \Payavel\Orchestration\Contracts\Providable
      * @param \Payavel\Orchestration\Contracts\Merchantable
      * @return void
-     * 
+     *
      * @throws Exception
      */
     protected function check($provider, $merchant)
@@ -111,7 +111,7 @@ class DatabaseDriver extends ServiceDriver
      * @param \Payavel\Orchestration\Contracts\Providable $provider
      * @param \Payavel\Orchestration\Contracts\Merchantable $merchant
      * @return \Payavel\Orchestration\ServiceRequest
-     * 
+     *
      * @throws Exception
      */
     public function resolveGateway($provider, $merchant)
@@ -159,7 +159,6 @@ class DatabaseDriver extends ServiceDriver
             )
         );
 
-        
         $providers = $providers->reduce(
             fn ($array, $provider, $index) =>
                 $array . static::makeFile(
@@ -170,7 +169,7 @@ class DatabaseDriver extends ServiceDriver
                     ]
                 ) .
                 ($index < count($providers) - 1 ? "\n" : ""),
-                ""
+            ""
         );
 
         $merchants = $merchants->reduce(
@@ -183,7 +182,7 @@ class DatabaseDriver extends ServiceDriver
                     ]
                 ) .
                 ($index < count($merchants) - 1 ? "\n" : ""),
-                ""
+            ""
         );
 
         static::putFile(

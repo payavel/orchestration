@@ -13,7 +13,7 @@ class Merchant extends Model implements Merchantable
 {
     use HasFactory;
 
-     /**
+    /**
      * Indicates if the model's ID is auto-incrementing.
      *
      * @var bool
@@ -100,6 +100,6 @@ class Merchant extends Model implements Merchantable
             $parentClass =  get_parent_class($merchantModelClass);
         } while ($parentClass && $parentClass !== self::class);
 
-        return Str::replace('Merchant', 'Provider', $merchantModelClass); 
+        return Str::replace('Merchant', 'Provider', $merchantModelClass);
     }
 }

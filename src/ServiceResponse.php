@@ -9,8 +9,8 @@ use Payavel\Orchestration\Traits\ThrowsRuntimeException;
 
 abstract class ServiceResponse
 {
-    use SimulatesAttributes,
-        ThrowsRuntimeException;
+    use SimulatesAttributes;
+    use ThrowsRuntimeException;
 
     /**
      * Statuses in this array are considered successful.
@@ -150,21 +150,21 @@ abstract class ServiceResponse
      *
      * @return int
      */
-    public abstract function getStatusCode();
+    abstract public function getStatusCode();
 
     /**
      * Get a string representation of the response's status.
      *
      * @return string|null
      */
-    public abstract function getStatusMessage();
+    abstract public function getStatusMessage();
 
     /**
      * Get a description of the response's status.
      *
      * @return string|null
      */
-    public abstract function getStatusDescription();
+    abstract public function getStatusDescription();
 
     /**
      * Get the formatted details based on the request that was made.
