@@ -18,8 +18,7 @@ trait GeneratesFiles
     {
         $file = file_get_contents($stub);
 
-        foreach ($data as $search => $replace)
-        {
+        foreach ($data as $search => $replace) {
             $file = Str::replace('{{ ' . $search . ' }}', $replace, $file);
         }
 
@@ -35,7 +34,7 @@ trait GeneratesFiles
      */
     protected static function putFile($path, $file)
     {
-        $fileSystem = new Filesystem;
+        $fileSystem = new Filesystem();
 
         $directory = collect(explode('/', $path, -1))->join('/');
         $fileSystem->ensureDirectoryExists($directory);

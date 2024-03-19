@@ -81,7 +81,7 @@ class OrchestrateStubs extends Command
             is_null($this->option('service'))
                 ? ''
                 : ('/' . $this->option('service'))
-            );
+        );
 
         foreach($stubs as $stub) {
             static::putFile(

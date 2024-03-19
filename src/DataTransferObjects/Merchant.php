@@ -61,8 +61,8 @@ class Merchant implements Merchantable
     {
         if (! isset($this->providers)) {
             $this->attributes['providers'] = (new Collection(ServiceConfig::get($this->service, 'merchants.' . $this->attributes['id'] . '.providers', [])))
-                ->map(fn ($provider, $key) =>
-                    is_array($provider)
+                ->map(
+                    fn ($provider, $key) => is_array($provider)
                         ? array_merge(
                             ['id' => $key],
                             ServiceConfig::get($this->service, 'providers.' . $key),

@@ -123,7 +123,7 @@ class ConfigDriver extends ServiceDriver
      * @param \Payavel\Orchestration\Contracts\Providable
      * @param \Payavel\Orchestration\Contracts\Merchantable
      * @return void
-     * 
+     *
      * @throws Exception
      */
     protected function check($provider, $merchant)
@@ -141,7 +141,7 @@ class ConfigDriver extends ServiceDriver
      * @param \Payavel\Orchestration\Contracts\Providable $provider
      * @param \Payavel\Orchestration\Contracts\Merchantable $merchant
      * @return \Payavel\Orchestration\ServiceRequest
-     * 
+     *
      * @throws Exception
      */
     public function resolveGateway($provider, $merchant)
@@ -203,11 +203,11 @@ class ConfigDriver extends ServiceDriver
                                     ['id' => $provider]
                                 ) .
                                 ($index < count($providers) - 1 ? "\n" : ""),
-                                ""
+                            ""
                         )
                     ]
                 ),
-                ""
+            ""
         );
 
         static::putFile(

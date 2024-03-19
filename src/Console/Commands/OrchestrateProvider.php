@@ -10,8 +10,8 @@ use Payavel\Orchestration\Traits\GeneratesFiles;
 
 class OrchestrateProvider extends Command
 {
-    use AsksQuestions,
-        GeneratesFiles;
+    use AsksQuestions;
+    use GeneratesFiles;
 
     /**
      * The name and signature of the console command.
@@ -128,7 +128,7 @@ class OrchestrateProvider extends Command
             $this->error("Service with id {$this->option('service')} does not exist.");
 
             return false;
-        } else if (! isset($service) && ($existingServices = Service::all())->isNotEmpty()) {
+        } elseif (! isset($service) && ($existingServices = Service::all())->isNotEmpty()) {
             $id = $this->choice(
                 'Which service will the provider be offering?',
                 $existingServices->map(fn ($existingService) => $existingService->getId())->all()
