@@ -7,6 +7,6 @@ use Payavel\Orchestration\Tests\Traits\SetsConfigDriver;
 
 class ConfigOrchestrateProviderCommandTest extends TestOrchestrateProviderCommand
 {
-    use CreatesConfigServiceables,
-        SetsConfigDriver;
+    use CreatesConfigServiceables;
+    use SetsConfigDriver;
 }

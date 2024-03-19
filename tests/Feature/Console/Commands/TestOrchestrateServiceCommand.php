@@ -14,8 +14,8 @@ use Payavel\Orchestration\Tests\Traits\CreatesServices;
 
 abstract class TestOrchestrateServiceCommand extends TestCase implements CreatesServiceables
 {
-    use AssertsGatewayExists,
-        CreatesServices;
+    use AssertsGatewayExists;
+    use CreatesServices;
 
     /** @test */
     public function install_command_publishes_migration_and_generates_config_with_single_provider_and_merchant()
@@ -45,7 +45,7 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
             ->assertExitCode(0);
 
         $configFile = Str::slug($service->getName()) . '.php';
-        
+
         $this->assertFileExists(config_path($configFile));
         $config = require(config_path($configFile));
 
