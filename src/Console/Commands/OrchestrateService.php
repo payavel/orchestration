@@ -126,6 +126,8 @@ class OrchestrateService extends Command
 
         $this->driver::generateService($this->service, $this->providers, $this->merchants, $this->defaults);
 
+        Config::set(Str::slug($this->service->getId()), require(config_path(Str::slug($service->getId()) . '.php')));
+
         $this->info('The ' . Str::lower($this->service->getName()) . ' config has been successfully generated.');
     }
 
