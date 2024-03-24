@@ -230,11 +230,7 @@ class Service
      */
     public function __call($method, $params)
     {
-        if (! method_exists($this->getGateway(), $method)) {
-            throw new \BadMethodCallException(__CLASS__ . "::{$method}() not found.");
-        }
-
-        return tap($this->gateway->{$method}(...$params))->configure($method, $this->provider, $this->merchant);
+        return $this->getGateway()->request($method, $params);
     }
 
     /**
