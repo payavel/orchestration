@@ -7,6 +7,8 @@ use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
 use Payavel\Orchestration\Traits\ThrowsRuntimeException;
 
+use function PHPUnit\Framework\isEmpty;
+
 abstract class ServiceResponse
 {
     use SimulatesAttributes;
@@ -70,7 +72,8 @@ abstract class ServiceResponse
 
     /**
      * @param mixed $rawResponse
-     * @param mixed $additionalInformation
+     * @param mixed|null $additionalInformation
+     * @deprecated $additonalInformation will be removed, use with() instead.
      */
     public function __construct($rawResponse, $additionalInformation = null)
     {
@@ -91,18 +94,35 @@ abstract class ServiceResponse
     }
 
     /**
+     * Share additional information.
+     *
+     * @param mixed $additionalInformation
+     *
+     * @return static
+     */
+    public function with($additionalInformation)
+    {
+        $this->additionalInformation = $additionalInformation;
+
+        return $this;
+    }
+
+    /**
      * Configure the response based on the request.
      *
      * @param string $requestMethod
      * @param \Payavel\Orchestration\Contracts\Providable $provider
      * @param \Payavel\Orchestration\Contracts\Merchantable $merchant
-     * @return void
+     *
+     * @return static
      */
     public function configure(string $requestMethod, Providable $provider, Merchantable $merchant)
     {
         $this->requestMethod = $requestMethod;
         $this->provider = $provider;
         $this->merchant = $merchant;
+
+        return $this;
     }
 
     /**
