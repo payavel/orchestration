@@ -159,6 +159,16 @@ abstract class TestService extends TestCase implements CreatesServiceables
         });
     }
 
+    /** @test */
+    public function passing_additional_information_to_service_response()
+    {
+        $this->assertRealIsAlignedWithFake(function () {
+            $response = $this->service->getIdentity(true);
+
+            $this->assertStringEndsWith('additional information', $response->data);
+        });
+    }
+
     protected function assertResponseIsConfigured(ServiceResponse $response)
     {
         $this->assertEquals($this->providable->getId(), $response->provider->getId());
