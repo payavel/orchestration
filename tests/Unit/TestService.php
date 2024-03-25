@@ -2,6 +2,7 @@
 
 namespace Payavel\Orchestration\Tests\Unit;
 
+use BadMethodCallException;
 use Exception;
 use Payavel\Orchestration\Service;
 use Payavel\Orchestration\ServiceResponse;
@@ -142,6 +143,19 @@ abstract class TestService extends TestCase implements CreatesServiceables
             $this->service->reset();
 
             $this->assertEquals($this->merchantable->getId(), $this->service->getIdentity()->merchant->getId());
+        });
+    }
+
+    /** @test */
+    public function calling_undefined_method_on_service_throws_bad_method_call_exception()
+    {
+        $undefinedMethod = 'undefined';
+
+        $this->assertRealIsAlignedWithFake(function () use ($undefinedMethod) {
+            $this->expectException(BadMethodCallException::class);
+            $this->expectExceptionMessage(get_class($this->service->gateway) . "::{$undefinedMethod}() not found.");
+
+            $this->service->{$undefinedMethod}();
         });
     }
 
