@@ -85,7 +85,7 @@ abstract class ServiceRequest
      */
     public function response($rawResponse)
     {
-        $serviceResponse = $this->serviceResponse ?? Str::replace('Request', 'Response', self::class);
+        $serviceResponse = $this->serviceResponse ?? Str::replace('Request', 'Response', get_class($this));
 
         return new $serviceResponse($rawResponse);
     }

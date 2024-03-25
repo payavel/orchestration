@@ -9,6 +9,6 @@ class FakeMockRequest extends ServiceRequest implements MockRequester
 {
     public function getIdentity()
     {
-        return new FakeMockResponse([]);
+        return [];
     }
 }
