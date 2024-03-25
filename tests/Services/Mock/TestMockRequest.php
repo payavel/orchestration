@@ -9,6 +9,6 @@ class TestMockRequest extends ServiceRequest implements MockRequester
 {
     public function getIdentity()
     {
-        return new TestMockResponse([]);
+        return [];
     }
 }
