@@ -11,13 +11,14 @@ use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Tests\Traits\AssertsGatewayExists;
 use Payavel\Orchestration\Tests\Traits\CreatesServices;
+use PHPUnit\Framework\Attributes\Test;
 
 abstract class TestOrchestrateServiceCommand extends TestCase implements CreatesServiceables
 {
     use AssertsGatewayExists;
     use CreatesServices;
 
-    /** @test */
+    #[Test]
     public function install_command_publishes_migration_and_generates_config_with_single_provider_and_merchant()
     {
         $service = $this->createService();
@@ -62,7 +63,7 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $this->assertTrue(unlink(config_path($configFile)));
     }
 
-    /** @test */
+    #[Test]
     public function install_command_publishes_migration_and_generates_config_with_multiple_providers_and_merchants()
     {
         $service = $this->createService();

@@ -6,10 +6,11 @@ use Illuminate\Support\Facades\Config;
 use Payavel\Orchestration\Service;
 use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Support\ServiceConfig;
+use PHPUnit\Framework\Attributes\Test;
 
 class ServiceConfigTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function set_service_config_in_separate_config()
     {
         Config::set('orchestration.services.mock', 'fake');
@@ -21,7 +22,7 @@ class ServiceConfigTest extends TestCase
         $this->assertTrue(Config::get('fake.assert'));
     }
 
-    /** @test */
+    #[Test]
     public function set_service_config_in_orchestration_config()
     {
         Config::set('orchestration.services.mock', []);

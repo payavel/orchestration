@@ -8,13 +8,14 @@ use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Tests\Traits\AssertsGatewayExists;
 use Payavel\Orchestration\Tests\Traits\CreatesServices;
+use PHPUnit\Framework\Attributes\Test;
 
 abstract class TestOrchestrateProviderCommand extends TestCase implements CreatesServiceables
 {
     use AssertsGatewayExists;
     use CreatesServices;
 
-    /** @test */
+    #[Test]
     public function make_payment_provider_command_will_prompt_for_missing_arguments()
     {
         $service = $this->createService();
@@ -32,7 +33,7 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
         $this->assertGatewayExists($provider);
     }
 
-    /** @test */
+    #[Test]
     public function make_payment_provider_command_completes_without_asking_questions_when_providing_the_arguments()
     {
         $provider = $this->createProvider();
@@ -47,7 +48,7 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
         $this->assertGatewayExists($provider);
     }
 
-    /** @test */
+    #[Test]
     public function make_payment_provider_command_with_fake_argument_generates_fake_gateway()
     {
         $service = $this->createService();
@@ -62,7 +63,7 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
         $this->assertGatewayExists($service);
     }
 
-    /** @test */
+    #[Test]
     public function make_provider_command_using_fake_service()
     {
         $this->createService();
@@ -74,7 +75,7 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
             ->assertExitCode(0);
     }
 
-    /** @test */
+    #[Test]
     public function make_provider_command_when_no_services_exist()
     {
         $this->artisan('orchestrate:provider')

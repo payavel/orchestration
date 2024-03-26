@@ -12,6 +12,7 @@ use Payavel\Orchestration\Tests\Services\Mock\FakeMockRequest;
 use Payavel\Orchestration\Tests\Services\Mock\TestMockRequest;
 use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Tests\Traits\CreatesServices;
+use PHPUnit\Framework\Attributes\Test;
 
 abstract class TestService extends TestCase implements CreatesServiceables
 {
@@ -61,7 +62,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
         $test();
     }
 
-    /** @test */
+    #[Test]
     public function set_provider_and_merchant_fluently()
     {
         $this->assertRealIsAlignedWithFake(function () {
@@ -81,7 +82,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
         });
     }
 
-    /** @test */
+    #[Test]
     public function setting_invalid_driver_throws_exception()
     {
         $this->assertRealIsAlignedWithFake(function () {
@@ -94,7 +95,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
         });
     }
 
-    /** @test */
+    #[Test]
     public function setting_invalid_provider_throws_exception()
     {
         $this->assertRealIsAlignedWithFake(function () {
@@ -105,7 +106,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
         });
     }
 
-    /** @test */
+    #[Test]
     public function setting_invalid_merchant_throws_exception()
     {
         $this->assertRealIsAlignedWithFake(function () {
@@ -116,7 +117,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
         });
     }
 
-    /** @test */
+    #[Test]
     public function setting_incompatible_merchant_provider_throws_exception()
     {
         $this->assertRealIsAlignedWithFake(function () {
@@ -129,7 +130,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
         });
     }
 
-    /** @test */
+    #[Test]
     public function resetting_service_to_default_configuration()
     {
         $this->assertRealIsAlignedWithFake(function () {
@@ -146,7 +147,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
         });
     }
 
-    /** @test */
+    #[Test]
     public function calling_undefined_method_on_service_throws_bad_method_call_exception()
     {
         $undefinedMethod = 'undefined';
@@ -159,7 +160,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
         });
     }
 
-    /** @test */
+    #[Test]
     public function passing_additional_information_to_service_response()
     {
         $this->assertRealIsAlignedWithFake(function () {
