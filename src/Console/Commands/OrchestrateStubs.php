@@ -6,6 +6,9 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\info;
+
 class OrchestrateStubs extends Command
 {
     use GeneratesFiles;
@@ -69,7 +72,7 @@ class OrchestrateStubs extends Command
 
         if (! is_null($this->argument('stub'))) {
             if (! in_array($this->argument('stub'), $stubs)) {
-                $this->error('The stub file you wish to publish is not available.');
+                error('The stub file you wish to publish is not available.');
 
                 return;
             }
@@ -90,6 +93,6 @@ class OrchestrateStubs extends Command
             );
         }
 
-        $this->info('Successfully published ' . Str::plural('stub', count($stubs)) . '!');
+        info('Successfully published ' . Str::plural('stub', count($stubs)) . '!');
     }
 }
