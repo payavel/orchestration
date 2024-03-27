@@ -9,6 +9,9 @@ use Payavel\Orchestration\DataTransferObjects\Service;
 use Payavel\Orchestration\Traits\AsksQuestions;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
+use function Laravel\Prompts\multiselect;
+use function Laravel\Prompts\select;
+
 class OrchestrateService extends Command
 {
     use AsksQuestions;
@@ -175,10 +178,10 @@ class OrchestrateService extends Command
     protected function setDriver()
     {
         $driver = trim(
-            $this->choice(
-                'Which driver will handle the ' . $this->service->getName() . ' service?',
-                array_keys(Config::get('orchestration.drivers')),
-                'config'
+            select(
+                label: 'Which driver will handle the ' . $this->service->getName() . ' service?',
+                options: array_keys(Config::get('orchestration.drivers')),
+                default: 'config'
             )
         );
 
@@ -204,7 +207,7 @@ class OrchestrateService extends Command
         } while ($this->confirm('Would you like to add another '. Str::lower($this->service->getName()) .' provider?', false));
 
         $this->defaults['provider'] = $this->providers->count() > 1
-            ? $this->choice('Which provider will be used as default?', $this->providers->pluck('id')->all())
+            ? select(label: 'Which provider will be used as default?', options: $this->providers->pluck('id')->all())
             : $this->providers->first()['id'];
     }
 
@@ -223,12 +226,10 @@ class OrchestrateService extends Command
             $merchant = [
                 'id' => $this->askId('merchant', $name),
                 'providers' => $this->providers->count() > 1
-                    ? $this->choice(
-                        "Which providers will the {$name} merchant be integrating? (default first)",
-                        $this->providers->pluck('id')->all(),
-                        null,
-                        null,
-                        true
+                    ? multiselect(
+                        label: "Which providers will the {$name} merchant be integrating? (default first)",
+                        options: $this->providers->pluck('id')->all(),
+                        required: true
                     )
                     : [$this->providers->first()['id']],
             ];
@@ -237,7 +238,7 @@ class OrchestrateService extends Command
         } while ($this->confirm('Would you like to add another ' . Str::lower($this->service->getName()) . ' merchant?', false));
 
         $this->defaults['merchant'] = $this->merchants->count() > 1
-            ? $this->choice('Which merchant will be used as default?', $this->merchants->pluck('id')->all())
+            ? select(label: 'Which merchant will be used as default?', options: $this->merchants->pluck('id')->all())
             : $this->merchants->first()['id'];
     }
 
