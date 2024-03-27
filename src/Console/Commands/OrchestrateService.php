@@ -181,7 +181,7 @@ class OrchestrateService extends Command
     {
         $driver = trim(
             select(
-                label: 'Which driver will handle the ' . $this->service->getName() . ' service?',
+                label: 'Choose a driver to handle the ' . $this->service->getId() . ' service?',
                 options: array_keys(Config::get('orchestration.drivers')),
                 default: 'config'
             )
