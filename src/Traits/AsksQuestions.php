@@ -17,7 +17,7 @@ trait AsksQuestions
     protected function askName($entity)
     {
         return text(
-            label: "What {$this->formatService($entity)} would you like to add?"
+            label: "What should the {$this->formatService($entity)} be named?"
         );
     }
 
@@ -35,7 +35,7 @@ trait AsksQuestions
         return $id === $name
             ? $id
             : text(
-                label: "How would you like to identify the {$name} {$this->formatService($entity)}?",
+                label: "How should the {$name} {$this->formatService($entity)} be identified?",
                 default: preg_replace('/[^a-z0-9]+/i', '_', strtolower($name))
             );
     }

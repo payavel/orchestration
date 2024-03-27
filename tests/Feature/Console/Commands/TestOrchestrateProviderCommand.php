@@ -25,8 +25,8 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
 
         $this->artisan('orchestrate:provider')
             ->expectsQuestion('Which service will the provider be offering?', $services->search($provider->getService()->getId()))
-            ->expectsQuestion('What ' . Str::replace('_', ' ', $provider->getService()->getId()) . ' provider would you like to add?', $provider->getName())
-            ->expectsQuestion('How would you like to identify the ' . $provider->getName() . ' ' . Str::replace('_', ' ', $service->getId()) . ' provider?', $provider->getId())
+            ->expectsQuestion('What should the ' . Str::replace('_', ' ', $provider->getService()->getId()) . ' provider be named?', $provider->getName())
+            ->expectsQuestion('How should the ' . $provider->getName() . ' ' . Str::replace('_', ' ', $service->getId()) . ' provider be identified?', $provider->getId())
             ->expectsOutputToContain($provider->getName() . ' ' . Str::replace('_', ' ', $service->getId()) . ' gateway generated successfully!')
             ->assertSuccessful();
 
