@@ -9,6 +9,7 @@ use Payavel\Orchestration\DataTransferObjects\Service;
 use Payavel\Orchestration\Traits\AsksQuestions;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
+use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\multiselect;
 use function Laravel\Prompts\select;
 
@@ -204,7 +205,7 @@ class OrchestrateService extends Command
                 'id' => $id = $this->askId('provider', $name),
                 'gateway' => '\\App\\Services\\' . ($studlyService = Str::studly($this->service->getId())) . '\\' . Str::studly($id) . $studlyService . 'Request',
             ]);
-        } while ($this->confirm('Would you like to add another '. Str::lower($this->service->getName()) .' provider?', false));
+        } while (confirm(label: 'Would you like to add another '. Str::lower($this->service->getName()) .' provider?', default: false));
 
         $this->defaults['provider'] = $this->providers->count() > 1
             ? select(label: 'Which provider will be used as default?', options: $this->providers->pluck('id')->all())
@@ -235,7 +236,7 @@ class OrchestrateService extends Command
             ];
 
             $this->merchants->push($merchant);
-        } while ($this->confirm('Would you like to add another ' . Str::lower($this->service->getName()) . ' merchant?', false));
+        } while (confirm(label: 'Would you like to add another ' . Str::lower($this->service->getName()) . ' merchant?', default: false));
 
         $this->defaults['merchant'] = $this->merchants->count() > 1
             ? select(label: 'Which merchant will be used as default?', options: $this->merchants->pluck('id')->all())
