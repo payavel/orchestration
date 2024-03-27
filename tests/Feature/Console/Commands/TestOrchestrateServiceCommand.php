@@ -28,12 +28,10 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
 
         $merchant = $this->createMerchant($service);
 
-        $drivers = array_keys(Config::get('orchestration.drivers'));
-
         $this->artisan('orchestrate:service')
             ->expectsQuestion('What service would you like to add?', $service->getName())
             ->expectsQuestion('How would you like to identify the ' . $service->getName() . ' service?', $service->getId())
-            ->expectsChoice('Which driver will handle the ' . $service->getName() . ' service?', Config::get('orchestration.defaults.driver'), $drivers)
+            ->expectsQuestion('Which driver will handle the ' . $service->getName() . ' service?', Config::get('orchestration.defaults.driver'))
             ->expectsQuestion('What ' . $lowerCaseService . ' provider would you like to add?', $provider->getName())
             ->expectsQuestion('How would you like to identify the ' . $provider->getName() . ' ' . $lowerCaseService . ' provider?', $provider->getId())
             ->expectsConfirmation('Would you like to add another ' . $lowerCaseService . ' provider?', 'no')
@@ -43,7 +41,7 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
             ->expectsOutput('The ' . $lowerCaseService . ' config has been successfully generated.')
             ->expectsOutput('Fake ' . $lowerCaseService . ' gateway generated successfully!')
             ->expectsOutput($provider->getName() . ' ' . $lowerCaseService . ' gateway generated successfully!')
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         $configFile = Str::slug($service->getName()) . '.php';
 
@@ -76,57 +74,35 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $merchant2 = $this->createMerchant($service);
         $merchant3 = $this->createMerchant($service);
 
-        $drivers = array_keys(Config::get('orchestration.drivers'));
-
         $this->artisan('orchestrate:service')
             ->expectsQuestion('What service would you like to add?', $service->getName())
             ->expectsQuestion('How would you like to identify the ' . $service->getName() . ' service?', $service->getId())
-            ->expectsChoice('Which driver will handle the ' . $service->getName() . ' service?', Config::get('orchestration.defaults.driver'), $drivers)
+            ->expectsQuestion('Which driver will handle the ' . $service->getName() . ' service?', Config::get('orchestration.defaults.driver'))
             ->expectsQuestion('What ' . $lowerCaseService . ' provider would you like to add?', $provider1->getName())
             ->expectsQuestion('How would you like to identify the ' . $provider1->getName() . ' ' . $lowerCaseService . ' provider?', $provider1->getId())
             ->expectsConfirmation('Would you like to add another ' . $lowerCaseService . ' provider?', 'yes')
             ->expectsQuestion('What ' . $lowerCaseService . ' provider would you like to add?', $provider2->getName())
             ->expectsQuestion('How would you like to identify the ' . $provider2->getName() . ' ' . $lowerCaseService . ' provider?', $provider2->getId())
             ->expectsConfirmation('Would you like to add another ' . $lowerCaseService . ' provider?', 'no')
-            ->expectsChoice(
-                'Which provider will be used as default?',
-                $provider1->getId(),
-                [$provider1->getId(), $provider2->getId()]
-            )
+            ->expectsQuestion('Which provider will be used as default?', $provider1->getId())
             ->expectsQuestion('What ' . $lowerCaseService . ' merchant would you like to add?', $merchant1->getName())
             ->expectsQuestion('How would you like to identify the ' . $merchant1->getName() . ' ' . $lowerCaseService . ' merchant?', $merchant1->getId())
-            ->expectsChoice(
-                "Which providers will the {$merchant1->getName()} merchant be integrating? (default first)",
-                [$provider1->getId()],
-                [$provider1->getId(), $provider2->getId()]
-            )
+            ->expectsQuestion("Which providers will the {$merchant1->getName()} merchant be integrating? (default first)", [$provider1->getId()])
             ->expectsConfirmation('Would you like to add another ' . $lowerCaseService . ' merchant?', 'yes')
             ->expectsQuestion('What ' . $lowerCaseService . ' merchant would you like to add?', $merchant2->getName())
             ->expectsQuestion('How would you like to identify the ' . $merchant2->getName() . ' ' . $lowerCaseService . ' merchant?', $merchant2->getId())
-            ->expectsChoice(
-                "Which providers will the {$merchant2->getName()} merchant be integrating? (default first)",
-                [$provider2->getId()],
-                [$provider1->getId(), $provider2->getId()]
-            )
+            ->expectsQuestion("Which providers will the {$merchant2->getName()} merchant be integrating? (default first)", [$provider2->getId()])
             ->expectsConfirmation('Would you like to add another ' . $lowerCaseService . ' merchant?', 'yes')
             ->expectsQuestion('What ' . $lowerCaseService . ' merchant would you like to add?', $merchant3->getName())
             ->expectsQuestion('How would you like to identify the ' . $merchant3->getName() . ' ' . $lowerCaseService . ' merchant?', $merchant3->getId())
-            ->expectsChoice(
-                "Which providers will the {$merchant3->getName()} merchant be integrating? (default first)",
-                [$provider1->getId(), $provider2->getId()],
-                [$provider1->getId(), $provider2->getId()]
-            )
+            ->expectsQuestion("Which providers will the {$merchant3->getName()} merchant be integrating? (default first)", [$provider1->getId(), $provider2->getId()])
             ->expectsConfirmation('Would you like to add another ' . $lowerCaseService . ' merchant?', 'no')
-            ->expectsChoice(
-                "Which merchant will be used as default?",
-                $merchant1->getId(),
-                [$merchant1->getId(), $merchant2->getId(), $merchant3->getId()]
-            )
+            ->expectsQuestion("Which merchant will be used as default?", $merchant1->getId())
             ->expectsOutput('The ' . $lowerCaseService . ' config has been successfully generated.')
             ->expectsOutput('Fake ' . $lowerCaseService . ' gateway generated successfully!')
             ->expectsOutput($provider1->getName() . ' ' . $lowerCaseService . ' gateway generated successfully!')
             ->expectsOutput($provider2->getName() . ' ' . $lowerCaseService . ' gateway generated successfully!')
-            ->assertExitCode(0);
+            ->assertSuccessful();
 
         $configFile = Str::slug($service->getName()) . '.php';
 
