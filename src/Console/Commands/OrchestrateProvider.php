@@ -8,6 +8,10 @@ use Payavel\Orchestration\Service;
 use Payavel\Orchestration\Traits\AsksQuestions;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\select;
+
 class OrchestrateProvider extends Command
 {
     use AsksQuestions;
@@ -114,7 +118,7 @@ class OrchestrateProvider extends Command
             )
         );
 
-        $this->info(Str::headline($this->id) . ' ' . $this->service->getid() . ' gateway generated successfully!');
+        info(Str::headline($this->id) . ' ' . $this->service->getid() . ' gateway generated successfully!');
     }
 
     /**
@@ -125,20 +129,20 @@ class OrchestrateProvider extends Command
     protected function setService()
     {
         if (! is_null($this->option('service')) && is_null($service = Service::find($this->option('service')))) {
-            $this->error("Service with id {$this->option('service')} does not exist.");
+            error("Service with id {$this->option('service')} does not exist.");
 
             return false;
         } elseif (! isset($service) && ($existingServices = Service::all())->isNotEmpty()) {
-            $id = $this->choice(
-                'Which service will the provider be offering?',
-                $existingServices->map(fn ($existingService) => $existingService->getId())->all()
+            $id = select(
+                label: 'Which service will the provider be offering?',
+                options: $existingServices->map(fn ($existingService) => $existingService->getId())->all()
             );
 
             $service = $existingServices->all()[$id];
         }
 
         if (! isset($service)) {
-            $this->error('Your must first set up a service! Please call the orchestrate:service artisan command.');
+            error('Your must first set up a service! Please call the orchestrate:service artisan command.');
 
             return false;
         }

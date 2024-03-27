@@ -12,7 +12,7 @@ class OrchestrateStubsCommandTest extends TestCase
     public function publish_stubs_command_publishes_stubs()
     {
         $this->artisan('orchestrate:stubs')
-            ->expectsOutput('Successfully published stubs!')
+            ->expectsOutputToContain('Successfully published stubs!')
             ->assertExitCode(0);
 
         foreach(OrchestrateStubs::$baseStubs as $stub) {
@@ -26,7 +26,7 @@ class OrchestrateStubsCommandTest extends TestCase
         $this->artisan('orchestrate:stubs', [
             '--service' => 'mock',
         ])
-            ->expectsOutput('Successfully published stubs!')
+            ->expectsOutputToContain('Successfully published stubs!')
             ->assertExitCode(0);
 
         foreach(OrchestrateStubs::$serviceSpecificStubs as $stub) {
@@ -40,7 +40,7 @@ class OrchestrateStubsCommandTest extends TestCase
         $this->artisan('orchestrate:stubs', [
             'stub' => $stub = $this->faker->randomElement(OrchestrateStubs::$baseStubs),
         ])
-            ->expectsOutput('Successfully published stub!')
+            ->expectsOutputToContain('Successfully published stub!')
             ->assertExitCode(0);
 
         $this->assertFileExists(base_path('stubs/orchestration/' . $stub . '.stub'));
@@ -52,7 +52,7 @@ class OrchestrateStubsCommandTest extends TestCase
         $this->artisan('orchestrate:stubs', [
             'stub' => 'stub',
         ])
-            ->expectsOutput('The stub file you wish to publish is not available.')
+            ->expectsOutputToContain('The stub file you wish to publish is not available.')
             ->assertExitCode(0);
 
         $this->assertFileDoesNotExist(base_path('stubs/orchestration/stub.stub'));

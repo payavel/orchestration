@@ -4,6 +4,8 @@ namespace Payavel\Orchestration\Traits;
 
 use Illuminate\Support\Str;
 
+use function Laravel\Prompts\text;
+
 trait AsksQuestions
 {
     /**
@@ -14,7 +16,9 @@ trait AsksQuestions
      */
     protected function askName($entity)
     {
-        return $this->ask("What {$this->formatService($entity)} would you like to add?");
+        return text(
+            label: "What should the {$this->formatService($entity)} be named?"
+        );
     }
 
     /**
@@ -30,9 +34,9 @@ trait AsksQuestions
 
         return $id === $name
             ? $id
-            : $this->ask(
-                "How would you like to identify the {$name} {$this->formatService($entity)}?",
-                preg_replace('/[^a-z0-9]+/i', '_', strtolower($name))
+            : text(
+                label: "How should the {$name} {$this->formatService($entity)} be identified?",
+                default: preg_replace('/[^a-z0-9]+/i', '_', strtolower($name))
             );
     }
 
