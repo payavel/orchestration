@@ -19,11 +19,9 @@ trait AssertsGatewayExists
             $provider = 'Fake';
         }
 
-        $servicePath = app_path("Services/{$service}");
-
         return new Fluent([
-            'request' => "{$servicePath}/{$provider}{$service}Request.php",
-            'response' => "{$servicePath}/{$provider}{$service}Response.php",
+            'request' => "Services/{$service}/{$provider}{$service}Request.php",
+            'response' => "Services/{$service}/{$provider}{$service}Response.php",
         ]);
     }
 
@@ -31,7 +29,7 @@ trait AssertsGatewayExists
     {
         $gateway = $this->gatewayPath($serviceable);
 
-        $this->assertTrue(file_exists($gateway->request));
-        $this->assertTrue(file_exists($gateway->response));
+        $this->assertTrue(file_exists(app_path($gateway->request)));
+        $this->assertTrue(file_exists(app_path($gateway->response)));
     }
 }
