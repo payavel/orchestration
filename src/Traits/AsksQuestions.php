@@ -35,7 +35,7 @@ trait AsksQuestions
         return $id === $name
             ? $id
             : text(
-                label: "How should the {$name} {$this->formatService($entity)} be identified?",
+                label: "How should the {$this->formatService($entity)} be identified?",
                 default: preg_replace('/[^a-z0-9]+/i', '_', strtolower($name))
             );
     }
