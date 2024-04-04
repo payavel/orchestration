@@ -44,10 +44,10 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
             ->expectsOutputToContain("Config [config/{$serviceSlug}.php] created successfully.")
             ->expectsOutputToContain("Contract [app/{$serviceContract->requester}] created successfully.")
             ->expectsOutputToContain("Contract [app/{$serviceContract->responder}] created successfully.")
-            ->expectsOutputToContain("Request [app/{$fakeGateway->request}] created successfully.")
-            ->expectsOutputToContain("Response [app/{$fakeGateway->response}] created successfully.")
-            ->expectsOutputToContain("Request [app/{$providerGateway->request}] created successfully.")
-            ->expectsOutputToContain("Response [app/{$providerGateway->response}] created successfully.")
+            ->expectsOutputToContain("Gateway [app/{$fakeGateway->request}] created successfully.")
+            ->expectsOutputToContain("Gateway [app/{$fakeGateway->response}] created successfully.")
+            ->expectsOutputToContain("Gateway [app/{$providerGateway->request}] created successfully.")
+            ->expectsOutputToContain("Gateway [app/{$providerGateway->response}] created successfully.")
             ->assertSuccessful();
 
         $configFile = Str::slug($service->getName()).'.php';
@@ -114,12 +114,12 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
             ->expectsOutputToContain("Config [config/{$serviceSlug}.php] created successfully.")
             ->expectsOutputToContain("Contract [app/{$serviceContract->requester}] created successfully.")
             ->expectsOutputToContain("Contract [app/{$serviceContract->responder}] created successfully.")
-            ->expectsOutputToContain("Request [app/{$fakeGateway->request}] created successfully.")
-            ->expectsOutputToContain("Response [app/{$fakeGateway->response}] created successfully.")
-            ->expectsOutputToContain("Request [app/{$provider1Gateway->request}] created successfully.")
-            ->expectsOutputToContain("Response [app/{$provider1Gateway->response}] created successfully.")
-            ->expectsOutputToContain("Request [app/{$provider2Gateway->request}] created successfully.")
-            ->expectsOutputToContain("Response [app/{$provider2Gateway->response}] created successfully.")
+            ->expectsOutputToContain("Gateway [app/{$fakeGateway->request}] created successfully.")
+            ->expectsOutputToContain("Gateway [app/{$fakeGateway->response}] created successfully.")
+            ->expectsOutputToContain("Gateway [app/{$provider1Gateway->request}] created successfully.")
+            ->expectsOutputToContain("Gateway [app/{$provider1Gateway->response}] created successfully.")
+            ->expectsOutputToContain("Gateway [app/{$provider2Gateway->request}] created successfully.")
+            ->expectsOutputToContain("Gateway [app/{$provider2Gateway->response}] created successfully.")
             ->assertSuccessful();
 
         $configFile = Str::slug($service->getName()).'.php';
