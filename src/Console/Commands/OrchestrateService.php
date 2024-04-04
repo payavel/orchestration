@@ -10,7 +10,6 @@ use Payavel\Orchestration\Traits\AsksQuestions;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
 use function Laravel\Prompts\confirm;
-use function Laravel\Prompts\info;
 use function Laravel\Prompts\multiselect;
 use function Laravel\Prompts\select;
 
@@ -135,7 +134,7 @@ class OrchestrateService extends Command
             Config::set(Str::slug($this->service->getId()), require($serviceConfig));
         }
 
-        info('Config [config/' . Str::slug($this->service->getId()) . '.php] created successfully.');
+        $this->components->info('Config [config/' . Str::slug($this->service->getId()) . '.php] created successfully.');
     }
 
     /**
