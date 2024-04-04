@@ -25,27 +25,28 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $provider = $this->createProvider($service);
         $merchant = $this->createMerchant($service);
 
+        $serviceSlug = Str::slug($service->getId());
         $fakeGateway = $this->gatewayPath($service);
         $providerGateway = $this->gatewayPath($provider);
 
         $this->artisan('orchestrate:service')
             ->expectsQuestion('How should the service be named?', $service->getName())
             ->expectsQuestion('How should the service be identified?', $service->getId())
-            ->expectsQuestion('Choose a driver for the ' . $service->getName() . ' service.', Config::get('orchestration.defaults.driver'))
-            ->expectsQuestion('How should the ' . $service->getName() . ' provider be named?', $provider->getName())
-            ->expectsQuestion('How should the ' . $service->getName() . ' provider be identified?', $provider->getId())
-            ->expectsConfirmation('Would you like to add another ' . $service->getName() . ' provider?', 'no')
-            ->expectsQuestion('How should the ' . $service->getName() . ' merchant be named?', $merchant->getName())
-            ->expectsQuestion('How should the ' . $service->getName() . ' merchant be identified?', $merchant->getId())
-            ->expectsConfirmation('Would you like to add another ' . $service->getName() . ' merchant?', 'no')
-            ->expectsOutputToContain('Config [config/' . Str::slug($service->getId()) . '.php] created successfully.')
-            ->expectsOutputToContain('Request [app/' . $fakeGateway->request . '] created successfully.')
-            ->expectsOutputToContain('Response [app/' . $fakeGateway->response . '] created successfully.')
-            ->expectsOutputToContain('Request [app/' . $providerGateway->request . '] created successfully.')
-            ->expectsOutputToContain('Response [app/' . $providerGateway->response . '] created successfully.')
+            ->expectsQuestion("Choose a driver for the {$service->getName()} service.", Config::get('orchestration.defaults.driver'))
+            ->expectsQuestion("How should the {$service->getName()} provider be named?", $provider->getName())
+            ->expectsQuestion("How should the {$service->getName()} provider be identified?", $provider->getId())
+            ->expectsConfirmation("Would you like to add another {$service->getName()} provider?", 'no')
+            ->expectsQuestion("How should the {$service->getName()} merchant be named?", $merchant->getName())
+            ->expectsQuestion("How should the {$service->getName()} merchant be identified?", $merchant->getId())
+            ->expectsConfirmation("Would you like to add another {$service->getName()} merchant?", 'no')
+            ->expectsOutputToContain("Config [config/{$serviceSlug}.php] created successfully.")
+            ->expectsOutputToContain("Request [app/{$fakeGateway->request}] created successfully.")
+            ->expectsOutputToContain("Response [app/{$fakeGateway->response}] created successfully.")
+            ->expectsOutputToContain("Request [app/{$providerGateway->request}] created successfully.")
+            ->expectsOutputToContain("Response [app/{$providerGateway->response}] created successfully.")
             ->assertSuccessful();
 
-        $configFile = Str::slug($service->getName()) . '.php';
+        $configFile = Str::slug($service->getName()).'.php';
 
         $this->assertFileExists(config_path($configFile));
         $config = require(config_path($configFile));
@@ -75,6 +76,7 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $merchant2 = $this->createMerchant($service);
         $merchant3 = $this->createMerchant($service);
 
+        $serviceSlug = Str::slug($service->getId());
         $fakeGateway = $this->gatewayPath($service);
         $provider1Gateway = $this->gatewayPath($provider1);
         $provider2Gateway = $this->gatewayPath($provider2);
@@ -82,37 +84,37 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $this->artisan('orchestrate:service')
             ->expectsQuestion('How should the service be named?', $service->getName())
             ->expectsQuestion('How should the service be identified?', $service->getId())
-            ->expectsQuestion('Choose a driver for the ' . $service->getName() . ' service.', Config::get('orchestration.defaults.driver'))
-            ->expectsQuestion('How should the ' . $service->getName() . ' provider be named?', $provider1->getName())
-            ->expectsQuestion('How should the ' . $service->getName() . ' provider be identified?', $provider1->getId())
-            ->expectsConfirmation('Would you like to add another ' . $service->getName() . ' provider?', 'yes')
-            ->expectsQuestion('How should the ' . $service->getName() . ' provider be named?', $provider2->getName())
-            ->expectsQuestion('How should the ' . $service->getName() . ' provider be identified?', $provider2->getId())
-            ->expectsConfirmation('Would you like to add another ' . $service->getName() . ' provider?', 'no')
-            ->expectsQuestion('Choose a default provider for the ' . $service->getName() . ' service.', $provider1->getId())
-            ->expectsQuestion('How should the ' . $service->getName() . ' merchant be named?', $merchant1->getName())
-            ->expectsQuestion('How should the ' . $service->getName() . ' merchant be identified?', $merchant1->getId())
+            ->expectsQuestion("Choose a driver for the {$service->getName()} service.", Config::get('orchestration.defaults.driver'))
+            ->expectsQuestion("How should the {$service->getName()} provider be named?", $provider1->getName())
+            ->expectsQuestion("How should the {$service->getName()} provider be identified?", $provider1->getId())
+            ->expectsConfirmation("Would you like to add another {$service->getName()} provider?", 'yes')
+            ->expectsQuestion("How should the {$service->getName()} provider be named?", $provider2->getName())
+            ->expectsQuestion("How should the {$service->getName()} provider be identified?", $provider2->getId())
+            ->expectsConfirmation("Would you like to add another {$service->getName()} provider?", 'no')
+            ->expectsQuestion("Choose a default provider for the {$service->getName()} service.", $provider1->getId())
+            ->expectsQuestion("How should the {$service->getName()} merchant be named?", $merchant1->getName())
+            ->expectsQuestion("How should the {$service->getName()} merchant be identified?", $merchant1->getId())
             ->expectsQuestion("Choose one or more {$service->getName()} providers for the {$merchant1->getName()} merchant.", [$provider1->getId()])
-            ->expectsConfirmation('Would you like to add another ' . $service->getName() . ' merchant?', 'yes')
-            ->expectsQuestion('How should the ' . $service->getName() . ' merchant be named?', $merchant2->getName())
-            ->expectsQuestion('How should the ' . $service->getName() . ' merchant be identified?', $merchant2->getId())
+            ->expectsConfirmation("Would you like to add another {$service->getName()} merchant?", 'yes')
+            ->expectsQuestion("How should the {$service->getName()} merchant be named?", $merchant2->getName())
+            ->expectsQuestion("How should the {$service->getName()} merchant be identified?", $merchant2->getId())
             ->expectsQuestion("Choose one or more {$service->getName()} providers for the {$merchant2->getName()} merchant.", [$provider2->getId()])
-            ->expectsConfirmation('Would you like to add another ' . $service->getName() . ' merchant?', 'yes')
-            ->expectsQuestion('How should the ' . $service->getName() . ' merchant be named?', $merchant3->getName())
-            ->expectsQuestion('How should the ' . $service->getName() . ' merchant be identified?', $merchant3->getId())
+            ->expectsConfirmation("Would you like to add another {$service->getName()} merchant?", 'yes')
+            ->expectsQuestion("How should the {$service->getName()} merchant be named?", $merchant3->getName())
+            ->expectsQuestion("How should the {$service->getName()} merchant be identified?", $merchant3->getId())
             ->expectsQuestion("Choose one or more {$service->getName()} providers for the {$merchant3->getName()} merchant.", [$provider1->getId(), $provider2->getId()])
-            ->expectsConfirmation('Would you like to add another ' . $service->getName() . ' merchant?', 'no')
+            ->expectsConfirmation("Would you like to add another {$service->getName()} merchant?", 'no')
             ->expectsQuestion("Which merchant will be used as default?", $merchant1->getId())
-            ->expectsOutputToContain('Config [config/' . Str::slug($service->getId()) . '.php] created successfully.')
-            ->expectsOutputToContain('Request [app/' . $fakeGateway->request . '] created successfully.')
-            ->expectsOutputToContain('Response [app/' . $fakeGateway->response . '] created successfully.')
-            ->expectsOutputToContain('Request [app/' . $provider1Gateway->request . '] created successfully.')
-            ->expectsOutputToContain('Response [app/' . $provider1Gateway->response . '] created successfully.')
-            ->expectsOutputToContain('Request [app/' . $provider2Gateway->request . '] created successfully.')
-            ->expectsOutputToContain('Response [app/' . $provider2Gateway->response . '] created successfully.')
+            ->expectsOutputToContain("Config [config/{$serviceSlug}.php] created successfully.")
+            ->expectsOutputToContain("Request [app/{$fakeGateway->request}] created successfully.")
+            ->expectsOutputToContain("Response [app/{$fakeGateway->response}] created successfully.")
+            ->expectsOutputToContain("Request [app/{$provider1Gateway->request}] created successfully.")
+            ->expectsOutputToContain("Response [app/{$provider1Gateway->response}] created successfully.")
+            ->expectsOutputToContain("Request [app/{$provider2Gateway->request}] created successfully.")
+            ->expectsOutputToContain("Response [app/{$provider2Gateway->response}] created successfully.")
             ->assertSuccessful();
 
-        $configFile = Str::slug($service->getName()) . '.php';
+        $configFile = Str::slug($service->getName()).'.php';
 
         $this->assertFileExists(config_path($configFile));
         $config = require(config_path($configFile));

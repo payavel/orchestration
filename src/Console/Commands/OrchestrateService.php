@@ -106,7 +106,7 @@ class OrchestrateService extends Command
     {
         $studlyService = Str::studly($this->service->getId());
 
-        Config::set('orchestration.services.' . $this->service->getId(), Str::slug($this->service->getId()));
+        Config::set("orchestration.services.{$this->service->getId()}", Str::slug($this->service->getId()));
 
         static::putFile(
             app_path("Services/{$studlyService}/Contracts/{$studlyService}Requester.php"),
@@ -130,11 +130,13 @@ class OrchestrateService extends Command
 
         $this->driver::generateService($this->service, $this->providers, $this->merchants, $this->defaults);
 
-        if (file_exists($serviceConfig = config_path(Str::slug($this->service->getId()) . '.php'))) {
-            Config::set(Str::slug($this->service->getId()), require($serviceConfig));
+        $serviceSlug = Str::slug($this->service->getId());
+
+        if (file_exists($serviceConfig = config_path("{$serviceSlug}.php"))) {
+            Config::set($serviceSlug, require($serviceConfig));
         }
 
-        $this->components->info('Config [config/' . Str::slug($this->service->getId()) . '.php] created successfully.');
+        $this->components->info("Config [config/{$serviceSlug}.php] created successfully.");
     }
 
     /**
@@ -179,13 +181,13 @@ class OrchestrateService extends Command
     {
         $driver = trim(
             select(
-                label: 'Choose a driver for the ' . $this->service->getName() . ' service.',
+                label: "Choose a driver for the {$this->service->getName()} service.",
                 options: array_keys(Config::get('orchestration.drivers')),
                 default: 'config'
             )
         );
 
-        $this->driver = Config::get('orchestration.drivers.' . $driver);
+        $this->driver = Config::get("orchestration.drivers.{$driver}");
     }
 
     /**
@@ -197,16 +199,23 @@ class OrchestrateService extends Command
     {
         $this->providers = collect([]);
 
+        $studlyService = Str::studly($this->service->getId());
+
         do {
-            $this->providers->push([
+            $provider = [
                 'name' => $name = $this->askName('provider'),
                 'id' => $id = $this->askId('provider', $name),
-                'gateway' => '\\App\\Services\\' . ($studlyService = Str::studly($this->service->getId())) . '\\' . Str::studly($id) . $studlyService . 'Request',
-            ]);
-        } while (confirm(label: 'Would you like to add another '. $this->service->getName() .' provider?', default: false));
+            ];
+
+            $studlyProvider = Str::studly($id);
+
+            $provider['gateway'] = "\\App\\Services\\{$studlyService}\\{$studlyProvider}{$studlyService}Request";
+
+            $this->providers->push($provider);
+        } while (confirm(label: "Would you like to add another {$this->service->getName()} provider?", default: false));
 
         $this->defaults['provider'] = $this->providers->count() > 1
-            ? select(label: 'Choose a default provider for the ' . $this->service->getName() . ' service.', options: $this->providers->pluck('id')->all())
+            ? select(label: "Choose a default provider for the {$this->service->getName()} service.", options: $this->providers->pluck('id')->all())
             : $this->providers->first()['id'];
     }
 
@@ -233,7 +242,7 @@ class OrchestrateService extends Command
             ];
 
             $this->merchants->push($merchant);
-        } while (confirm(label: 'Would you like to add another ' . $this->service->getName() . ' merchant?', default: false));
+        } while (confirm(label: "Would you like to add another {$this->service->getName()} merchant?", default: false));
 
         $this->defaults['merchant'] = $this->merchants->count() > 1
             ? select(label: 'Which merchant will be used as default?', options: $this->merchants->pluck('id')->all())

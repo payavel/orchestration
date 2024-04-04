@@ -113,7 +113,7 @@ class OrchestrateProvider extends Command
             )
         );
 
-        $this->components->info('Request [app/' . $requestPath . '] created successfully.');
+        $this->components->info("Request [app/{$requestPath}] created successfully.");
 
         static::putFile(
             app_path($responsePath = "Services/{$service}/{$provider}{$service}Response.php"),
@@ -126,7 +126,7 @@ class OrchestrateProvider extends Command
             )
         );
 
-        $this->components->info('Response [app/' . $responsePath . '] created successfully.');
+        $this->components->info("Response [app/{$responsePath}] created successfully.");
     }
 
     /**
