@@ -26,6 +26,7 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $merchant = $this->createMerchant($service);
 
         $serviceSlug = Str::slug($service->getId());
+        $serviceContract = $this->contractPath($service);
         $fakeGateway = $this->gatewayPath($service);
         $providerGateway = $this->gatewayPath($provider);
 
@@ -39,7 +40,10 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
             ->expectsQuestion("How should the {$service->getName()} merchant be named?", $merchant->getName())
             ->expectsQuestion("How should the {$service->getName()} merchant be identified?", $merchant->getId())
             ->expectsConfirmation("Would you like to add another {$service->getName()} merchant?", 'no')
+            ->expectsOutputToContain('Config [config/orchestration.php] created successfully.')
             ->expectsOutputToContain("Config [config/{$serviceSlug}.php] created successfully.")
+            ->expectsOutputToContain("Contract [app/{$serviceContract->requester}] created successfully.")
+            ->expectsOutputToContain("Contract [app/{$serviceContract->responder}] created successfully.")
             ->expectsOutputToContain("Request [app/{$fakeGateway->request}] created successfully.")
             ->expectsOutputToContain("Response [app/{$fakeGateway->response}] created successfully.")
             ->expectsOutputToContain("Request [app/{$providerGateway->request}] created successfully.")
@@ -77,6 +81,7 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $merchant3 = $this->createMerchant($service);
 
         $serviceSlug = Str::slug($service->getId());
+        $serviceContract = $this->contractPath($service);
         $fakeGateway = $this->gatewayPath($service);
         $provider1Gateway = $this->gatewayPath($provider1);
         $provider2Gateway = $this->gatewayPath($provider2);
@@ -105,7 +110,10 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
             ->expectsQuestion("Choose one or more {$service->getName()} providers for the {$merchant3->getName()} merchant.", [$provider1->getId(), $provider2->getId()])
             ->expectsConfirmation("Would you like to add another {$service->getName()} merchant?", 'no')
             ->expectsQuestion("Which merchant will be used as default?", $merchant1->getId())
+            ->expectsOutputToContain('Config [config/orchestration.php] created successfully.')
             ->expectsOutputToContain("Config [config/{$serviceSlug}.php] created successfully.")
+            ->expectsOutputToContain("Contract [app/{$serviceContract->requester}] created successfully.")
+            ->expectsOutputToContain("Contract [app/{$serviceContract->responder}] created successfully.")
             ->expectsOutputToContain("Request [app/{$fakeGateway->request}] created successfully.")
             ->expectsOutputToContain("Response [app/{$fakeGateway->response}] created successfully.")
             ->expectsOutputToContain("Request [app/{$provider1Gateway->request}] created successfully.")

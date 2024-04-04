@@ -109,7 +109,7 @@ class OrchestrateService extends Command
         Config::set("orchestration.services.{$this->service->getId()}", Str::slug($this->service->getId()));
 
         static::putFile(
-            app_path("Services/{$studlyService}/Contracts/{$studlyService}Requester.php"),
+            app_path($requesterPath = "Services/{$studlyService}/Contracts/{$studlyService}Requester.php"),
             static::makeFile(
                 static::getStub('service-requester'),
                 [
@@ -118,8 +118,10 @@ class OrchestrateService extends Command
             )
         );
 
+        $this->components->info("Contract [app/{$requesterPath}] created successfully.");
+
         static::putFile(
-            app_path("Services/{$studlyService}/Contracts/{$studlyService}Responder.php"),
+            app_path($responderPath = "Services/{$studlyService}/Contracts/{$studlyService}Responder.php"),
             static::makeFile(
                 static::getStub('service-responder'),
                 [
@@ -128,15 +130,17 @@ class OrchestrateService extends Command
             )
         );
 
+        $this->components->info("Contract [app/{$responderPath}] created successfully.");
+
         $this->driver::generateService($this->service, $this->providers, $this->merchants, $this->defaults);
 
         $serviceSlug = Str::slug($this->service->getId());
 
-        if (file_exists($serviceConfig = config_path("{$serviceSlug}.php"))) {
+        if (file_exists($serviceConfig = config_path($configPath = "{$serviceSlug}.php"))) {
             Config::set($serviceSlug, require($serviceConfig));
         }
 
-        $this->components->info("Config [config/{$serviceSlug}.php] created successfully.");
+        $this->components->info("Config [config/{$configPath}] created successfully.");
     }
 
     /**
@@ -261,7 +265,7 @@ class OrchestrateService extends Command
         }
 
         static::putFile(
-            config_path('orchestration.php'),
+            config_path($configPath = 'orchestration.php'),
             static::makeFile(
                 static::getStub('config-orchestration'),
                 [
@@ -270,5 +274,7 @@ class OrchestrateService extends Command
                 ]
             )
         );
+
+        $this->components->info("Config [config/{$configPath}] created successfully.");
     }
 }
