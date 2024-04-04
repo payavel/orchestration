@@ -7,8 +7,18 @@ use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
 
-trait AssertsGatewayExists
+trait AssertsServiceExists
 {
+    protected function configPath(Serviceable $serviceable)
+    {
+        $service = Str::slug($serviceable->getId());
+
+        return new Fluent([
+            'orchestration' => "orchestration.php",
+            'service' => "{$service}.php",
+        ]);
+    }
+
     protected function contractPath(Serviceable $serviceable)
     {
         $service = Str::studly($serviceable->getId());
@@ -35,11 +45,27 @@ trait AssertsGatewayExists
         ]);
     }
 
+    protected function assertConfigExists(Serviceable $serviceable)
+    {
+        $config = $this->configPath($serviceable);
+
+        $this->assertFileExists(config_path($config->orchestration));
+        $this->assertFileExists(config_path($config->service));
+    }
+
+    protected function assertContractExists(Serviceable $serviceable)
+    {
+        $contract = $this->contractPath($serviceable);
+
+        $this->assertFileExists(app_path($contract->requester));
+        $this->assertFileExists(app_path($contract->responder));
+    }
+
     protected function assertGatewayExists(Serviceable $serviceable)
     {
         $gateway = $this->gatewayPath($serviceable);
 
-        $this->assertTrue(file_exists(app_path($gateway->request)));
-        $this->assertTrue(file_exists(app_path($gateway->response)));
+        $this->assertFileExists(app_path($gateway->request));
+        $this->assertFileExists(app_path($gateway->response));
     }
 }
