@@ -5,13 +5,13 @@ namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 use Payavel\Orchestration\Service;
 use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\TestCase;
-use Payavel\Orchestration\Tests\Traits\AssertsGatewayExists;
+use Payavel\Orchestration\Tests\Traits\AssertsServiceExists;
 use Payavel\Orchestration\Tests\Traits\CreatesServices;
 use PHPUnit\Framework\Attributes\Test;
 
 abstract class TestOrchestrateProviderCommand extends TestCase implements CreatesServiceables
 {
-    use AssertsGatewayExists;
+    use AssertsServiceExists;
     use CreatesServices;
 
     #[Test]
