@@ -15,6 +15,7 @@ class CreateBaseOrchestrationTables extends Migration
     {
         Schema::create('providers', function (Blueprint $table) {
             $table->string('id')->primary();
+            $table->string('name')->nullable();
             $table->string('service_id');
             $table->string('gateway');
             $table->timestamps();
@@ -22,6 +23,7 @@ class CreateBaseOrchestrationTables extends Migration
 
         Schema::create('merchants', function (Blueprint $table) {
             $table->string('id')->primary();
+            $table->string('name')->nullable();
             $table->string('service_id');
             $table->string('default_provider_id')->nullable();
             $table->timestamps();

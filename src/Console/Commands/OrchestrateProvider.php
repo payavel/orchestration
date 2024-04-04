@@ -42,7 +42,14 @@ class OrchestrateProvider extends Command
     protected $service;
 
     /**
-     * The service provider's id'.
+     * The service provider's name.
+     *
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * The service provider's id.
      *
      * @var string
      */
@@ -74,14 +81,15 @@ class OrchestrateProvider extends Command
         }
 
         if ($this->option('fake', false)) {
+            $this->name = 'Fake';
             $this->id = 'fake';
 
             return true;
         }
 
-        $name = trim($this->argument('provider') ?? $this->askName('provider'));
+        $this->name = trim($this->argument('provider') ?? $this->askName('provider'));
 
-        $this->id = $this->askId('provider', $name);
+        $this->id = $this->askId('provider', $this->name);
 
         return true;
     }
@@ -97,7 +105,7 @@ class OrchestrateProvider extends Command
         $provider = Str::studly($this->id);
 
         static::putFile(
-            app_path("Services/{$service}/{$provider}{$service}Request.php"),
+            $requestPath = app_path("Services/{$service}/{$provider}{$service}Request.php"),
             static::makeFile(
                 static::getStub('service-request', $this->service->getId()),
                 [
@@ -118,7 +126,7 @@ class OrchestrateProvider extends Command
             )
         );
 
-        info(Str::headline($this->id) . ' ' . $this->service->getid() . ' gateway generated successfully!');
+        info('Gateway [' . $requestPath . '] created successfully.');
     }
 
     /**

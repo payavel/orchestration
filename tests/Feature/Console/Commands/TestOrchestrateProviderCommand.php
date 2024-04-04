@@ -23,11 +23,13 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
 
         $services = Service::all()->map(fn ($service) => $service->getId());
 
+        $gateway = $this->gatewayPath($provider);
+
         $this->artisan('orchestrate:provider')
-            ->expectsQuestion('Which service will the provider be offering?', $services->search($provider->getService()->getId()))
-            ->expectsQuestion('What should the ' . Str::replace('_', ' ', $provider->getService()->getId()) . ' provider be named?', $provider->getName())
-            ->expectsQuestion('How should the ' . $provider->getName() . ' ' . Str::replace('_', ' ', $service->getId()) . ' provider be identified?', $provider->getId())
-            ->expectsOutputToContain($provider->getName() . ' ' . Str::replace('_', ' ', $service->getId()) . ' gateway generated successfully!')
+            ->expectsQuestion('Which service will the provider be offering?', $services->search($provider->getService()->getId())) // ToDo: I think this will now work with $service->getId().
+            ->expectsQuestion('What should the ' . $provider->getService()->getName() . ' provider be named?', $provider->getName())
+            ->expectsQuestion('How should the ' . $provider->getName() . ' ' . $service->getName() . ' provider be identified?', $provider->getId())
+            ->expectsOutputToContain('Gateway [' . $gateway->request . '] created successfully.')
             ->assertSuccessful();
 
         $this->assertGatewayExists($provider);
@@ -38,11 +40,13 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
     {
         $provider = $this->createProvider();
 
+        $gateway = $this->gatewayPath($provider);
+
         $this->artisan('orchestrate:provider', [
             'provider' => $provider->getId(),
             '--service' => $provider->getService()->getId(),
         ])
-            ->expectsOutputToContain($provider->getName() . ' ' . Str::replace('_', ' ', $provider->getService()->getId()) . ' gateway generated successfully!')
+            ->expectsOutputToContain('Gateway [' . $gateway->request . '] created successfully.')
             ->assertSuccessful();
 
         $this->assertGatewayExists($provider);
@@ -53,11 +57,13 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
     {
         $service = $this->createService();
 
+        $gateway = $this->gatewayPath($service);
+
         $this->artisan('orchestrate:provider', [
             '--service' => $service->getId(),
             '--fake' => true,
         ])
-            ->expectsOutputToContain('Fake ' . Str::replace('_', ' ', $service->getId()) . ' gateway generated successfully!')
+            ->expectsOutputToContain('Gateway [' . $gateway->request . '] created successfully.')
             ->assertSuccessful();
 
         $this->assertGatewayExists($service);

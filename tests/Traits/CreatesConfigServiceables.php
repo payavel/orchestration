@@ -25,13 +25,17 @@ trait CreatesConfigServiceables
             $service = $this->createService();
         }
 
-        $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower(Str::remove(['\'', ','], $this->faker->unique()->company())));
+        $data['name'] = $data['name'] ?? Str::remove(['\'', ','], $this->faker->unique()->company());
+        $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower($data['name']));
         $data['gateway'] = $data['gateway'] ?? 'App\\Services\\' . Str::studly($service->getId()) . '\\' . Str::studly($data['id']) . Str::studly($service->getId()) . 'Request';
 
         ServiceConfig::set(
             $service,
             'providers.' . $data['id'],
-            ['gateway' => $data['gateway']]
+            [
+                'name' => $data['name'],
+                'gateway' => $data['gateway']
+            ]
         );
 
         return new Provider($service, $data);
@@ -50,9 +54,10 @@ trait CreatesConfigServiceables
             $service = $this->createService();
         }
 
-        $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower(Str::remove(['\'', ','], $this->faker->unique()->company())));
+        $data['name'] = $data['name'] ?? Str::remove(['\'', ','], $this->faker->unique()->company());
+        $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower($data['name']));
 
-        ServiceConfig::set($service, 'merchants.' . $data['id'], []);
+        ServiceConfig::set($service, 'merchants.' . $data['id'], ['name' => $data['name']]);
 
         return new Merchant($service, $data);
     }

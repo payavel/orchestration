@@ -44,7 +44,7 @@ class Provider extends Model implements Providable
      */
     public function getName()
     {
-        return Str::headline($this->id);
+        return $this->name ?? $this->id;
     }
 
     /**
