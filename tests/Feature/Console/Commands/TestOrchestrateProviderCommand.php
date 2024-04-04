@@ -26,10 +26,10 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
 
         $this->artisan('orchestrate:provider')
             ->expectsQuestion('Which service will the provider be offering?', $services->search($service->getId()))
-            ->expectsQuestion('How should the ' . $service->getName() . ' provider be named?', $provider->getName())
-            ->expectsQuestion('How should the ' . $service->getName() . ' provider be identified?', $provider->getId())
-            ->expectsOutputToContain('Request [app/' . $gateway->request . '] created successfully.')
-            ->expectsOutputToContain('Response [app/' . $gateway->response . '] created successfully.')
+            ->expectsQuestion("How should the {$service->getName()} provider be named?", $provider->getName())
+            ->expectsQuestion("How should the {$service->getName()} provider be identified?", $provider->getId())
+            ->expectsOutputToContain("Request [app/{$gateway->request}] created successfully.")
+            ->expectsOutputToContain("Response [app/{$gateway->response}] created successfully.")
             ->assertSuccessful();
 
         $this->assertGatewayExists($provider);
@@ -46,8 +46,8 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
             'provider' => $provider->getId(),
             '--service' => $provider->getService()->getId(),
         ])
-            ->expectsOutputToContain('Request [app/' . $gateway->request . '] created successfully.')
-            ->expectsOutputToContain('Response [app/' . $gateway->response . '] created successfully.')
+            ->expectsOutputToContain("Request [app/{$gateway->request}] created successfully.")
+            ->expectsOutputToContain("Response [app/{$gateway->response}] created successfully.")
             ->assertSuccessful();
 
         $this->assertGatewayExists($provider);
@@ -64,8 +64,8 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
             '--service' => $service->getId(),
             '--fake' => true,
         ])
-            ->expectsOutputToContain('Request [app/' . $gateway->request . '] created successfully.')
-            ->expectsOutputToContain('Response [app/' . $gateway->response . '] created successfully.')
+            ->expectsOutputToContain("Request [app/{$gateway->request}] created successfully.")
+            ->expectsOutputToContain("Response [app/{$gateway->response}] created successfully.")
             ->assertSuccessful();
 
         $this->assertGatewayExists($service);

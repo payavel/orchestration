@@ -80,19 +80,19 @@ class OrchestrateStubs extends Command
             $stubs = [$this->argument('stub')];
         }
 
-        $directory = 'stubs/orchestration' . (
+        $directory = 'stubs/orchestration'.(
             is_null($this->option('service'))
                 ? ''
-                : ('/' . $this->option('service'))
+                : ('/'.$this->option('service'))
         );
 
         foreach($stubs as $stub) {
             static::putFile(
-                base_path($directory . '/' . $stub . '.stub'),
-                file_get_contents(__DIR__ . '/../../../stubs/' . $stub . '.stub')
+                base_path("{$directory}/{$stub}.stub"),
+                file_get_contents(__DIR__."/../../../stubs/{$stub}.stub")
             );
         }
 
-        info('Successfully published ' . Str::plural('stub', count($stubs)) . '!');
+        info('Successfully published '.Str::plural('stub', count($stubs)).'!');
     }
 }
