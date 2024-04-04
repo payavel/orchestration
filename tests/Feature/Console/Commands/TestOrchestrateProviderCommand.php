@@ -2,7 +2,6 @@
 
 namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 
-use Illuminate\Support\Str;
 use Payavel\Orchestration\Service;
 use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\TestCase;
@@ -27,7 +26,7 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
 
         $this->artisan('orchestrate:provider')
             ->expectsQuestion('Which service will the provider be offering?', $services->search($provider->getService()->getId())) // ToDo: I think this will now work with $service->getId().
-            ->expectsQuestion('What should the ' . $provider->getService()->getName() . ' provider be named?', $provider->getName())
+            ->expectsQuestion('How should the ' . $provider->getService()->getName() . ' provider be named?', $provider->getName())
             ->expectsQuestion('How should the ' . $provider->getName() . ' ' . $service->getName() . ' provider be identified?', $provider->getId())
             ->expectsOutputToContain('Request [app/' . $gateway->request . '] created successfully.')
             ->expectsOutputToContain('Response [app/' . $gateway->response . '] created successfully.')

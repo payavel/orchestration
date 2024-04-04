@@ -17,7 +17,7 @@ trait AsksQuestions
     protected function askName($entity)
     {
         return text(
-            label: "What should the {$this->formatService($entity)} be named?"
+            label: "How should the {$this->formatService($entity)} be named?"
         );
     }
 
