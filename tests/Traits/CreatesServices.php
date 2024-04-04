@@ -21,11 +21,13 @@ trait CreatesServices
      */
     public function createService($data = [])
     {
-        $data['id'] = $data['id'] ?? Str::lower($this->faker->unique()->word());
+        $data['name'] = $data['name'] ?? Str::ucfirst($this->faker->unique()->word());
+        $data['id'] = $data['id'] ?? Str::slug($data['name'], '_');
         $data['test_gateway'] = $data['test_gateway'] ?? '\\App\\Services\\' . Str::studly($data['id']) . '\\Fake' . Str::studly($data['id']) . 'Request';
 
-        Config::set('orchestration.services.' . $data['id'], $serviceSlug = Str::slug($data['id']));
+        Config::set('orchestration.services.' . $data['id'], Str::slug($data['id']));
 
+        ServiceConfig::set($data['id'], 'name', $data['name']);
         ServiceConfig::set($data['id'], 'testing.gateway', $data['test_gateway']);
 
         return new Service($data);

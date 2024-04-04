@@ -42,7 +42,7 @@ class Provider implements Providable
      */
     public function getName()
     {
-        return Str::headline($this->attributes['id']);
+        return $this->attributes['name'] ?? $this->attributes['id'];
     }
 
     /**

@@ -27,6 +27,7 @@ class ProviderFactory extends Factory
 
         return [
             'id' => preg_replace('/[^a-z0-9]+/i', '_', strtolower($provider)),
+            'name' => $provider,
         ];
     }
 

@@ -48,6 +48,6 @@ trait AsksQuestions
      */
     private function formatService($entity)
     {
-        return ($this->service ? Str::replace('_', ' ', $this->service->getId()) . ' ' : '') . $entity;
+        return ($this->service ? ($this->service->getName() . ' ') : '') . $entity;
     }
 }
