@@ -105,7 +105,7 @@ class OrchestrateProvider extends Command
         $provider = Str::studly($this->id);
 
         static::putFile(
-            $requestPath = app_path("Services/{$service}/{$provider}{$service}Request.php"),
+            app_path($requestPath = "Services/{$service}/{$provider}{$service}Request.php"),
             static::makeFile(
                 static::getStub('service-request', $this->service->getId()),
                 [
@@ -115,8 +115,10 @@ class OrchestrateProvider extends Command
             )
         );
 
+        info('Request [app/' . $requestPath . '] created successfully.');
+
         static::putFile(
-            app_path("Services/{$service}/{$provider}{$service}Response.php"),
+            app_path($responsePath = "Services/{$service}/{$provider}{$service}Response.php"),
             static::makeFile(
                 static::getStub('service-response', $this->service->getId()),
                 [
@@ -126,7 +128,7 @@ class OrchestrateProvider extends Command
             )
         );
 
-        info('Gateway [' . $requestPath . '] created successfully.');
+        info('Response [app/' . $responsePath . '] created successfully.');
     }
 
     /**

@@ -135,7 +135,7 @@ class OrchestrateService extends Command
             Config::set(Str::slug($this->service->getId()), require($serviceConfig));
         }
 
-        info('The ' . $this->service->getName() . ' config has been successfully generated.');
+        info('Config [config/' . Str::slug($this->service->getId()) . '.php] created successfully.');
     }
 
     /**
@@ -182,7 +182,7 @@ class OrchestrateService extends Command
     {
         $driver = trim(
             select(
-                label: 'Choose a driver to handle the ' . $this->service->getId() . ' service?',
+                label: 'Choose a driver for the ' . $this->service->getName() . ' service.',
                 options: array_keys(Config::get('orchestration.drivers')),
                 default: 'config'
             )
@@ -210,7 +210,7 @@ class OrchestrateService extends Command
         } while (confirm(label: 'Would you like to add another '. $this->service->getName() .' provider?', default: false));
 
         $this->defaults['provider'] = $this->providers->count() > 1
-            ? select(label: 'Which provider will be used as default?', options: $this->providers->pluck('id')->all())
+            ? select(label: 'Choose a default provider for the ' . $this->service->getName() . ' service.', options: $this->providers->pluck('id')->all())
             : $this->providers->first()['id'];
     }
 
