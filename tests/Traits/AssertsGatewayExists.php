@@ -9,6 +9,16 @@ use Payavel\Orchestration\Contracts\Serviceable;
 
 trait AssertsGatewayExists
 {
+    protected function contractPath(Serviceable $serviceable)
+    {
+        $service = Str::studly($serviceable->getId());
+
+        return new Fluent([
+            'requester' => "Services/{$service}/Contracts/{$service}Requester.php",
+            'responder' => "Services/{$service}/Contracts/{$service}Responder.php",
+        ]);
+    }
+
     protected function gatewayPath(Serviceable $serviceable)
     {
         if ($serviceable instanceof Providable) {
