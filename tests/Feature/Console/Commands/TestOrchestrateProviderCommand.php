@@ -25,9 +25,9 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
         $gateway = $this->gatewayPath($provider);
 
         $this->artisan('orchestrate:provider')
-            ->expectsQuestion('Which service will the provider be offering?', $services->search($provider->getService()->getId())) // ToDo: I think this will now work with $service->getId().
-            ->expectsQuestion('How should the ' . $provider->getService()->getName() . ' provider be named?', $provider->getName())
-            ->expectsQuestion('How should the ' . $provider->getName() . ' ' . $service->getName() . ' provider be identified?', $provider->getId())
+            ->expectsQuestion('Which service will the provider be offering?', $services->search($service->getId()))
+            ->expectsQuestion('How should the ' . $service->getName() . ' provider be named?', $provider->getName())
+            ->expectsQuestion('How should the ' . $service->getName() . ' provider be identified?', $provider->getId())
             ->expectsOutputToContain('Request [app/' . $gateway->request . '] created successfully.')
             ->expectsOutputToContain('Response [app/' . $gateway->response . '] created successfully.')
             ->assertSuccessful();
