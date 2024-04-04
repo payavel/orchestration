@@ -164,11 +164,9 @@ class OrchestrateService extends Command
      */
     protected function setService()
     {
-        $name = trim($this->argument('service') ?? $this->askName('service'));
-
         $this->service = new Service([
+            'name' => $name = trim($this->argument('service') ?? $this->askName('service')),
             'id' => $this->askId('service', $name),
-            'name' => $name,
         ]);
     }
 
@@ -200,9 +198,8 @@ class OrchestrateService extends Command
         $this->providers = collect([]);
 
         do {
-            $name = $this->askName('provider');
-
             $this->providers->push([
+                'name' => $name = $this->askName('provider'),
                 'id' => $id = $this->askId('provider', $name),
                 'gateway' => '\\App\\Services\\' . ($studlyService = Str::studly($this->service->getId())) . '\\' . Str::studly($id) . $studlyService . 'Request',
             ]);
@@ -223,13 +220,12 @@ class OrchestrateService extends Command
         $this->merchants = collect([]);
 
         do {
-            $name = $this->askName('merchant');
-
             $merchant = [
+                'name' => $name = $this->askName('merchant'),
                 'id' => $this->askId('merchant', $name),
                 'providers' => $this->providers->count() > 1
                     ? multiselect(
-                        label: "Which providers will the {$name} merchant be integrating? (default first)",
+                        label: "Choose one or more {$this->service->getName()} providers for the {$name} merchant.",
                         options: $this->providers->pluck('id')->all(),
                         required: true
                     )
