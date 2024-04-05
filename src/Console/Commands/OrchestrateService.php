@@ -105,9 +105,9 @@ class OrchestrateService extends Command
      */
     protected function generateService()
     {
-        $studlyService = Str::studly($this->service->getId());
+        $this->driver::generateService($this->service, $this->providers, $this->merchants, $this->defaults);
 
-        Config::set("orchestration.services.{$this->service->getId()}", Str::slug($this->service->getId()));
+        $studlyService = Str::studly($this->service->getId());
 
         static::putFile(
             app_path($requesterPath = "Services/{$studlyService}/Contracts/{$studlyService}Requester.php"),
@@ -132,16 +132,6 @@ class OrchestrateService extends Command
         );
 
         info("Contract [app/{$responderPath}] created successfully.");
-
-        $this->driver::generateService($this->service, $this->providers, $this->merchants, $this->defaults);
-
-        $serviceSlug = Str::slug($this->service->getId());
-
-        if (file_exists($serviceConfig = config_path($configPath = "{$serviceSlug}.php"))) {
-            Config::set($serviceSlug, require($serviceConfig));
-        }
-
-        info("Config [config/{$configPath}] created successfully.");
     }
 
     /**
@@ -277,5 +267,7 @@ class OrchestrateService extends Command
         );
 
         info("Config [config/{$configPath}] created successfully.");
+
+        Config::set("orchestration.services.{$this->service->getId()}", Str::slug($this->service->getId()));
     }
 }

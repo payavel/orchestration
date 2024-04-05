@@ -5,6 +5,7 @@ namespace Payavel\Orchestration\Drivers;
 use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Merchantable;
 use Payavel\Orchestration\Contracts\Providable;
@@ -14,6 +15,8 @@ use Payavel\Orchestration\Models\Provider;
 use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 use Payavel\Orchestration\Support\ServiceConfig;
+
+use function Laravel\Prompts\info;
 
 class DatabaseDriver extends ServiceDriver
 {
@@ -145,7 +148,7 @@ class DatabaseDriver extends ServiceDriver
     public static function generateService(Serviceable $service, Collection $providers, Collection $merchants, array $defaults)
     {
         static::putFile(
-            config_path(Str::slug($service->getId()) . '.php'),
+            config_path($configPath = Str::slug($service->getId()) . '.php'),
             static::makeFile(
                 static::getStub('config-service-database'),
                 [
@@ -158,6 +161,10 @@ class DatabaseDriver extends ServiceDriver
                 ]
             )
         );
+
+        info("Config [config/{$configPath}] created successfully.");
+
+        Config::set(Str::slug($service->getId()), require(config_path($configPath)));
 
         $providers = $providers->reduce(
             fn ($array, $provider, $index) =>
@@ -186,7 +193,7 @@ class DatabaseDriver extends ServiceDriver
         );
 
         static::putFile(
-            database_path('migrations/' . Carbon::now()->format('Y_m_d_His') . '_add_providers_and_merchants_to_' . Str::slug($service->getId()) . '_service.php'),
+            database_path($databasePath = 'migrations/' . Carbon::now()->format('Y_m_d_His') . '_add_providers_and_merchants_to_' . Str::slug($service->getId(), '_') . '_service.php'),
             static::makeFile(
                 static::getStub('migration-service'),
                 [
@@ -196,5 +203,7 @@ class DatabaseDriver extends ServiceDriver
                 ]
             )
         );
+
+        info("Database [database/{$databasePath}] created successfully.");
     }
 }
