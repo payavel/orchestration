@@ -4,6 +4,7 @@ namespace Payavel\Orchestration\Drivers;
 
 use Exception;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Merchantable;
 use Payavel\Orchestration\Contracts\Providable;
@@ -13,6 +14,8 @@ use Payavel\Orchestration\DataTransferObjects\Provider;
 use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 use Payavel\Orchestration\Support\ServiceConfig;
+
+use function Laravel\Prompts\info;
 
 class ConfigDriver extends ServiceDriver
 {
@@ -211,7 +214,7 @@ class ConfigDriver extends ServiceDriver
         );
 
         static::putFile(
-            config_path(Str::slug($service->getId()) . '.php'),
+            config_path($configPath = Str::slug($service->getId()) . '.php'),
             static::makeFile(
                 static::getStub('config-service'),
                 [
@@ -226,5 +229,9 @@ class ConfigDriver extends ServiceDriver
                 ]
             )
         );
+
+        info("Config [config/{$configPath}] created successfully.");
+
+        Config::set(Str::slug($service->getId()), require(config_path($configPath)));
     }
 }
