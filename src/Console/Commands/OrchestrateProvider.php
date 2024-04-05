@@ -8,6 +8,8 @@ use Payavel\Orchestration\Service;
 use Payavel\Orchestration\Traits\AsksQuestions;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\info;
 use function Laravel\Prompts\select;
 
 class OrchestrateProvider extends Command
@@ -113,7 +115,7 @@ class OrchestrateProvider extends Command
             )
         );
 
-        $this->components->info("Gateway [app/{$requestPath}] created successfully.");
+        info("Gateway [app/{$requestPath}] created successfully.");
 
         static::putFile(
             app_path($responsePath = "Services/{$service}/{$provider}{$service}Response.php"),
@@ -126,7 +128,7 @@ class OrchestrateProvider extends Command
             )
         );
 
-        $this->components->info("Gateway [app/{$responsePath}] created successfully.");
+        info("Gateway [app/{$responsePath}] created successfully.");
     }
 
     /**
@@ -137,7 +139,7 @@ class OrchestrateProvider extends Command
     protected function setService()
     {
         if (! is_null($this->option('service')) && is_null($service = Service::find($this->option('service')))) {
-            $this->components->error("Service with id {$this->option('service')} does not exist.");
+            error("Service with id {$this->option('service')} does not exist.");
 
             return false;
         } elseif (! isset($service) && ($existingServices = Service::all())->isNotEmpty()) {
@@ -150,7 +152,7 @@ class OrchestrateProvider extends Command
         }
 
         if (! isset($service)) {
-            $this->components->error('Your must first set up a service! Please call the orchestrate:service artisan command.');
+            error('Your must first set up a service! Please call the orchestrate:service artisan command.');
 
             return false;
         }
