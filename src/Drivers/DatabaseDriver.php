@@ -195,7 +195,7 @@ class DatabaseDriver extends ServiceDriver
         );
 
         static::putFile(
-            database_path($databasePath = 'migrations/' . Carbon::now()->format('Y_m_d_His') . '_add_providers_and_merchants_to_' . Str::slug($service->getId(), '_') . '_service.php'),
+            database_path($migrationPath = 'migrations/' . Carbon::now()->format('Y_m_d_His') . '_add_providers_and_merchants_to_' . Str::slug($service->getId(), '_') . '_service.php'),
             static::makeFile(
                 static::getStub('migration-service'),
                 [
@@ -206,6 +206,6 @@ class DatabaseDriver extends ServiceDriver
             )
         );
 
-        info("Database [database/{$databasePath}] created successfully.");
+        info("Migration [database/{$migrationPath}] created successfully.");
     }
 }
