@@ -1,1 +1,4 @@
-        '{{ merchant }}' => [{{ providers }}],
+        '{{ id }}' => [
+            'name' => '{{ name }}',
+            'providers' => [{{ providers }}],
+        ],

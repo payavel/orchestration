@@ -1,4 +1,5 @@
 
         '{{ id }}' => [
+            'name' => '{{ name }}',
             'gateway' => {{ gateway }}::class,
         ],

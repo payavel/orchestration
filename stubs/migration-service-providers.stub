@@ -1,1 +1,4 @@
-        '{{ provider }}' => {{ gateway }}::class,
+        '{{ id }}' => [
+            'name' => '{{ name }}',
+            'gateway' => {{ gateway }}::class,
+        ],
