@@ -10,6 +10,7 @@ use Payavel\Orchestration\Traits\AsksQuestions;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
 use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\info;
 use function Laravel\Prompts\multiselect;
 use function Laravel\Prompts\select;
 
@@ -118,7 +119,7 @@ class OrchestrateService extends Command
             )
         );
 
-        $this->components->info("Contract [app/{$requesterPath}] created successfully.");
+        info("Contract [app/{$requesterPath}] created successfully.");
 
         static::putFile(
             app_path($responderPath = "Services/{$studlyService}/Contracts/{$studlyService}Responder.php"),
@@ -130,7 +131,7 @@ class OrchestrateService extends Command
             )
         );
 
-        $this->components->info("Contract [app/{$responderPath}] created successfully.");
+        info("Contract [app/{$responderPath}] created successfully.");
 
         $this->driver::generateService($this->service, $this->providers, $this->merchants, $this->defaults);
 
@@ -140,7 +141,7 @@ class OrchestrateService extends Command
             Config::set($serviceSlug, require($serviceConfig));
         }
 
-        $this->components->info("Config [config/{$configPath}] created successfully.");
+        info("Config [config/{$configPath}] created successfully.");
     }
 
     /**
@@ -275,6 +276,6 @@ class OrchestrateService extends Command
             )
         );
 
-        $this->components->info("Config [config/{$configPath}] created successfully.");
+        info("Config [config/{$configPath}] created successfully.");
     }
 }
