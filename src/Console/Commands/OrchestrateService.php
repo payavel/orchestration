@@ -251,6 +251,8 @@ class OrchestrateService extends Command
      */
     protected function makeSureOrchestraIsReady()
     {
+        Config::set("orchestration.services.{$this->service->getId()}", Str::slug($this->service->getId()));
+
         if (file_exists(config_path('orchestration.php'))) {
             return;
         }
@@ -267,7 +269,5 @@ class OrchestrateService extends Command
         );
 
         info("Config [config/{$configPath}] created successfully.");
-
-        Config::set("orchestration.services.{$this->service->getId()}", Str::slug($this->service->getId()));
     }
 }
