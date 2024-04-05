@@ -171,7 +171,8 @@ class DatabaseDriver extends ServiceDriver
                 $array . static::makeFile(
                     static::getStub('migration-service-providers'),
                     [
-                        'provider' => $provider['id'],
+                        'id' => $provider['id'],
+                        'name' => $provider['name'],
                         'gateway' => $provider['gateway'],
                     ]
                 ) .
@@ -184,7 +185,8 @@ class DatabaseDriver extends ServiceDriver
                 $array . static::makeFile(
                     static::getStub('migration-service-merchants'),
                     [
-                        'merchant' => $merchant['id'],
+                        'id' => $merchant['id'],
+                        'name' => $merchant['name'],
                         'providers' => implode(', ', array_map(fn ($provider) => "'$provider'", $merchant['providers'])),
                     ]
                 ) .

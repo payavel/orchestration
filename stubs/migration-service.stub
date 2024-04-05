@@ -34,22 +34,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        foreach ($this->providers as $provider => $gateway) {
+        foreach ($this->providers as $id => $provider) {
             Provider::create([
-                'id' => $provider,
+                'id' => $id,
+                'name' => $provider['name'],
                 'service_id' => $this->service,
-                'gateway' => $gateway,
+                'gateway' => $provider['gateway'],
             ]);
         }
 
-        foreach ($this->merchants as $merchant => $providers) {
+        foreach ($this->merchants as $id => $merchant) {
             Merchant::create([
-                'id' => $merchant,
+                'id' => $id,
+                'name' => $merchant['name'],
                 'service_id' => $this->service,
-                'default_provider_id' => $providers[0],
+                'default_provider_id' => $merchant['providers'][0],
             ])
                 ->providers()
-                ->sync($providers);
+                ->sync($merchant['providers']);
         }
     }
 

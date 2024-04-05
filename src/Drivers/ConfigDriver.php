@@ -186,6 +186,7 @@ class ConfigDriver extends ServiceDriver
                     static::getStub('config-service-provider'),
                     [
                         'id' => $provider['id'],
+                        'name' => $provider['name'],
                         'gateway' => $provider['gateway'],
                     ]
                 ),
@@ -198,6 +199,7 @@ class ConfigDriver extends ServiceDriver
                     static::getStub('config-service-merchant'),
                     [
                         'id' => $merchant['id'],
+                        'name' => $merchant['name'],
                         'providers' => Collection::make($merchant['providers'])->reduce(
                             fn ($config, $provider, $index) =>
                                 $config .
