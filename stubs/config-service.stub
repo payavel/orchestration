@@ -15,6 +15,7 @@ return [
     |
     */
     'defaults' => [
+        'driver' => '{{ driver }}',
         'provider' => '{{ provider }}',
         'merchant' => '{{ merchant }}',
     ],

@@ -174,15 +174,13 @@ class OrchestrateService extends Command
      */
     protected function setDriver()
     {
-        $driver = trim(
-            select(
-                label: "Choose a driver for the {$this->service->getName()} service.",
-                options: array_keys(Config::get('orchestration.drivers')),
-                default: 'config'
-            )
+        $this->defaults['driver'] = select(
+            label: "Choose a driver for the {$this->service->getName()} service.",
+            options: array_keys(Config::get('orchestration.drivers')),
+            default: 'config'
         );
 
-        $this->driver = Config::get("orchestration.drivers.{$driver}");
+        $this->driver = Config::get("orchestration.drivers.{$this->defaults['driver']}");
     }
 
     /**

@@ -156,6 +156,7 @@ class DatabaseDriver extends ServiceDriver
                     'Service' => Str::studly($service->getId()),
                     'service' => Str::lower($service->getName()),
                     'SERVICE' => Str::upper(Str::slug($service->getId(), '_')),
+                    'driver' => $defaults['driver'],
                     'provider' => $defaults['provider'],
                     'merchant' => $defaults['merchant'],
                 ]
