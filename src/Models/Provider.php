@@ -28,6 +28,15 @@ class Provider extends Model implements Providable
     protected $guarded = [];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'config' => 'array',
+    ];
+
+    /**
      * Get the provider's id.
      *
      * @return string|int

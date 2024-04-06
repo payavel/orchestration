@@ -28,6 +28,15 @@ class Merchant extends Model implements Merchantable
     protected $guarded = [];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'config' => 'array',
+    ];
+
+    /**
      * Get the merchant's id.
      *
      * @return string|int
