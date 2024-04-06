@@ -17,6 +17,7 @@ class CreateBaseOrchestrationTables extends Migration
             $table->string('id')->primary();
             $table->string('service_id');
             $table->string('gateway');
+            $table->json('config')->nullable();
             $table->timestamps();
         });
 
@@ -24,6 +25,7 @@ class CreateBaseOrchestrationTables extends Migration
             $table->string('id')->primary();
             $table->string('service_id');
             $table->string('default_provider_id')->nullable();
+            $table->json('config')->nullable();
             $table->timestamps();
 
             $table->foreign('default_provider_id')->references('id')->on('providers')->onUpdate('cascade')->onDelete('set null');
