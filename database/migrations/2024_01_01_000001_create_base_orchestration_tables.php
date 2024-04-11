@@ -21,7 +21,7 @@ class CreateBaseOrchestrationTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('merchants', function (Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('name')->nullable();
             $table->string('service_id');
@@ -31,14 +31,14 @@ class CreateBaseOrchestrationTables extends Migration
             $table->foreign('default_provider_id')->references('id')->on('providers')->onUpdate('cascade')->onDelete('set null');
         });
 
-        Schema::create('merchant_provider', function (Blueprint $table) {
+        Schema::create('account_provider', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('merchant_id');
+            $table->string('account_id');
             $table->string('provider_id');
             $table->json('config')->nullable();
             $table->timestamps();
 
-            $table->foreign('merchant_id')->references('id')->on('merchants')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('account_id')->references('id')->on('accounts')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('provider_id')->references('id')->on('providers')->onUpdate('cascade')->onDelete('cascade');
         });
     }
@@ -50,8 +50,8 @@ class CreateBaseOrchestrationTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('merchant_provider');
-        Schema::dropIfExists('merchants');
+        Schema::dropIfExists('account_provider');
+        Schema::dropIfExists('accounts');
         Schema::dropIfExists('providers');
     }
 }

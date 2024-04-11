@@ -4,7 +4,7 @@ namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
@@ -19,11 +19,11 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
     use CreatesServices;
 
     #[Test]
-    public function install_command_publishes_migration_and_generates_config_with_single_provider_and_merchant()
+    public function install_command_publishes_migration_and_generates_config_with_single_provider_and_account()
     {
         $service = $this->createService();
         $provider = $this->createProvider($service);
-        $merchant = $this->createMerchant($service);
+        $account = $this->createAccount($service);
 
         $serviceConfig = $this->configPath($service);
         $serviceContract = $this->contractPath($service);
@@ -37,9 +37,9 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
             ->expectsQuestion("How should the {$service->getName()} provider be named?", $provider->getName())
             ->expectsQuestion("How should the {$service->getName()} provider be identified?", $provider->getId())
             ->expectsConfirmation("Would you like to add another {$service->getName()} provider?", 'no')
-            ->expectsQuestion("How should the {$service->getName()} merchant be named?", $merchant->getName())
-            ->expectsQuestion("How should the {$service->getName()} merchant be identified?", $merchant->getId())
-            ->expectsConfirmation("Would you like to add another {$service->getName()} merchant?", 'no')
+            ->expectsQuestion("How should the {$service->getName()} account be named?", $account->getName())
+            ->expectsQuestion("How should the {$service->getName()} account be identified?", $account->getId())
+            ->expectsConfirmation("Would you like to add another {$service->getName()} account?", 'no')
             ->expectsOutputToContain("Config [config/{$serviceConfig->orchestration}] created successfully.")
             ->expectsOutputToContain("Config [config/{$serviceConfig->service}] created successfully.")
             ->expectsOutputToContain("Contract [app/{$serviceContract->requester}] created successfully.")
@@ -57,26 +57,26 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $this->assertGatewayExists($provider);
 
         $this->assertEquals($provider->getId(), $config['defaults']['provider']);
-        $this->assertEquals($merchant->getId(), $config['defaults']['merchant']);
+        $this->assertEquals($account->getId(), $config['defaults']['account']);
 
         $this->makeSureProviderExists($service, $provider);
-        $this->makeSureMerchantExists($service, $merchant);
-        $this->makeSureProviderIsLinkedToMerchant($service, $provider, $merchant);
+        $this->makeSureAccountExists($service, $account);
+        $this->makeSureProviderIsLinkedToAccount($service, $provider, $account);
 
         $this->assertTrue(unlink(config_path($serviceConfig->service)));
     }
 
     #[Test]
-    public function install_command_publishes_migration_and_generates_config_with_multiple_providers_and_merchants()
+    public function install_command_publishes_migration_and_generates_config_with_multiple_providers_and_accounts()
     {
         $service = $this->createService();
 
         $provider1 = $this->createProvider($service);
         $provider2 = $this->createProvider($service);
 
-        $merchant1 = $this->createMerchant($service);
-        $merchant2 = $this->createMerchant($service);
-        $merchant3 = $this->createMerchant($service);
+        $account1 = $this->createAccount($service);
+        $account2 = $this->createAccount($service);
+        $account3 = $this->createAccount($service);
 
         $serviceConfig = $this->configPath($service);
         $serviceContract = $this->contractPath($service);
@@ -95,19 +95,19 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
             ->expectsQuestion("How should the {$service->getName()} provider be identified?", $provider2->getId())
             ->expectsConfirmation("Would you like to add another {$service->getName()} provider?", 'no')
             ->expectsQuestion("Choose a default provider for the {$service->getName()} service.", $provider1->getId())
-            ->expectsQuestion("How should the {$service->getName()} merchant be named?", $merchant1->getName())
-            ->expectsQuestion("How should the {$service->getName()} merchant be identified?", $merchant1->getId())
-            ->expectsQuestion("Choose one or more {$service->getName()} providers for the {$merchant1->getName()} merchant.", [$provider1->getId()])
-            ->expectsConfirmation("Would you like to add another {$service->getName()} merchant?", 'yes')
-            ->expectsQuestion("How should the {$service->getName()} merchant be named?", $merchant2->getName())
-            ->expectsQuestion("How should the {$service->getName()} merchant be identified?", $merchant2->getId())
-            ->expectsQuestion("Choose one or more {$service->getName()} providers for the {$merchant2->getName()} merchant.", [$provider2->getId()])
-            ->expectsConfirmation("Would you like to add another {$service->getName()} merchant?", 'yes')
-            ->expectsQuestion("How should the {$service->getName()} merchant be named?", $merchant3->getName())
-            ->expectsQuestion("How should the {$service->getName()} merchant be identified?", $merchant3->getId())
-            ->expectsQuestion("Choose one or more {$service->getName()} providers for the {$merchant3->getName()} merchant.", [$provider1->getId(), $provider2->getId()])
-            ->expectsConfirmation("Would you like to add another {$service->getName()} merchant?", 'no')
-            ->expectsQuestion("Which merchant will be used as default?", $merchant1->getId())
+            ->expectsQuestion("How should the {$service->getName()} account be named?", $account1->getName())
+            ->expectsQuestion("How should the {$service->getName()} account be identified?", $account1->getId())
+            ->expectsQuestion("Choose one or more {$service->getName()} providers for the {$account1->getName()} account.", [$provider1->getId()])
+            ->expectsConfirmation("Would you like to add another {$service->getName()} account?", 'yes')
+            ->expectsQuestion("How should the {$service->getName()} account be named?", $account2->getName())
+            ->expectsQuestion("How should the {$service->getName()} account be identified?", $account2->getId())
+            ->expectsQuestion("Choose one or more {$service->getName()} providers for the {$account2->getName()} account.", [$provider2->getId()])
+            ->expectsConfirmation("Would you like to add another {$service->getName()} account?", 'yes')
+            ->expectsQuestion("How should the {$service->getName()} account be named?", $account3->getName())
+            ->expectsQuestion("How should the {$service->getName()} account be identified?", $account3->getId())
+            ->expectsQuestion("Choose one or more {$service->getName()} providers for the {$account3->getName()} account.", [$provider1->getId(), $provider2->getId()])
+            ->expectsConfirmation("Would you like to add another {$service->getName()} account?", 'no')
+            ->expectsQuestion("Which account will be used as default?", $account1->getId())
             ->expectsOutputToContain("Config [config/{$serviceConfig->orchestration}] created successfully.")
             ->expectsOutputToContain("Config [config/{$serviceConfig->service}] created successfully.")
             ->expectsOutputToContain("Contract [app/{$serviceContract->requester}] created successfully.")
@@ -123,7 +123,7 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $config = require(config_path($serviceConfig->service));
 
         $randomProvider = $this->faker->randomElement([$provider1, $provider2]);
-        $randomMerchant = $this->faker->randomElement([$merchant1, $merchant2, $merchant3]);
+        $randomAccount = $this->faker->randomElement([$account1, $account2, $account3]);
 
         $this->assertConfigExists($service);
         $this->assertContractExists($service);
@@ -131,11 +131,11 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $this->assertGatewayExists($randomProvider);
 
         $this->assertEquals($provider1->getId(), $config['defaults']['provider']);
-        $this->assertEquals($merchant1->getId(), $config['defaults']['merchant']);
+        $this->assertEquals($account1->getId(), $config['defaults']['account']);
 
         $this->makeSureProviderExists($service, $randomProvider);
-        $this->makeSureMerchantExists($service, $randomMerchant);
-        $this->makeSureProviderIsLinkedToMerchant($service, $provider2, $merchant3);
+        $this->makeSureAccountExists($service, $randomAccount);
+        $this->makeSureProviderIsLinkedToAccount($service, $provider2, $account3);
 
         $this->assertTrue(unlink(config_path($serviceConfig->service)));
     }
@@ -145,12 +145,12 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         //
     }
 
-    protected function makeSureMerchantExists(Serviceable $service, Merchantable $merchant)
+    protected function makeSureAccountExists(Serviceable $service, Accountable $account)
     {
         //
     }
 
-    protected function makeSureProviderIsLinkedToMerchant(Serviceable $service, Providable $provider, Merchantable $merchant)
+    protected function makeSureProviderIsLinkedToAccount(Serviceable $service, Providable $provider, Accountable $account)
     {
         //
     }

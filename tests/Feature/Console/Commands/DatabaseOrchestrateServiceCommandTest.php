@@ -3,10 +3,10 @@
 namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 
 use Illuminate\Support\Str;
-use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
-use Payavel\Orchestration\Models\Merchant;
+use Payavel\Orchestration\Models\Account;
 use Payavel\Orchestration\Models\Provider;
 use Payavel\Orchestration\Tests\Traits\CreatesDatabaseServiceables;
 use Payavel\Orchestration\Tests\Traits\SetsDatabaseDriver;
@@ -36,25 +36,25 @@ class DatabaseOrchestrateServiceCommandTest extends TestOrchestrateServiceComman
         );
     }
 
-    protected function makeSureMerchantExists(Serviceable $service, Merchantable $merchant)
+    protected function makeSureAccountExists(Serviceable $service, Accountable $account)
     {
         $this->migrate($service);
 
-        $merchant = Merchant::find($merchant->getId());
+        $account = Account::find($account->getId());
 
-        $this->assertNotNull($merchant);
-        $this->assertNotEmpty($merchant->providers);
+        $this->assertNotNull($account);
+        $this->assertNotEmpty($account->providers);
     }
 
-    protected function makeSureProviderIsLinkedToMerchant(Serviceable $service, Providable $provider, Merchantable $merchant)
+    protected function makeSureProviderIsLinkedToAccount(Serviceable $service, Providable $provider, Accountable $account)
     {
         $this->migrate($service);
 
         $provider = Provider::find($provider->getId());
-        $merchant = Merchant::find($merchant->getId());
+        $account = Account::find($account->getId());
 
-        $this->assertNotNull($provider->merchants()->where('merchants.id', $merchant->id)->first());
-        $this->assertNotNull($merchant->providers()->where('providers.id', $provider->id)->first());
+        $this->assertNotNull($provider->accounts()->where('accounts.id', $account->id)->first());
+        $this->assertNotNull($account->providers()->where('providers.id', $provider->id)->first());
     }
 
     private function migrate(Serviceable $service)
@@ -63,7 +63,7 @@ class DatabaseOrchestrateServiceCommandTest extends TestOrchestrateServiceComman
             return;
         }
 
-        Merchant::where('service_id', $service->getId())->delete();
+        Account::where('service_id', $service->getId())->delete();
         Provider::where('service_id', $service->getId())->delete();
 
         $this->artisan('migrate');

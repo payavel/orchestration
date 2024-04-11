@@ -56,11 +56,11 @@ class OrchestrateService extends Command
     protected $providers;
 
     /**
-     * The collected merchants.
+     * The collected accounts.
      *
      * @var \Illuminate\Support\Collection
      */
-    protected $merchants;
+    protected $accounts;
 
     /**
      * The defaults to be set.
@@ -95,7 +95,7 @@ class OrchestrateService extends Command
         $this->setService();
         $this->setDriver();
         $this->setProviders();
-        $this->setMerchants();
+        $this->setAccounts();
     }
 
     /**
@@ -105,7 +105,7 @@ class OrchestrateService extends Command
      */
     protected function generateService()
     {
-        $this->driver::generateService($this->service, $this->providers, $this->merchants, $this->defaults);
+        $this->driver::generateService($this->service, $this->providers, $this->accounts, $this->defaults);
 
         $studlyService = Str::studly($this->service->getId());
 
@@ -213,33 +213,33 @@ class OrchestrateService extends Command
     }
 
     /**
-     * Query merchant information & set the config for chosen merchants.
+     * Query account information & set the config for chosen accounts.
      *
      * @return void
      */
-    protected function setMerchants()
+    protected function setAccounts()
     {
-        $this->merchants = collect([]);
+        $this->accounts = collect([]);
 
         do {
-            $merchant = [
-                'name' => $name = $this->askName('merchant'),
-                'id' => $this->askId('merchant', $name),
+            $account = [
+                'name' => $name = $this->askName('account'),
+                'id' => $this->askId('account', $name),
                 'providers' => $this->providers->count() > 1
                     ? multiselect(
-                        label: "Choose one or more {$this->service->getName()} providers for the {$name} merchant.",
+                        label: "Choose one or more {$this->service->getName()} providers for the {$name} account.",
                         options: $this->providers->pluck('id')->all(),
                         required: true
                     )
                     : [$this->providers->first()['id']],
             ];
 
-            $this->merchants->push($merchant);
-        } while (confirm(label: "Would you like to add another {$this->service->getName()} merchant?", default: false));
+            $this->accounts->push($account);
+        } while (confirm(label: "Would you like to add another {$this->service->getName()} account?", default: false));
 
-        $this->defaults['merchant'] = $this->merchants->count() > 1
-            ? select(label: 'Which merchant will be used as default?', options: $this->merchants->pluck('id')->all())
-            : $this->merchants->first()['id'];
+        $this->defaults['account'] = $this->accounts->count() > 1
+            ? select(label: 'Which account will be used as default?', options: $this->accounts->pluck('id')->all())
+            : $this->accounts->first()['id'];
     }
 
     /**

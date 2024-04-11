@@ -3,13 +3,12 @@
 namespace Payavel\Orchestration\DataTransferObjects;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
-use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
 use Payavel\Orchestration\Support\ServiceConfig;
 
-class Merchant implements Merchantable
+class Account implements Accountable
 {
     use SimulatesAttributes;
 
@@ -60,7 +59,7 @@ class Merchant implements Merchantable
     public function getProviders()
     {
         if (! isset($this->providers)) {
-            $this->attributes['providers'] = (new Collection(ServiceConfig::get($this->service, 'merchants.' . $this->attributes['id'] . '.providers', [])))
+            $this->attributes['providers'] = (new Collection(ServiceConfig::get($this->service, 'accounts.' . $this->attributes['id'] . '.providers', [])))
                 ->map(
                     fn ($provider, $key) => is_array($provider)
                         ? array_merge(

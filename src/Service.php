@@ -21,7 +21,7 @@ class Service
     private $service;
 
     /**
-     * The service driver that will handle provider & merchant configurations.
+     * The service driver that will handle provider & account configurations.
      *
      * @var \Payavel\Orchestration\ServiceDriver
      */
@@ -35,11 +35,11 @@ class Service
     private $provider;
 
     /**
-     * The merchant that will be passed to the provider's gateway.
+     * The account that will be passed to the provider's gateway.
      *
-     * @var \Payavel\Orchestration\Contracts\Merchantable
+     * @var \Payavel\Orchestration\Contracts\Accountable
      */
-    private $merchant;
+    private $account;
 
     /**
      * The gateway class where requests will be executed.
@@ -124,63 +124,63 @@ class Service
      */
     public function getDefaultProvider()
     {
-        return $this->driver->getDefaultProvider($this->merchant);
+        return $this->driver->getDefaultProvider($this->account);
     }
 
     /**
-     * Fluent merchant setter.
+     * Fluent account setter.
      *
-     * @param \Payavel\Orchestration\Contracts\Merchantable|string|int $merchant
+     * @param \Payavel\Orchestration\Contracts\Accountable|string|int $account
      * @return \Payavel\Orchestration\Service
      */
-    public function merchant($merchant)
+    public function account($account)
     {
-        $this->setMerchant($merchant);
+        $this->setAccount($account);
 
         return $this;
     }
 
     /**
-     * Get the current merchant.
+     * Get the current account.
      *
-     * @return \Payavel\Orchestration\Contracts\Merchantable
+     * @return \Payavel\Orchestration\Contracts\Accountable
      */
-    public function getMerchant()
+    public function getAccount()
     {
-        if (! isset($this->merchant)) {
-            $this->setMerchant($this->getDefaultMerchant());
+        if (! isset($this->account)) {
+            $this->setAccount($this->getDefaultAccount());
         }
 
-        return $this->merchant;
+        return $this->account;
     }
 
     /**
-     * Set the specified merchant.
+     * Set the specified account.
      *
-     * @param \Payavel\Orchestration\Contracts\Merchantable|string|int $merchant
+     * @param \Payavel\Orchestration\Contracts\Accountable|string|int $account
      * @return void
      *
      * @throws Exception
      */
-    public function setMerchant($merchant)
+    public function setAccount($account)
     {
-        if (is_null($merchant = $this->driver->resolveMerchant($merchant))) {
-            throw new Exception('Invalid merchant.');
+        if (is_null($account = $this->driver->resolveAccount($account))) {
+            throw new Exception('Invalid account.');
         }
 
-        $this->merchant = $merchant;
+        $this->account = $account;
 
         $this->gateway = null;
     }
 
     /**
-     * Get the default merchant.
+     * Get the default account.
      *
-     * @return string|int|\Payavel\Orchestration\Contracts\Merchantable
+     * @return string|int|\Payavel\Orchestration\Contracts\Accountable
      */
-    public function getDefaultMerchant()
+    public function getDefaultAccount()
     {
-        return $this->driver->getDefaultMerchant($this->provider);
+        return $this->driver->getDefaultAccount($this->provider);
     }
 
     /**
@@ -205,9 +205,9 @@ class Service
     protected function setGateway()
     {
         $provider = $this->getProvider();
-        $merchant = $this->getMerchant();
+        $account = $this->getAccount();
 
-        $this->gateway = $this->driver->resolveGateway($provider, $merchant);
+        $this->gateway = $this->driver->resolveGateway($provider, $account);
     }
 
     /**
@@ -219,7 +219,7 @@ class Service
     {
         $this->driver->refresh();
 
-        $this->gateway = $this->merchant = $this->provider = null;
+        $this->gateway = $this->account = $this->provider = null;
     }
 
     /**

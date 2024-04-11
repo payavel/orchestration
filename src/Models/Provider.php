@@ -58,41 +58,41 @@ class Provider extends Model implements Providable
     }
 
     /**
-     * Get the merchant's the provider supports.
+     * Get the account's the provider supports.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function merchants()
+    public function accounts()
     {
-        return $this->belongsToMany($this->getMerchantModelClass(), 'merchant_provider', 'provider_id', 'merchant_id')->withTimestamps();
+        return $this->belongsToMany($this->getAccountModelClass(), 'account_provider', 'provider_id', 'account_id')->withTimestamps();
     }
 
     /**
-     * Get the merchant model's class of this provider's service.
+     * Get the account model's class of this provider's service.
      *
      * @return string
      */
-    private function getMerchantModelClass()
+    private function getAccountModelClass()
     {
-        if(! isset($this->merchantModelClass)) {
-            $this->merchantModelClass = $this->guessMerchantModelClass();
+        if(! isset($this->accountModelClass)) {
+            $this->accountModelClass = $this->guessAccountModelClass();
         }
 
-        return ServiceConfig::get($this->service_id, "models.{$this->merchantModelClass}", $this->merchantModelClass);
+        return ServiceConfig::get($this->service_id, "models.{$this->accountModelClass}", $this->accountModelClass);
     }
 
 
     /**
-     * Guess the merchant model's class name by convention.
+     * Guess the account model's class name by convention.
      *
      * @return string
      */
-    private function guessMerchantModelClass()
+    private function guessAccountModelClass()
     {
         $parentClass = get_class($this);
 
         if ($parentClass === self::class) {
-            return Merchant::class;
+            return Account::class;
         }
 
         do {
@@ -101,6 +101,6 @@ class Provider extends Model implements Providable
             $parentClass =  get_parent_class($providerModelClass);
         } while ($parentClass && $parentClass !== self::class);
 
-        return Str::replace('Provider', 'Merchant', $parentClass);
+        return Str::replace('Provider', 'Account', $parentClass);
     }
 }

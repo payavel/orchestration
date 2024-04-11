@@ -2,7 +2,7 @@
 
 namespace Payavel\Orchestration\Tests\Contracts;
 
-use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
 
@@ -26,31 +26,31 @@ interface CreatesServiceables
     public function createProvider(Serviceable $service = null, $data = []);
 
     /**
-     * Creates a merchantable instance.
+     * Creates a accountable instance.
      *
      * @param Serviceable|null $service
      * @param array $data
-     * @return \Payavel\Orchestration\Contracts\Merchantable
+     * @return \Payavel\Orchestration\Contracts\Accountable
      */
-    public function createMerchant(Serviceable $service = null, $data = []);
+    public function createAccount(Serviceable $service = null, $data = []);
 
     /**
-     * Links a merchantable instance to a providable one.
+     * Links a accountable instance to a providable one.
      *
-     * @param Merchantable $merchant
+     * @param Accountable $account
      * @param Providable $provider
      * @param array $data
      * @return void
      */
-    public function linkMerchantToProvider(Merchantable $merchant, Providable $provider, $data = []);
+    public function linkAccountToProvider(Accountable $account, Providable $provider, $data = []);
 
     /**
      * Sets the default configuration for a serviceable instance.
      *
      * @param Serviceable $service
-     * @param Merchantable|null $merchant
+     * @param Accountable|null $account
      * @param Providable|null $provider
      * @return void
      */
-    public function setDefaultsForService(Serviceable $service, Merchantable $merchant = null, Providable $provider = null);
+    public function setDefaultsForService(Serviceable $service, Accountable $account = null, Providable $provider = null);
 }

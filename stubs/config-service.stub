@@ -11,13 +11,13 @@ return [
     |
     | This option defines the default {{ service }} service config
     | for your application. You should define your {{ service }}
-    | provider of choice along with your preferred merchant.
+    | provider of choice along with your primary account.
     |
     */
     'defaults' => [
         'driver' => '{{ driver }}',
         'provider' => '{{ provider }}',
-        'merchant' => '{{ merchant }}',
+        'account' => '{{ account }}',
     ],
 
     /*
@@ -25,7 +25,7 @@ return [
     | {{ Title }} Test Mode
     |--------------------------------------------------------------------------
     |
-    | When set to true, the provider & merchant will be shared with the fake {{ service }}
+    | When set to true, the provider & account will be shared with the fake {{ service }}
     | request so you can mock your responses as you wish. This is very useful for
     | local & testing environments where a sandbox is limited or non-existent.
     |
@@ -60,16 +60,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | {{ Title }} Merchants
+    | {{ Title }} Accounts
     |--------------------------------------------------------------------------
     |
-    | This is where you should define all the merchants that will be leveraging the
+    | This is where you should define all the accounts that will be leveraging the
     | {{ service }} service, along with required provider specific configurations
-    | This is the perfect place to set each merchant's api keys & secrets.
+    | This is the perfect place to set each account's api keys & secrets.
     |
     */
-    'merchants' => [
-{{ merchants }}
+    'accounts' => [
+{{ accounts }}
     ],
 
 ];

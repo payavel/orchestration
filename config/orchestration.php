@@ -36,7 +36,7 @@ return [
     | Orchestration Test Mode
     |--------------------------------------------------------------------------
     |
-    | When set to true, the provider & merchant will be shared with the respective
+    | When set to true, the provider & account will be shared with the respective
     | fake service response, this allows you to mock your responses as you wish.
     | Note that if the service defines the test_mode, it will be prioritized.
     |

@@ -3,7 +3,7 @@
 namespace Payavel\Orchestration;
 
 use Illuminate\Support\Collection;
-use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
 
@@ -48,46 +48,46 @@ abstract class ServiceDriver
     /**
      * Get the default providable identifier.
      *
-     * @param \Payavel\Orchestration\Contracts\Merchantable|null $merchant
+     * @param \Payavel\Orchestration\Contracts\Accountable|null $account
      * @return string|int
      */
-    abstract public function getDefaultProvider(Merchantable $merchant = null);
+    abstract public function getDefaultProvider(Accountable $account = null);
 
     /**
-     * Resolve the merchantable instance.
+     * Resolve the accountable instance.
      *
-     * @param \Payavel\Orchestration\Contracts\Merchantable|string|int $merchant
-     * @return \Payavel\Orchestration\Contracts\Merchantable|null
+     * @param \Payavel\Orchestration\Contracts\Accountable|string|int $account
+     * @return \Payavel\Orchestration\Contracts\Accountable|null
      */
-    abstract public function resolveMerchant($merchant);
+    abstract public function resolveAccount($account);
 
     /**
-     * Get the default merchantable identifier.
+     * Get the default accountable identifier.
      *
      * @param \Payavel\Orchestration\Contracts\Providable|null $provider
      * @return string|int
      */
-    abstract public function getDefaultMerchant(Providable $provider = null);
+    abstract public function getDefaultAccount(Providable $provider = null);
 
     /**
      * Resolve the gateway.
      *
      * @param \Payavel\Orchestration\Contracts\Providable $provider
-     * @param \Payavel\Orchestration\Contracts\Merchantable $merchant
+     * @param \Payavel\Orchestration\Contracts\Accountable $account
      * @return \Payavel\Orchestration\ServiceRequest
      */
-    abstract public function resolveGateway($provider, $merchant);
+    abstract public function resolveGateway($provider, $account);
 
     /**
      * Generate the service skeleton based on the current driver.
      *
      * @param \Payavel\Orchestration\Contracts\Serviceable $service
      * @param \Illuminate\Support\Collection $providers
-     * @param \Illuminate\Support\Collection $merchants
+     * @param \Illuminate\Support\Collection $accounts
      * @param array $defaults
      * @return void
      */
-    public static function generateService(Serviceable $service, Collection $providers, Collection $merchants, array $defaults)
+    public static function generateService(Serviceable $service, Collection $providers, Collection $accounts, array $defaults)
     {
         //
     }

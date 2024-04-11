@@ -6,10 +6,10 @@ use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
-use Payavel\Orchestration\DataTransferObjects\Merchant;
+use Payavel\Orchestration\DataTransferObjects\Account;
 use Payavel\Orchestration\DataTransferObjects\Provider;
 use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\GeneratesFiles;
@@ -29,22 +29,22 @@ class ConfigDriver extends ServiceDriver
     protected $providers;
 
     /**
-     * Collection of the service's merchants.
+     * Collection of the service's accounts.
      *
      * @var \Illuminate\Support\Collection
      */
-    protected $merchants;
+    protected $accounts;
 
 
     /**
-     * Collect the service's providers & merchants.
+     * Collect the service's providers & accounts.
      */
     public function __construct(Serviceable $service)
     {
         parent::__construct($service);
 
         $this->providers = collect(ServiceConfig::get($this->service, 'providers'));
-        $this->merchants = collect(ServiceConfig::get($this->service, 'merchants'));
+        $this->accounts = collect(ServiceConfig::get($this->service, 'accounts'));
     }
 
     /**
@@ -72,14 +72,14 @@ class ConfigDriver extends ServiceDriver
     /**
      * Get the default providable identifier.
      *
-     * @param \Payavel\Orchestration\Contracts\Merchantable|null $merchant
+     * @param \Payavel\Orchestration\Contracts\Accountable|null $account
      * @return string|int|\Payavel\Orchestration\Contracts\Providable
      */
-    public function getDefaultProvider(Merchantable $merchant = null)
+    public function getDefaultProvider(Accountable $account = null)
     {
         if (
-            ! $merchant instanceof Merchant ||
-            is_null($provider = $merchant->providers->first())
+            ! $account instanceof Account ||
+            is_null($provider = $account->providers->first())
         ) {
             return ServiceConfig::get($this->service, 'defaults.provider');
         }
@@ -88,68 +88,68 @@ class ConfigDriver extends ServiceDriver
     }
 
     /**
-     * Resolve the merchantable instance.
+     * Resolve the accountable instance.
      *
-     * @param \Payavel\Orchestration\Contracts\Merchantable|string $merchant
-     * @return \Payavel\Orchestration\Contracts\Merchantable|null
+     * @param \Payavel\Orchestration\Contracts\Accountable|string $account
+     * @return \Payavel\Orchestration\Contracts\Accountable|null
      */
-    public function resolveMerchant($merchant)
+    public function resolveAccount($account)
     {
-        if ($merchant instanceof Merchant) {
-            return $merchant;
+        if ($account instanceof Account) {
+            return $account;
         }
 
-        if (is_null($attributes = $this->merchants->get($merchant))) {
+        if (is_null($attributes = $this->accounts->get($account))) {
             return null;
         }
 
-        return new Merchant(
+        return new Account(
             $this->service,
-            array_merge(['id' => $merchant], $attributes)
+            array_merge(['id' => $account], $attributes)
         );
     }
 
     /**
-     * Get the default merchantable identifier.
+     * Get the default accountable identifier.
      *
      * @param \Payavel\Orchestration\Contracts\Providable|null $provider
      * @return string|int
      */
-    public function getDefaultMerchant(Providable $provider = null)
+    public function getDefaultAccount(Providable $provider = null)
     {
-        return ServiceConfig::get($this->service, 'defaults.merchant');
+        return ServiceConfig::get($this->service, 'defaults.account');
     }
 
     /**
-     * Verify that the merchant is compatible with the provider.
+     * Verify that the account is compatible with the provider.
      *
      * @param \Payavel\Orchestration\Contracts\Providable
-     * @param \Payavel\Orchestration\Contracts\Merchantable
+     * @param \Payavel\Orchestration\Contracts\Accountable
      * @return void
      *
      * @throws Exception
      */
-    protected function check($provider, $merchant)
+    protected function check($provider, $account)
     {
-        if ($merchant->providers->contains('id', $provider->id)) {
+        if ($account->providers->contains('id', $provider->id)) {
             return;
         }
 
-        throw new Exception("The {$merchant->getName()} merchant is not supported by the {$provider->getName()} provider.");
+        throw new Exception("The {$account->getName()} account is not supported by the {$provider->getName()} provider.");
     }
 
     /**
      * Resolve the gateway.
      *
      * @param \Payavel\Orchestration\Contracts\Providable $provider
-     * @param \Payavel\Orchestration\Contracts\Merchantable $merchant
+     * @param \Payavel\Orchestration\Contracts\Accountable $account
      * @return \Payavel\Orchestration\ServiceRequest
      *
      * @throws Exception
      */
-    public function resolveGateway($provider, $merchant)
+    public function resolveGateway($provider, $account)
     {
-        $this->check($provider, $merchant);
+        $this->check($provider, $account);
 
         $gateway = ServiceConfig::get($this->service, 'test_mode')
             ? ServiceConfig::get($this->service, 'testing.gateway')
@@ -163,7 +163,7 @@ class ConfigDriver extends ServiceDriver
             );
         }
 
-        return new $gateway($provider, $merchant);
+        return new $gateway($provider, $account);
     }
 
     /**
@@ -171,11 +171,11 @@ class ConfigDriver extends ServiceDriver
      *
      * @param \Payavel\Orchestration\Contracts\Serviceable $service
      * @param \Illuminate\Support\Collection $providers
-     * @param \Illuminate\Support\Collection $merchants
+     * @param \Illuminate\Support\Collection $accounts
      * @param array $defaults
      * @return void
      */
-    public static function generateService(Serviceable $service, Collection $providers, Collection $merchants, array $defaults)
+    public static function generateService(Serviceable $service, Collection $providers, Collection $accounts, array $defaults)
     {
         $config = [];
 
@@ -193,18 +193,18 @@ class ConfigDriver extends ServiceDriver
             ""
         );
 
-        $config['merchants'] = $merchants->reduce(
-            fn ($config, $merchant) =>
+        $config['accounts'] = $accounts->reduce(
+            fn ($config, $account) =>
                 $config . static::makeFile(
-                    static::getStub('config-service-merchant'),
+                    static::getStub('config-service-account'),
                     [
-                        'id' => $merchant['id'],
-                        'name' => $merchant['name'],
-                        'providers' => Collection::make($merchant['providers'])->reduce(
+                        'id' => $account['id'],
+                        'name' => $account['name'],
+                        'providers' => Collection::make($account['providers'])->reduce(
                             fn ($config, $provider, $index) =>
                                 $config .
                                 static::makeFile(
-                                    static::getStub('config-service-merchant-providers'),
+                                    static::getStub('config-service-account-providers'),
                                     ['id' => $provider]
                                 ) .
                                 ($index < count($providers) - 1 ? "\n" : ""),
@@ -227,8 +227,8 @@ class ConfigDriver extends ServiceDriver
                     'driver' => $defaults['driver'],
                     'provider' => $defaults['provider'],
                     'providers' => $config['providers'],
-                    'merchant' => $defaults['merchant'],
-                    'merchants' => $config['merchants'],
+                    'account' => $defaults['account'],
+                    'accounts' => $config['accounts'],
                 ]
             )
         );

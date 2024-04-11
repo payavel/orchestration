@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Tests\Traits;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\DataTransferObjects\Service;
@@ -37,21 +37,21 @@ trait CreatesServices
      * Sets the default configuration for a serviceable instance.
      *
      * @param Serviceable $service
-     * @param Merchantable|null $merchant
+     * @param Accountable|null $account
      * @param Providable|null $provider
      * @return void
      */
-    public function setDefaultsForService(Serviceable $service, Merchantable $merchant = null, Providable $provider = null)
+    public function setDefaultsForService(Serviceable $service, Accountable $account = null, Providable $provider = null)
     {
         ServiceConfig::set(
             $service,
-            'defaults.merchant',
-            $merchant instanceof Merchantable ? $merchant->getId() : $merchant
+            'defaults.account',
+            $account instanceof Accountable ? $account->getId() : $account
         );
 
-        if (is_null($provider) && ! is_null($merchant)) {
+        if (is_null($provider) && ! is_null($account)) {
             $provider = Collection::make(
-                ServiceConfig::get($service, 'merchants.' . $merchant->getId() . '.providers')
+                ServiceConfig::get($service, 'accounts.' . $account->getId() . '.providers')
             )
                 ->keys()
                 ->first();
