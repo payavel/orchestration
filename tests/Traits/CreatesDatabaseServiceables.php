@@ -2,10 +2,10 @@
 
 namespace Payavel\Orchestration\Tests\Traits;
 
-use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
-use Payavel\Orchestration\Models\Merchant;
+use Payavel\Orchestration\Models\Account;
 use Payavel\Orchestration\Models\Provider;
 
 trait CreatesDatabaseServiceables
@@ -29,13 +29,13 @@ trait CreatesDatabaseServiceables
     }
 
     /**
-     * Creates a merchantable instance.
+     * Creates a accountable instance.
      *
      * @param Serviceable|null $service
      * @param array $data
-     * @return \Payavel\Orchestration\Contracts\Merchantable
+     * @return \Payavel\Orchestration\Contracts\Accountable
      */
-    public function createMerchant(Serviceable $service = null, $data = [])
+    public function createAccount(Serviceable $service = null, $data = [])
     {
         if (is_null($service)) {
             $service = $this->createService();
@@ -43,21 +43,21 @@ trait CreatesDatabaseServiceables
 
         $data['service_id'] = $service->getId();
 
-        return Merchant::factory()->create($data);
+        return Account::factory()->create($data);
     }
 
     /**
-     * Links a merchantable instance to a providable one.
+     * Links a accountable instance to a providable one.
      *
-     * @param Merchantable $merchant
+     * @param Accountable $account
      * @param Providable $provider
      * @param array $data
      * @return void
      */
-    public function linkMerchantToProvider(Merchantable $merchant, Providable $provider, $data = [])
+    public function linkAccountToProvider(Accountable $account, Providable $provider, $data = [])
     {
-        throw_unless($merchant instanceof Merchant);
+        throw_unless($account instanceof Account);
 
-        $merchant->providers()->sync([$provider->getId() => $data], false);
+        $account->providers()->sync([$provider->getId() => $data], false);
     }
 }

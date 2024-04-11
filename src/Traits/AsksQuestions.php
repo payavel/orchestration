@@ -7,7 +7,7 @@ use function Laravel\Prompts\text;
 trait AsksQuestions
 {
     /**
-     * Ask for the name of the serviceable entity (provider, merchant, etc...) to be added.
+     * Ask for the name of the serviceable entity (provider, account, etc...) to be added.
      *
      * @param string $entity
      * @return string
@@ -20,7 +20,7 @@ trait AsksQuestions
     }
 
     /**
-     * Ask for the id of the serviceable entity (provider, merchant, etc...) to be added.
+     * Ask for the id of the serviceable entity (provider, account, etc...) to be added.
      *
      * @param string $entity
      * @param string $name

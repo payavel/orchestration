@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Payavel\Orchestration\Models\Merchant;
+use Payavel\Orchestration\Models\Account;
 use Payavel\Orchestration\Models\Provider;
 
 return new class extends Migration
@@ -21,12 +21,12 @@ return new class extends Migration
     ];
 
     /**
-     * The merchants to be added.
+     * The accounts to be added.
      *
      * @var array
      */
-    private array $merchants = [
-{{ merchants }}
+    private array $accounts = [
+{{ accounts }}
     ];
 
     /**
@@ -43,15 +43,15 @@ return new class extends Migration
             ]);
         }
 
-        foreach ($this->merchants as $id => $merchant) {
-            Merchant::create([
+        foreach ($this->accounts as $id => $account) {
+            Account::create([
                 'id' => $id,
-                'name' => $merchant['name'],
+                'name' => $account['name'],
                 'service_id' => $this->service,
-                'default_provider_id' => $merchant['providers'][0],
+                'default_provider_id' => $account['providers'][0],
             ])
                 ->providers()
-                ->sync($merchant['providers']);
+                ->sync($account['providers']);
         }
     }
 
@@ -60,7 +60,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Merchant::where('service_id', $this->service)->delete();
+        Account::where('service_id', $this->service)->delete();
         Provider::where('service_id', $this->service)->delete();
     }
 };

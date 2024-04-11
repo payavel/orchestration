@@ -7,10 +7,10 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
-use Payavel\Orchestration\Models\Merchant;
+use Payavel\Orchestration\Models\Account;
 use Payavel\Orchestration\Models\Provider;
 use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\GeneratesFiles;
@@ -46,12 +46,12 @@ class DatabaseDriver extends ServiceDriver
     /**
      * Get the default providable identifier.
      *
-     * @param \Payavel\Orchestration\Contracts\Merchantable|null $merchant
+     * @param \Payavel\Orchestration\Contracts\Accountable|null $account
      * @return string|int
      */
-    public function getDefaultProvider(Merchantable $merchant = null)
+    public function getDefaultProvider(Accountable $account = null)
     {
-        if (! $merchant instanceof Merchant || is_null($provider = $merchant->default_provider_id)) {
+        if (! $account instanceof Account || is_null($provider = $account->default_provider_id)) {
             $provider = ServiceConfig::get($this->service, 'defaults.provider');
         }
 
@@ -59,67 +59,67 @@ class DatabaseDriver extends ServiceDriver
     }
 
     /**
-     * Resolve the merchantable instance.
+     * Resolve the accountable instance.
      *
-     * @param \Payavel\Orchestration\Contracts\Merchantable|string $merchant
-     * @return \Payavel\Orchestration\Contracts\Merchantable|null
+     * @param \Payavel\Orchestration\Contracts\Accountable|string $account
+     * @return \Payavel\Orchestration\Contracts\Accountable|null
      */
-    public function resolveMerchant($merchant)
+    public function resolveAccount($account)
     {
-        if (! $merchant instanceof Merchant) {
-            $serviceMerchant = ServiceConfig::get($this->service, 'models.' . Merchant::class, Merchant::class);
+        if (! $account instanceof Account) {
+            $serviceAccount = ServiceConfig::get($this->service, 'models.' . Account::class, Account::class);
 
-            $merchant = $serviceMerchant::find($merchant);
+            $account = $serviceAccount::find($account);
         }
 
-        if (is_null($merchant) || (! $merchant->exists)) {
+        if (is_null($account) || (! $account->exists)) {
             return null;
         }
 
-        return $merchant;
+        return $account;
     }
 
     /**
-     * Get the default merchantable identifier.
+     * Get the default accountable identifier.
      *
      * @param \Payavel\Orchestration\Contracts\Providable|null $provider
      * @return string|int
      */
-    public function getDefaultMerchant(Providable $provider = null)
+    public function getDefaultAccount(Providable $provider = null)
     {
-        return ServiceConfig::get($this->service, 'defaults.merchant');
+        return ServiceConfig::get($this->service, 'defaults.account');
     }
 
     /**
-     * Verify that the merchant is compatible with the provider.
+     * Verify that the account is compatible with the provider.
      *
      * @param \Payavel\Orchestration\Contracts\Providable
-     * @param \Payavel\Orchestration\Contracts\Merchantable
+     * @param \Payavel\Orchestration\Contracts\Accountable
      * @return void
      *
      * @throws Exception
      */
-    protected function check($provider, $merchant)
+    protected function check($provider, $account)
     {
-        if ($merchant->providers->contains($provider)) {
+        if ($account->providers->contains($provider)) {
             return;
         }
 
-        throw new Exception("The {$merchant->getName()} merchant is not supported by the {$provider->getName()} provider.");
+        throw new Exception("The {$account->getName()} account is not supported by the {$provider->getName()} provider.");
     }
 
     /**
      * Resolve the gateway.
      *
      * @param \Payavel\Orchestration\Contracts\Providable $provider
-     * @param \Payavel\Orchestration\Contracts\Merchantable $merchant
+     * @param \Payavel\Orchestration\Contracts\Accountable $account
      * @return \Payavel\Orchestration\ServiceRequest
      *
      * @throws Exception
      */
-    public function resolveGateway($provider, $merchant)
+    public function resolveGateway($provider, $account)
     {
-        $this->check($provider, $merchant);
+        $this->check($provider, $account);
 
         $gateway = ServiceConfig::get($this->service, 'test_mode')
             ? $this->service->test_gateway
@@ -133,7 +133,7 @@ class DatabaseDriver extends ServiceDriver
             );
         }
 
-        return new $gateway($provider, $merchant);
+        return new $gateway($provider, $account);
     }
 
     /**
@@ -141,11 +141,11 @@ class DatabaseDriver extends ServiceDriver
      *
      * @param \Payavel\Orchestration\Contracts\Serviceable $service
      * @param \Illuminate\Support\Collection $providers
-     * @param \Illuminate\Support\Collection $merchants
+     * @param \Illuminate\Support\Collection $accounts
      * @param array $defaults
      * @return void
      */
-    public static function generateService(Serviceable $service, Collection $providers, Collection $merchants, array $defaults)
+    public static function generateService(Serviceable $service, Collection $providers, Collection $accounts, array $defaults)
     {
         static::putFile(
             config_path($configPath = Str::slug($service->getId()) . '.php'),
@@ -158,7 +158,7 @@ class DatabaseDriver extends ServiceDriver
                     'SERVICE' => Str::upper(Str::slug($service->getId(), '_')),
                     'driver' => $defaults['driver'],
                     'provider' => $defaults['provider'],
-                    'merchant' => $defaults['merchant'],
+                    'account' => $defaults['account'],
                 ]
             )
         );
@@ -181,28 +181,28 @@ class DatabaseDriver extends ServiceDriver
             ""
         );
 
-        $merchants = $merchants->reduce(
-            fn ($array, $merchant, $index) =>
+        $accounts = $accounts->reduce(
+            fn ($array, $account, $index) =>
                 $array . static::makeFile(
-                    static::getStub('migration-service-merchants'),
+                    static::getStub('migration-service-accounts'),
                     [
-                        'id' => $merchant['id'],
-                        'name' => $merchant['name'],
-                        'providers' => implode(', ', array_map(fn ($provider) => "'$provider'", $merchant['providers'])),
+                        'id' => $account['id'],
+                        'name' => $account['name'],
+                        'providers' => implode(', ', array_map(fn ($provider) => "'$provider'", $account['providers'])),
                     ]
                 ) .
-                ($index < count($merchants) - 1 ? "\n" : ""),
+                ($index < count($accounts) - 1 ? "\n" : ""),
             ""
         );
 
         static::putFile(
-            database_path($migrationPath = 'migrations/' . Carbon::now()->format('Y_m_d_His') . '_add_providers_and_merchants_to_' . Str::slug($service->getId(), '_') . '_service.php'),
+            database_path($migrationPath = 'migrations/' . Carbon::now()->format('Y_m_d_His') . '_add_providers_and_accounts_to_' . Str::slug($service->getId(), '_') . '_service.php'),
             static::makeFile(
                 static::getStub('migration-service'),
                 [
                     'service' => $service->getId(),
                     'providers' => $providers,
-                    'merchants' => $merchants,
+                    'accounts' => $accounts,
                 ]
             )
         );

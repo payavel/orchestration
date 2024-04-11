@@ -2,7 +2,7 @@
 
 namespace Payavel\Orchestration\Contracts;
 
-interface Merchantable extends Serviceable
+interface Accountable extends Serviceable
 {
     /**
      * Get the entity service.

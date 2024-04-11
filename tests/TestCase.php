@@ -58,7 +58,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
             unlink($config);
         }
 
-        foreach (glob(database_path('migrations/*_add_providers_and_merchants_to_*_service.php')) as $migration) {
+        foreach (glob(database_path('migrations/*_add_providers_and_accounts_to_*_service.php')) as $migration) {
             unlink($migration);
         }
 

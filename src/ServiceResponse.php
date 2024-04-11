@@ -2,7 +2,7 @@
 
 namespace Payavel\Orchestration;
 
-use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
 use Payavel\Orchestration\Traits\ThrowsRuntimeException;
@@ -57,11 +57,11 @@ abstract class ServiceResponse
     public $provider;
 
     /**
-     * The merchant that was used to make the $request.
+     * The account that was used to make the $request.
      *
-     * @var \Payavel\Orchestration\Contracts\Merchantable
+     * @var \Payavel\Orchestration\Contracts\Accountable
      */
-    public $merchant;
+    public $account;
 
     /**
      * The expected formatted data based on the $request.
@@ -112,15 +112,15 @@ abstract class ServiceResponse
      *
      * @param string $requestMethod
      * @param \Payavel\Orchestration\Contracts\Providable $provider
-     * @param \Payavel\Orchestration\Contracts\Merchantable $merchant
+     * @param \Payavel\Orchestration\Contracts\Accountable $account
      *
      * @return static
      */
-    public function configure(string $requestMethod, Providable $provider, Merchantable $merchant)
+    public function configure(string $requestMethod, Providable $provider, Accountable $account)
     {
         $this->requestMethod = $requestMethod;
         $this->provider = $provider;
-        $this->merchant = $merchant;
+        $this->account = $account;
 
         return $this;
     }

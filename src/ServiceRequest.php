@@ -2,7 +2,7 @@
 
 namespace Payavel\Orchestration;
 
-use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Illuminate\Support\Str;
 
@@ -23,20 +23,20 @@ abstract class ServiceRequest
     protected $provider;
 
     /**
-     * The service merchant.
+     * The service account.
      *
-     * @var \Payavel\Orchestration\Contracts\Merchantable
+     * @var \Payavel\Orchestration\Contracts\Accountable
      */
-    protected $merchant;
+    protected $account;
 
     /**
      * @param  \Payavel\Orchestration\Contracts\Providable $provider
-     * @param  \Payavel\Orchestration\Contracts\Merchantable $merchant
+     * @param  \Payavel\Orchestration\Contracts\Accountable $account
      */
-    public function __construct(Providable $provider, Merchantable $merchant)
+    public function __construct(Providable $provider, Accountable $account)
     {
         $this->provider = $provider;
-        $this->merchant = $merchant;
+        $this->account = $account;
 
         $this->setUp();
     }
@@ -73,7 +73,7 @@ abstract class ServiceRequest
             $response = $this->response($response);
         }
 
-        return $response->configure($method, $this->provider, $this->merchant);
+        return $response->configure($method, $this->provider, $this->account);
     }
 
     /**

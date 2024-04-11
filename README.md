@@ -9,7 +9,7 @@
 </p>
 
 ## About
-Payavel Orchestration is a package that integrates seamlessly within the Laravel ecosystem. It helps you generate services that support multiple provider & merchant integrations. It also provides a very simple way to test those services.
+Payavel Orchestration is a package that integrates seamlessly within the Laravel ecosystem. It helps you generate services that support multiple provider & account integrations. It also provides a very simple way to test those services.
 
 ---
 Please reference the [documentation](https://orchestration.payavel.com) to get started.

@@ -3,10 +3,10 @@
 namespace Payavel\Orchestration\Tests\Traits;
 
 use Illuminate\Support\Str;
-use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
-use Payavel\Orchestration\DataTransferObjects\Merchant;
+use Payavel\Orchestration\DataTransferObjects\Account;
 use Payavel\Orchestration\DataTransferObjects\Provider;
 use Payavel\Orchestration\Support\ServiceConfig;
 
@@ -42,13 +42,13 @@ trait CreatesConfigServiceables
     }
 
     /**
-     * Creates a merchantable instance.
+     * Creates a accountable instance.
      *
      * @param Serviceable|null $service
      * @param array $data
-     * @return \Payavel\Orchestration\Contracts\Merchantable
+     * @return \Payavel\Orchestration\Contracts\Accountable
      */
-    public function createMerchant(Serviceable $service = null, $data = [])
+    public function createAccount(Serviceable $service = null, $data = [])
     {
         if (is_null($service)) {
             $service = $this->createService();
@@ -57,26 +57,26 @@ trait CreatesConfigServiceables
         $data['name'] = $data['name'] ?? Str::remove(['\'', ','], $this->faker->unique()->company());
         $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower($data['name']));
 
-        ServiceConfig::set($service, 'merchants.' . $data['id'], ['name' => $data['name']]);
+        ServiceConfig::set($service, 'accounts.' . $data['id'], ['name' => $data['name']]);
 
-        return new Merchant($service, $data);
+        return new Account($service, $data);
     }
 
     /**
-     * Links a merchantable instance to a providable one.
+     * Links a accountable instance to a providable one.
      *
-     * @param Merchantable $merchant
+     * @param Accountable $account
      * @param Providable $provider
      * @param array $data
      * @return void
      */
-    public function linkMerchantToProvider(Merchantable $merchant, Providable $provider, $data = [])
+    public function linkAccountToProvider(Accountable $account, Providable $provider, $data = [])
     {
         ServiceConfig::set(
-            $merchant->getService(),
-            'merchants.' . $merchant->getId() . '.providers',
+            $account->getService(),
+            'accounts.' . $account->getId() . '.providers',
             array_merge(
-                ServiceConfig::get($merchant->getService(), 'merchants.' . $merchant->getId() . '.providers', []),
+                ServiceConfig::get($account->getService(), 'accounts.' . $account->getId() . '.providers', []),
                 [$provider->getId() => $data]
             )
         );

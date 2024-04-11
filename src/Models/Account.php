@@ -4,12 +4,12 @@ namespace Payavel\Orchestration\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Payavel\Orchestration\Contracts\Merchantable;
+use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Service;
 use Payavel\Orchestration\Traits\HasFactory;
 use Payavel\Orchestration\Support\ServiceConfig;
 
-class Merchant extends Model implements Merchantable
+class Account extends Model implements Accountable
 {
     use HasFactory;
 
@@ -28,7 +28,7 @@ class Merchant extends Model implements Merchantable
     protected $guarded = [];
 
     /**
-     * Get the merchant's id.
+     * Get the account's id.
      *
      * @return string|int
      */
@@ -38,7 +38,7 @@ class Merchant extends Model implements Merchantable
     }
 
     /**
-     * Get the merchant's name.
+     * Get the account's name.
      *
      * @return string
      */
@@ -58,17 +58,17 @@ class Merchant extends Model implements Merchantable
     }
 
     /**
-     * Get the providers that the merchant belongs to.
+     * Get the providers that the account belongs to.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function providers()
     {
-        return $this->belongsToMany($this->getProviderModelClass(), 'merchant_provider', 'merchant_id', 'provider_id')->withTimestamps();
+        return $this->belongsToMany($this->getProviderModelClass(), 'account_provider', 'account_id', 'provider_id')->withTimestamps();
     }
 
     /**
-     * Get the provider model's class of this merchant's service.
+     * Get the provider model's class of this account's service.
      *
      * @return string
      */
@@ -95,11 +95,11 @@ class Merchant extends Model implements Merchantable
         }
 
         do {
-            $merchantModelClass = $parentClass;
+            $accountModelClass = $parentClass;
 
-            $parentClass =  get_parent_class($merchantModelClass);
+            $parentClass =  get_parent_class($accountModelClass);
         } while ($parentClass && $parentClass !== self::class);
 
-        return Str::replace('Merchant', 'Provider', $merchantModelClass);
+        return Str::replace('Account', 'Provider', $accountModelClass);
     }
 }

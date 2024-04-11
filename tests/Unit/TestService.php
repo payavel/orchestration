@@ -20,7 +20,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
 
     private $serviceable;
     private $providable;
-    private $merchantable;
+    private $accountable;
 
     private $service;
 
@@ -38,13 +38,13 @@ abstract class TestService extends TestCase implements CreatesServiceables
             'gateway' => TestMockRequest::class,
         ]);
 
-        $this->merchantable = $this->createMerchant($this->serviceable, [
+        $this->accountable = $this->createAccount($this->serviceable, [
             'id' => 'x',
         ]);
 
-        $this->linkMerchantToProvider($this->merchantable, $this->providable);
+        $this->linkAccountToProvider($this->accountable, $this->providable);
 
-        $this->setDefaultsForService($this->serviceable, $this->merchantable, $this->providable);
+        $this->setDefaultsForService($this->serviceable, $this->accountable, $this->providable);
 
         $this->service = new Service($this->serviceable);
     }
@@ -63,12 +63,12 @@ abstract class TestService extends TestCase implements CreatesServiceables
     }
 
     #[Test]
-    public function set_provider_and_merchant_fluently()
+    public function set_provider_and_account_fluently()
     {
         $this->assertRealIsAlignedWithFake(function () {
             $response = $this->service
             ->provider($this->providable)
-            ->merchant($this->merchantable)
+            ->account($this->accountable)
             ->getIdentity();
 
             $this->assertEquals(
@@ -107,26 +107,26 @@ abstract class TestService extends TestCase implements CreatesServiceables
     }
 
     #[Test]
-    public function setting_invalid_merchant_throws_exception()
+    public function setting_invalid_account_throws_exception()
     {
         $this->assertRealIsAlignedWithFake(function () {
             $this->expectException(Exception::class);
-            $this->expectExceptionMessage('Invalid merchant.');
+            $this->expectExceptionMessage('Invalid account.');
 
-            $this->service->setMerchant('invalid');
+            $this->service->setAccount('invalid');
         });
     }
 
     #[Test]
-    public function setting_incompatible_merchant_provider_throws_exception()
+    public function setting_incompatible_account_provider_throws_exception()
     {
         $this->assertRealIsAlignedWithFake(function () {
-            $incompatibleMerchant = $this->createMerchant($this->serviceable);
+            $incompatibleAccount = $this->createAccount($this->serviceable);
 
             $this->expectException(Exception::class);
-            $this->expectExceptionMessage('The ' . $incompatibleMerchant->getName() . ' merchant is not supported by the ' . $this->providable->getName() . ' provider.');
+            $this->expectExceptionMessage('The ' . $incompatibleAccount->getName() . ' account is not supported by the ' . $this->providable->getName() . ' provider.');
 
-            $this->service->provider($this->providable)->merchant($incompatibleMerchant)->getIdentity();
+            $this->service->provider($this->providable)->account($incompatibleAccount)->getIdentity();
         });
     }
 
@@ -134,16 +134,16 @@ abstract class TestService extends TestCase implements CreatesServiceables
     public function resetting_service_to_default_configuration()
     {
         $this->assertRealIsAlignedWithFake(function () {
-            $alternativeMerchant = $this->createMerchant($this->serviceable);
-            $this->linkMerchantToProvider($alternativeMerchant, $this->providable);
+            $alternativeAccount = $this->createAccount($this->serviceable);
+            $this->linkAccountToProvider($alternativeAccount, $this->providable);
 
-            $this->service->provider($this->providable)->merchant($alternativeMerchant);
+            $this->service->provider($this->providable)->account($alternativeAccount);
 
-            $this->assertEquals($alternativeMerchant->getId(), $this->service->getIdentity()->merchant->getId());
+            $this->assertEquals($alternativeAccount->getId(), $this->service->getIdentity()->account->getId());
 
             $this->service->reset();
 
-            $this->assertEquals($this->merchantable->getId(), $this->service->getIdentity()->merchant->getId());
+            $this->assertEquals($this->accountable->getId(), $this->service->getIdentity()->account->getId());
         });
     }
 
@@ -173,6 +173,6 @@ abstract class TestService extends TestCase implements CreatesServiceables
     protected function assertResponseIsConfigured(ServiceResponse $response)
     {
         $this->assertEquals($this->providable->getId(), $response->provider->getId());
-        $this->assertEquals($this->merchantable->getId(), $response->merchant->getId());
+        $this->assertEquals($this->accountable->getId(), $response->account->getId());
     }
 }
