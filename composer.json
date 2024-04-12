@@ -11,8 +11,7 @@
     "autoload": {
         "psr-4": {
             "Payavel\\Orchestration\\": "src/",
-            "Payavel\\Orchestration\\Database\\Factories\\": "database/factories/",
-            "Payavel\\Orchestration\\Tests\\Traits\\": "tests/Traits"
+            "Payavel\\Orchestration\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
