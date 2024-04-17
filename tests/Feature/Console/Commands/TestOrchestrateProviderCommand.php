@@ -43,7 +43,8 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
         $gateway = $this->gatewayPath($provider);
 
         $this->artisan('orchestrate:provider', [
-            'provider' => $provider->getId(),
+            'provider' => $provider->getName(),
+            '--id' => $provider->getId(),
             '--service' => $provider->getService()->getId(),
         ])
             ->expectsOutputToContain("Gateway [app/{$gateway->request}] created successfully.")
