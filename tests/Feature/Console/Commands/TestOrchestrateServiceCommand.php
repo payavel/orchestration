@@ -3,7 +3,6 @@
 namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
 
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
@@ -30,9 +29,10 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $fakeGateway = $this->gatewayPath($service);
         $providerGateway = $this->gatewayPath($provider);
 
-        $this->artisan('orchestrate:service')
-            ->expectsQuestion('How should the service be named?', $service->getName())
-            ->expectsQuestion('How should the service be identified?', $service->getId())
+        $this->artisan('orchestrate:service', [
+            'service' => $service->getName(),
+            '--id' => $service->getId(),
+        ])
             ->expectsQuestion("Choose a driver for the {$service->getName()} service.", Config::get('orchestration.defaults.driver'))
             ->expectsQuestion("How should the {$service->getName()} provider be named?", $provider->getName())
             ->expectsQuestion("How should the {$service->getName()} provider be identified?", $provider->getId())

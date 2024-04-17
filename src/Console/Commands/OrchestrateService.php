@@ -25,14 +25,15 @@ class OrchestrateService extends Command
      * @var string
      */
     protected $signature = 'orchestrate:service
-                            {service? : The service}';
+                            {service? : The service name}
+                            {--id= : The service ID }';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Install a new service within the application.';
+    protected $description = 'Install a new service into the application.';
 
     /**
      * The serviceable to be saved.
@@ -163,7 +164,7 @@ class OrchestrateService extends Command
     {
         $this->service = new Service([
             'name' => $name = trim($this->argument('service') ?? $this->askName('service')),
-            'id' => $this->askId('service', $name),
+            'id' => $this->option('id') ?? $this->askId('service', $name),
         ]);
     }
 

@@ -23,8 +23,9 @@ class OrchestrateProvider extends Command
      * @var string
      */
     protected $signature = 'orchestrate:provider
-                            {provider? : The provider}
-                            {--service= : The service}
+                            {provider? : The provider name}
+                            {--id= : The provider ID}
+                            {--service= : The service ID}
                             {--fake : Generates a gateway to be used for testing purposes}';
 
     /**
@@ -89,7 +90,7 @@ class OrchestrateProvider extends Command
 
         $this->name = trim($this->argument('provider') ?? $this->askName('provider'));
 
-        $this->id = $this->askId('provider', $this->name);
+        $this->id = $this->option('id') ?? $this->askId('provider', $this->name);
 
         return true;
     }
