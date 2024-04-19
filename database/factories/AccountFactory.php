@@ -40,7 +40,7 @@ class AccountFactory extends Factory
     {
         return $this->afterMaking(function (Account $account) {
             if(is_null($account->service_id)) {
-                $$account->service_id = is_null($service = Service::all()->random())
+                $account->service_id = is_null($service = Service::all()->random())
                     ? Str::lower($this->faker->unique()->word())
                     : $service->getId();
             }
