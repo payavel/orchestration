@@ -113,7 +113,7 @@ class OrchestrateService extends Command
         static::putFile(
             app_path($requesterPath = "Services/{$studlyService}/Contracts/{$studlyService}Requester.php"),
             static::makeFile(
-                static::getStub('service-requester'),
+                static::getStub('service-requester', $this->service->getId()),
                 [
                     'Service' => $studlyService,
                 ]
@@ -125,7 +125,7 @@ class OrchestrateService extends Command
         static::putFile(
             app_path($responderPath = "Services/{$studlyService}/Contracts/{$studlyService}Responder.php"),
             static::makeFile(
-                static::getStub('service-responder'),
+                static::getStub('service-responder', $this->service->getId()),
                 [
                     'Service' => $studlyService,
                 ]

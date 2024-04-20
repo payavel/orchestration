@@ -45,8 +45,8 @@ trait GeneratesFiles
     /**
      * Get the most relevant stub file.
      *
-     * @param $stub
-     * @param $service
+     * @param string $stub
+     * @param string|null $service
      * @return string
      */
     protected static function getStub($stub, $service = null)
