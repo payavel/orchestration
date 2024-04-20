@@ -183,7 +183,7 @@ class ConfigDriver extends ServiceDriver
             fn ($config, $provider) =>
                 $config .
                 static::makeFile(
-                    static::getStub('config-service-provider'),
+                    static::getStub('config-service-provider', $service->getId()),
                     [
                         'id' => $provider['id'],
                         'name' => $provider['name'],
@@ -196,7 +196,7 @@ class ConfigDriver extends ServiceDriver
         $config['accounts'] = $accounts->reduce(
             fn ($config, $account) =>
                 $config . static::makeFile(
-                    static::getStub('config-service-account'),
+                    static::getStub('config-service-account', $service->getId()),
                     [
                         'id' => $account['id'],
                         'name' => $account['name'],
@@ -204,7 +204,7 @@ class ConfigDriver extends ServiceDriver
                             fn ($config, $provider, $index) =>
                                 $config .
                                 static::makeFile(
-                                    static::getStub('config-service-account-providers'),
+                                    static::getStub('config-service-account-providers', $service->getId()),
                                     ['id' => $provider]
                                 ) .
                                 ($index < count($providers) - 1 ? "\n" : ""),
@@ -218,7 +218,7 @@ class ConfigDriver extends ServiceDriver
         static::putFile(
             config_path($configPath = Str::slug($service->getId()) . '.php'),
             static::makeFile(
-                static::getStub('config-service'),
+                static::getStub('config-service', $service->getId()),
                 [
                     'Title' => $service->getName(),
                     'Service' => Str::studly($service->getId()),

@@ -150,7 +150,7 @@ class DatabaseDriver extends ServiceDriver
         static::putFile(
             config_path($configPath = Str::slug($service->getId()) . '.php'),
             static::makeFile(
-                static::getStub('config-service-database'),
+                static::getStub('config-service-database', $service->getId()),
                 [
                     'Title' => $service->getName(),
                     'Service' => Str::studly($service->getId()),
@@ -170,7 +170,7 @@ class DatabaseDriver extends ServiceDriver
         $providers = $providers->reduce(
             fn ($array, $provider, $index) =>
                 $array . static::makeFile(
-                    static::getStub('migration-service-providers'),
+                    static::getStub('migration-service-providers', $service->getId()),
                     [
                         'id' => $provider['id'],
                         'name' => $provider['name'],
@@ -184,7 +184,7 @@ class DatabaseDriver extends ServiceDriver
         $accounts = $accounts->reduce(
             fn ($array, $account, $index) =>
                 $array . static::makeFile(
-                    static::getStub('migration-service-accounts'),
+                    static::getStub('migration-service-accounts', $service->getId()),
                     [
                         'id' => $account['id'],
                         'name' => $account['name'],
@@ -198,7 +198,7 @@ class DatabaseDriver extends ServiceDriver
         static::putFile(
             database_path($migrationPath = 'migrations/' . Carbon::now()->format('Y_m_d_His') . '_add_providers_and_accounts_to_' . Str::slug($service->getId(), '_') . '_service.php'),
             static::makeFile(
-                static::getStub('migration-service'),
+                static::getStub('migration-service', $service->getId()),
                 [
                     'service' => $service->getId(),
                     'providers' => $providers,
