@@ -32,7 +32,7 @@ class OrchestrationServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../database/migrations/2024_01_01_000001_create_base_orchestration_tables.php' => database_path('migrations/2024_01_01_000001_create_base_orchestration_tables.php'),
-        ], ['payavel', 'payavel-orchestration', 'payavel-migrations']);
+        ], ['payavel', 'payavel-orchestration', 'payavel-migrations', 'payavel-orchestration-migrations']);
     }
 
     protected function registerCommands()
