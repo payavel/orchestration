@@ -5,6 +5,7 @@ namespace Payavel\Orchestration\Drivers;
 use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
@@ -147,6 +148,8 @@ class DatabaseDriver extends ServiceDriver
      */
     public static function generateService(Serviceable $service, Collection $providers, Collection $accounts, array $defaults)
     {
+        Artisan::call('vendor:publish', ['--tag' => 'payavel-orchestration-migrations']);
+
         static::putFile(
             config_path($configPath = Str::slug($service->getId()) . '.php'),
             static::makeFile(
