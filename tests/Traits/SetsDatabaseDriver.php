@@ -15,5 +15,9 @@ trait SetsDatabaseDriver
     protected function setDriver()
     {
         Config::set('orchestration.defaults.driver', 'database');
+
+        Artisan::call('vendor:publish', [
+            '--tag' => 'payavel-orchestration-migrations'
+        ]);
     }
 }
