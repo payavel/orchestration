@@ -36,7 +36,7 @@ trait GeneratesFiles
     {
         $fileSystem = new Filesystem();
 
-        $directory = collect(explode('/', $path, -1))->join('/');
+        $directory = collect(explode(DIRECTORY_SEPARATOR, $path, -1))->join(DIRECTORY_SEPARATOR);
         $fileSystem->ensureDirectoryExists($directory);
 
         $fileSystem->put($path, $file);
