@@ -29,6 +29,7 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $fakeGateway = $this->gatewayPath($service);
         $providerGateway = $this->gatewayPath($provider);
 
+        $ds = DIRECTORY_SEPARATOR;
         $this->artisan('orchestrate:service', [
             'service' => $service->getName(),
             '--id' => $service->getId(),
@@ -40,14 +41,14 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
             ->expectsQuestion("How should the {$service->getName()} account be named?", $account->getName())
             ->expectsQuestion("How should the {$service->getName()} account be identified?", $account->getId())
             ->expectsConfirmation("Would you like to add another {$service->getName()} account?", 'no')
-            ->expectsOutputToContain("Config [config/{$serviceConfig->orchestration}] created successfully.")
-            ->expectsOutputToContain("Config [config/{$serviceConfig->service}] created successfully.")
-            ->expectsOutputToContain("Contract [app/{$serviceContract->requester}] created successfully.")
-            ->expectsOutputToContain("Contract [app/{$serviceContract->responder}] created successfully.")
-            ->expectsOutputToContain("Gateway [app/{$fakeGateway->request}] created successfully.")
-            ->expectsOutputToContain("Gateway [app/{$fakeGateway->response}] created successfully.")
-            ->expectsOutputToContain("Gateway [app/{$providerGateway->request}] created successfully.")
-            ->expectsOutputToContain("Gateway [app/{$providerGateway->response}] created successfully.")
+            ->expectsOutputToContain("Config [config{$ds}{$serviceConfig->orchestration}] created successfully.")
+            ->expectsOutputToContain("Config [config{$ds}{$serviceConfig->service}] created successfully.")
+            ->expectsOutputToContain("Contract [app{$ds}{$serviceContract->requester}] created successfully.")
+            ->expectsOutputToContain("Contract [app{$ds}{$serviceContract->responder}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$fakeGateway->request}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$fakeGateway->response}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$providerGateway->request}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$providerGateway->response}] created successfully.")
             ->assertSuccessful();
 
         $config = require(config_path($serviceConfig->service));
@@ -84,6 +85,7 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $provider1Gateway = $this->gatewayPath($provider1);
         $provider2Gateway = $this->gatewayPath($provider2);
 
+        $ds = DIRECTORY_SEPARATOR;
         $this->artisan('orchestrate:service')
             ->expectsQuestion('How should the service be named?', $service->getName())
             ->expectsQuestion('How should the service be identified?', $service->getId())
@@ -108,16 +110,16 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
             ->expectsQuestion("Choose one or more {$service->getName()} providers for the {$account3->getName()} account.", [$provider1->getId(), $provider2->getId()])
             ->expectsConfirmation("Would you like to add another {$service->getName()} account?", 'no')
             ->expectsQuestion("Which account will be used as default?", $account1->getId())
-            ->expectsOutputToContain("Config [config/{$serviceConfig->orchestration}] created successfully.")
-            ->expectsOutputToContain("Config [config/{$serviceConfig->service}] created successfully.")
-            ->expectsOutputToContain("Contract [app/{$serviceContract->requester}] created successfully.")
-            ->expectsOutputToContain("Contract [app/{$serviceContract->responder}] created successfully.")
-            ->expectsOutputToContain("Gateway [app/{$fakeGateway->request}] created successfully.")
-            ->expectsOutputToContain("Gateway [app/{$fakeGateway->response}] created successfully.")
-            ->expectsOutputToContain("Gateway [app/{$provider1Gateway->request}] created successfully.")
-            ->expectsOutputToContain("Gateway [app/{$provider1Gateway->response}] created successfully.")
-            ->expectsOutputToContain("Gateway [app/{$provider2Gateway->request}] created successfully.")
-            ->expectsOutputToContain("Gateway [app/{$provider2Gateway->response}] created successfully.")
+            ->expectsOutputToContain("Config [config{$ds}{$serviceConfig->orchestration}] created successfully.")
+            ->expectsOutputToContain("Config [config{$ds}{$serviceConfig->service}] created successfully.")
+            ->expectsOutputToContain("Contract [app{$ds}{$serviceContract->requester}] created successfully.")
+            ->expectsOutputToContain("Contract [app{$ds}{$serviceContract->responder}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$fakeGateway->request}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$fakeGateway->response}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$provider1Gateway->request}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$provider1Gateway->response}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$provider2Gateway->request}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$provider2Gateway->response}] created successfully.")
             ->assertSuccessful();
 
         $config = require(config_path($serviceConfig->service));
