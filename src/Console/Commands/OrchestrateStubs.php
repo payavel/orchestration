@@ -8,6 +8,7 @@ use Payavel\Orchestration\Traits\GeneratesFiles;
 
 use function Laravel\Prompts\error;
 use function Laravel\Prompts\info;
+use function Illuminate\Filesystem\join_paths;
 
 class OrchestrateStubs extends Command
 {
@@ -88,7 +89,7 @@ class OrchestrateStubs extends Command
 
         foreach($stubs as $stub) {
             static::putFile(
-                base_path("{$directory}/{$stub}.stub"),
+                base_path(join_paths($directory, "{$stub}.stub")),
                 file_get_contents(__DIR__."/../../../stubs/{$stub}.stub")
             );
         }

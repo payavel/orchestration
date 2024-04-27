@@ -166,7 +166,7 @@ class DatabaseDriver extends ServiceDriver
             )
         );
 
-        info("Config [config/{$configPath}] created successfully.");
+        info('Config ['.join_paths('config', $configPath).'] created successfully.');
 
         Config::set(Str::slug($service->getId()), require(config_path($configPath)));
 
@@ -199,7 +199,7 @@ class DatabaseDriver extends ServiceDriver
         );
 
         static::putFile(
-            database_path($migrationPath = 'migrations/' . Carbon::now()->format('Y_m_d_His') . '_add_providers_and_accounts_to_' . Str::slug($service->getId(), '_') . '_service.php'),
+            database_path($migrationPath = join_paths('migrations', Carbon::now()->format('Y_m_d_His') . '_add_providers_and_accounts_to_' . Str::slug($service->getId(), '_')) . '_service.php'),
             static::makeFile(
                 static::getStub('migration-service', $service->getId()),
                 [

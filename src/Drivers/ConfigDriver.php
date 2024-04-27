@@ -233,7 +233,7 @@ class ConfigDriver extends ServiceDriver
             )
         );
 
-        info("Config [config/{$configPath}] created successfully.");
+        info('Config [.'join_paths('config', $configPath).'] created successfully.');
 
         Config::set(Str::slug($service->getId()), require(config_path($configPath)));
     }
