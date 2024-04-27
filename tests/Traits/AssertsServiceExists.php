@@ -23,9 +23,10 @@ trait AssertsServiceExists
     {
         $service = Str::studly($serviceable->getId());
 
+        $ds = DIRECTORY_SEPARATOR;
         return new Fluent([
-            'requester' => "Services/{$service}/Contracts/{$service}Requester.php",
-            'responder' => "Services/{$service}/Contracts/{$service}Responder.php",
+            'requester' => "Services{$ds}{$service}{$ds}Contracts{$ds}{$service}Requester.php",
+            'responder' => "Services{$ds}{$service}{$ds}Contracts{$ds}{$service}Responder.php",
         ]);
     }
 
@@ -39,9 +40,10 @@ trait AssertsServiceExists
             $provider = 'Fake';
         }
 
+        $ds = DIRECTORY_SEPARATOR;
         return new Fluent([
-            'request' => "Services/{$service}/{$provider}{$service}Request.php",
-            'response' => "Services/{$service}/{$provider}{$service}Response.php",
+            'request' => "Services{$ds}{$service}{$ds}{$provider}{$service}Request.php",
+            'response' => "Services{$ds}{$service}{$ds}{$provider}{$service}Response.php",
         ]);
     }
 

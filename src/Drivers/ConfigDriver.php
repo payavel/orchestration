@@ -16,6 +16,7 @@ use Payavel\Orchestration\Traits\GeneratesFiles;
 use Payavel\Orchestration\Support\ServiceConfig;
 
 use function Laravel\Prompts\info;
+use function Illuminate\Filesystem\join_paths;
 
 class ConfigDriver extends ServiceDriver
 {
@@ -216,7 +217,7 @@ class ConfigDriver extends ServiceDriver
         );
 
         static::putFile(
-            config_path($configPath = Str::slug($service->getId()) . '.php'),
+            config_path($configPath = Str::slug($service->getId()).'.php'),
             static::makeFile(
                 static::getStub('config-service', $service->getId()),
                 [
@@ -233,7 +234,7 @@ class ConfigDriver extends ServiceDriver
             )
         );
 
-        info('Config [.'join_paths('config', $configPath).'] created successfully.');
+        info('Config ['.join_paths('config', $configPath).'] created successfully.');
 
         Config::set(Str::slug($service->getId()), require(config_path($configPath)));
     }

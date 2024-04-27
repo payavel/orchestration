@@ -24,12 +24,13 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
 
         $gateway = $this->gatewayPath($provider);
 
+        $ds = DIRECTORY_SEPARATOR;
         $this->artisan('orchestrate:provider')
             ->expectsQuestion('Which service will the provider be offering?', $services->search($service->getId()))
             ->expectsQuestion("How should the {$service->getName()} provider be named?", $provider->getName())
             ->expectsQuestion("How should the {$service->getName()} provider be identified?", $provider->getId())
-            ->expectsOutputToContain("Gateway [app/{$gateway->request}] created successfully.")
-            ->expectsOutputToContain("Gateway [app/{$gateway->response}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$gateway->request}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$gateway->response}] created successfully.")
             ->assertSuccessful();
 
         $this->assertGatewayExists($provider);
@@ -42,13 +43,14 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
 
         $gateway = $this->gatewayPath($provider);
 
+        $ds = DIRECTORY_SEPARATOR;
         $this->artisan('orchestrate:provider', [
             'provider' => $provider->getName(),
             '--id' => $provider->getId(),
             '--service' => $provider->getService()->getId(),
         ])
-            ->expectsOutputToContain("Gateway [app/{$gateway->request}] created successfully.")
-            ->expectsOutputToContain("Gateway [app/{$gateway->response}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$gateway->request}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$gateway->response}] created successfully.")
             ->assertSuccessful();
 
         $this->assertGatewayExists($provider);
@@ -61,12 +63,13 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
 
         $gateway = $this->gatewayPath($service);
 
+        $ds = DIRECTORY_SEPARATOR;
         $this->artisan('orchestrate:provider', [
             '--service' => $service->getId(),
             '--fake' => true,
         ])
-            ->expectsOutputToContain("Gateway [app/{$gateway->request}] created successfully.")
-            ->expectsOutputToContain("Gateway [app/{$gateway->response}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$gateway->request}] created successfully.")
+            ->expectsOutputToContain("Gateway [app{$ds}{$gateway->response}] created successfully.")
             ->assertSuccessful();
 
         $this->assertGatewayExists($service);

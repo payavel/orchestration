@@ -18,6 +18,7 @@ use Payavel\Orchestration\Traits\GeneratesFiles;
 use Payavel\Orchestration\Support\ServiceConfig;
 
 use function Laravel\Prompts\info;
+use function Illuminate\Filesystem\join_paths;
 
 class DatabaseDriver extends ServiceDriver
 {

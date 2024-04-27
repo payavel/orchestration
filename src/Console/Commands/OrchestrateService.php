@@ -268,6 +268,6 @@ class OrchestrateService extends Command
             )
         );
 
-        info('Config ['.join_paths('app', $configPath).'] created successfully.');
+        info('Config ['.join_paths('config', $configPath).'] created successfully.');
     }
 }
