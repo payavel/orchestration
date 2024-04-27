@@ -31,7 +31,7 @@ class DatabaseOrchestrateServiceCommandTest extends TestOrchestrateServiceComman
 
         $this->assertNotNull($provider);
         $this->assertEquals(
-            'App\\Services\\' . Str::studly($service->getId()) . '\\' . Str::studly($provider->getId()) . Str::studly($service->getId()) . 'Request',
+            'App\\Services\\'.Str::studly($service->getId()).'\\'.Str::studly($provider->getId()).Str::studly($service->getId()).'Request',
             $provider->gateway
         );
     }

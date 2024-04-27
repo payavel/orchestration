@@ -16,7 +16,7 @@ class OrchestrateStubsCommandTest extends TestCase
             ->assertExitCode(0);
 
         foreach(OrchestrateStubs::$baseStubs as $stub) {
-            $this->assertFileExists(base_path('stubs/orchestration/' . $stub . '.stub'));
+            $this->assertFileExists(base_path('stubs/orchestration/'.$stub.'.stub'));
         }
     }
 
@@ -30,7 +30,7 @@ class OrchestrateStubsCommandTest extends TestCase
             ->assertExitCode(0);
 
         foreach(OrchestrateStubs::$serviceSpecificStubs as $stub) {
-            $this->assertFileExists(base_path('stubs/orchestration/mock/' . $stub . '.stub'));
+            $this->assertFileExists(base_path('stubs/orchestration/mock/'.$stub.'.stub'));
         }
     }
 
@@ -43,7 +43,7 @@ class OrchestrateStubsCommandTest extends TestCase
             ->expectsOutputToContain('Successfully published stub!')
             ->assertExitCode(0);
 
-        $this->assertFileExists(base_path('stubs/orchestration/' . $stub . '.stub'));
+        $this->assertFileExists(base_path('stubs/orchestration/'.$stub.'.stub'));
     }
 
     #[Test]

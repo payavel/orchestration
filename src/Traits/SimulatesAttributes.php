@@ -21,7 +21,7 @@ trait SimulatesAttributes
      */
     public function __get($key)
     {
-        if (! method_exists(self::class, $method = 'get' . Str::studly($key))) {
+        if (! method_exists(self::class, $method = 'get'.Str::studly($key))) {
             return $this->getAttribute($key);
         }
 
@@ -37,7 +37,7 @@ trait SimulatesAttributes
      */
     public function __set($key, $value): void
     {
-        if (! method_exists(self::class, $method = 'set' . Str::studly($key))) {
+        if (! method_exists(self::class, $method = 'set'.Str::studly($key))) {
             $this->setAttribute($key, $value);
 
             return;

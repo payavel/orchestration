@@ -64,7 +64,7 @@ abstract class ServiceRequest
     public function request($method, $params)
     {
         if (! method_exists($this, $method)) {
-            throw new \BadMethodCallException(get_class($this) . "::{$method}() not found.");
+            throw new \BadMethodCallException(get_class($this)."::{$method}() not found.");
         }
 
         $response = $this->{$method}(...$params);

@@ -196,7 +196,7 @@ class ConfigDriver extends ServiceDriver
 
         $config['accounts'] = $accounts->reduce(
             fn ($config, $account) =>
-                $config . static::makeFile(
+                $config.static::makeFile(
                     static::getStub('config-service-account', $service->getId()),
                     [
                         'id' => $account['id'],

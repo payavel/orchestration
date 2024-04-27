@@ -23,7 +23,7 @@ class OrchestrationServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/orchestration.php',
+            __DIR__.'/../config/orchestration.php',
             'orchestration'
         );
     }
@@ -31,7 +31,7 @@ class OrchestrationServiceProvider extends ServiceProvider
     protected function registerPublishableAssets()
     {
         $this->publishes([
-            __DIR__ . '/../database/migrations/2024_01_01_000001_create_base_orchestration_tables.php' => database_path('migrations/2024_01_01_000001_create_base_orchestration_tables.php'),
+            __DIR__.'/../database/migrations/2024_01_01_000001_create_base_orchestration_tables.php' => database_path('migrations/2024_01_01_000001_create_base_orchestration_tables.php'),
         ], ['payavel', 'payavel-orchestration', 'payavel-migrations', 'payavel-orchestration-migrations']);
     }
 

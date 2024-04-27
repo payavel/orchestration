@@ -33,7 +33,7 @@ class DatabaseDriver extends ServiceDriver
     public function resolveProvider($provider)
     {
         if (! $provider instanceof Provider) {
-            $serviceProvider = ServiceConfig::get($this->service, 'models.' . Provider::class, Provider::class);
+            $serviceProvider = ServiceConfig::get($this->service, 'models.'.Provider::class, Provider::class);
 
             $provider = $serviceProvider::find($provider);
         }
@@ -69,7 +69,7 @@ class DatabaseDriver extends ServiceDriver
     public function resolveAccount($account)
     {
         if (! $account instanceof Account) {
-            $serviceAccount = ServiceConfig::get($this->service, 'models.' . Account::class, Account::class);
+            $serviceAccount = ServiceConfig::get($this->service, 'models.'.Account::class, Account::class);
 
             $account = $serviceAccount::find($account);
         }
@@ -152,7 +152,7 @@ class DatabaseDriver extends ServiceDriver
         Artisan::call('vendor:publish', ['--tag' => 'payavel-orchestration-migrations']);
 
         static::putFile(
-            config_path($configPath = Str::slug($service->getId()) . '.php'),
+            config_path($configPath = Str::slug($service->getId()).'.php'),
             static::makeFile(
                 static::getStub('config-service-database', $service->getId()),
                 [
@@ -173,7 +173,7 @@ class DatabaseDriver extends ServiceDriver
 
         $providers = $providers->reduce(
             fn ($array, $provider, $index) =>
-                $array . static::makeFile(
+                $array.static::makeFile(
                     static::getStub('migration-service-providers', $service->getId()),
                     [
                         'id' => $provider['id'],
@@ -187,7 +187,7 @@ class DatabaseDriver extends ServiceDriver
 
         $accounts = $accounts->reduce(
             fn ($array, $account, $index) =>
-                $array . static::makeFile(
+                $array.static::makeFile(
                     static::getStub('migration-service-accounts', $service->getId()),
                     [
                         'id' => $account['id'],
@@ -200,7 +200,7 @@ class DatabaseDriver extends ServiceDriver
         );
 
         static::putFile(
-            database_path($migrationPath = join_paths('migrations', Carbon::now()->format('Y_m_d_His') . '_add_providers_and_accounts_to_' . Str::slug($service->getId(), '_')) . '_service.php'),
+            database_path($migrationPath = join_paths('migrations', Carbon::now()->format('Y_m_d_His').'_add_providers_and_accounts_to_'.Str::slug($service->getId(), '_')).'_service.php'),
             static::makeFile(
                 static::getStub('migration-service', $service->getId()),
                 [
