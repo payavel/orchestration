@@ -13,6 +13,7 @@ use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\multiselect;
 use function Laravel\Prompts\select;
+use function Illuminate\Filesystem\join_paths;
 
 class OrchestrateService extends Command
 {
@@ -111,7 +112,7 @@ class OrchestrateService extends Command
         $studlyService = Str::studly($this->service->getId());
 
         static::putFile(
-            app_path($requesterPath = "Services/{$studlyService}/Contracts/{$studlyService}Requester.php"),
+            app_path($requesterPath = join_paths('Services', $studlyService, 'Contracts', "{$studlyService}Requester.php")),
             static::makeFile(
                 static::getStub('service-requester', $this->service->getId()),
                 [
@@ -120,10 +121,10 @@ class OrchestrateService extends Command
             )
         );
 
-        info("Contract [app/{$requesterPath}] created successfully.");
+        info('Contract ['.join_paths('app', $requesterPath).'] created successfully.');
 
         static::putFile(
-            app_path($responderPath = "Services/{$studlyService}/Contracts/{$studlyService}Responder.php"),
+            app_path($responderPath = join_paths('Services', $studlyService, 'Contracts', "{$studlyService}Responder.php")),
             static::makeFile(
                 static::getStub('service-responder', $this->service->getId()),
                 [
@@ -132,7 +133,7 @@ class OrchestrateService extends Command
             )
         );
 
-        info("Contract [app/{$responderPath}] created successfully.");
+        info('Contract ['.join_paths('app', $responderPath).'] created successfully.');
     }
 
     /**
@@ -267,6 +268,6 @@ class OrchestrateService extends Command
             )
         );
 
-        info("Config [config/{$configPath}] created successfully.");
+        info('Config ['.join_paths('app', $configPath).'] created successfully.');
     }
 }

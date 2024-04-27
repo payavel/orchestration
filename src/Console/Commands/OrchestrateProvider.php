@@ -11,6 +11,7 @@ use Payavel\Orchestration\Traits\GeneratesFiles;
 use function Laravel\Prompts\error;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\select;
+use function Illuminate\Filesystem\join_paths;
 
 class OrchestrateProvider extends Command
 {
@@ -106,7 +107,7 @@ class OrchestrateProvider extends Command
         $provider = Str::studly($this->id);
 
         static::putFile(
-            app_path($requestPath = "Services/{$service}/{$provider}{$service}Request.php"),
+            app_path($requestPath = join_paths('Services', $service, "{$provider}{$service}Request.php")),
             static::makeFile(
                 static::getStub('service-request', $this->service->getId()),
                 [
@@ -116,10 +117,10 @@ class OrchestrateProvider extends Command
             )
         );
 
-        info("Gateway [app/{$requestPath}] created successfully.");
+        info('Gateway ['.join_paths('app', $requestPath).'] created successfully.');
 
         static::putFile(
-            app_path($responsePath = "Services/{$service}/{$provider}{$service}Response.php"),
+            app_path($responsePath = join_paths('Services', $service, "{$provider}{$service}Response.php")),
             static::makeFile(
                 static::getStub('service-response', $this->service->getId()),
                 [
@@ -129,7 +130,7 @@ class OrchestrateProvider extends Command
             )
         );
 
-        info("Gateway [app/{$responsePath}] created successfully.");
+        info('Gateway ['.join_paths('app', $responsePath).'] created successfully.');
     }
 
     /**
