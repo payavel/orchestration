@@ -22,16 +22,16 @@ class ServiceConfig
             $service = $service->getId();
         }
 
-        $config = Config::get('orchestration.services.' . $service, Str::slug($service));
+        $config = Config::get('orchestration.services.'.$service, Str::slug($service));
 
         if (is_array($config)) {
-            return Config::get('orchestration.services.' . $service . '.' . $key, $default);
+            return Config::get('orchestration.services.'.$service.'.'.$key, $default);
         }
 
         return Config::get(
-            $config .  '.' . $key,
+            $config.'.'.$key,
             Config::get(
-                'orchestration.' . $key,
+                'orchestration.'.$key,
                 $default
             )
         );
@@ -51,10 +51,10 @@ class ServiceConfig
             $service = $service->getId();
         }
 
-        $config = Config::get('orchestration.services.' . $service, Str::slug($service));
+        $config = Config::get('orchestration.services.'.$service, Str::slug($service));
 
         Config::set(
-            (is_array($config) ? 'orchestration.services.' . $service : $config) . '.' . $key,
+            (is_array($config) ? 'orchestration.services.'.$service : $config).'.'.$key,
             $value
         );
     }

@@ -19,7 +19,7 @@ trait GeneratesFiles
         $file = file_get_contents($stub);
 
         foreach ($data as $search => $replace) {
-            $file = Str::replace('{{ ' . $search . ' }}', $replace, $file);
+            $file = Str::replace('{{ '.$search.' }}', $replace, $file);
         }
 
         return $file;
@@ -65,6 +65,6 @@ trait GeneratesFiles
             return $file;
         }
 
-        return __DIR__ . "/../../stubs/{$stub}.stub";
+        return __DIR__."/../../stubs/{$stub}.stub";
     }
 }

@@ -27,11 +27,11 @@ trait CreatesConfigServiceables
 
         $data['name'] = $data['name'] ?? Str::remove(['\'', ','], $this->faker->unique()->company());
         $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower($data['name']));
-        $data['gateway'] = $data['gateway'] ?? 'App\\Services\\' . Str::studly($service->getId()) . '\\' . Str::studly($data['id']) . Str::studly($service->getId()) . 'Request';
+        $data['gateway'] = $data['gateway'] ?? 'App\\Services\\'.Str::studly($service->getId()).'\\'.Str::studly($data['id']).Str::studly($service->getId()).'Request';
 
         ServiceConfig::set(
             $service,
-            'providers.' . $data['id'],
+            'providers.'.$data['id'],
             [
                 'name' => $data['name'],
                 'gateway' => $data['gateway']
@@ -57,7 +57,7 @@ trait CreatesConfigServiceables
         $data['name'] = $data['name'] ?? Str::remove(['\'', ','], $this->faker->unique()->company());
         $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower($data['name']));
 
-        ServiceConfig::set($service, 'accounts.' . $data['id'], ['name' => $data['name']]);
+        ServiceConfig::set($service, 'accounts.'.$data['id'], ['name' => $data['name']]);
 
         return new Account($service, $data);
     }
@@ -74,9 +74,9 @@ trait CreatesConfigServiceables
     {
         ServiceConfig::set(
             $account->getService(),
-            'accounts.' . $account->getId() . '.providers',
+            'accounts.'.$account->getId().'.providers',
             array_merge(
-                ServiceConfig::get($account->getService(), 'accounts.' . $account->getId() . '.providers', []),
+                ServiceConfig::get($account->getService(), 'accounts.'.$account->getId().'.providers', []),
                 [$provider->getId() => $data]
             )
         );

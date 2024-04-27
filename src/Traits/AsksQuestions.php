@@ -46,6 +46,6 @@ trait AsksQuestions
      */
     private function formatService($entity)
     {
-        return ($this->service ? ($this->service->getName() . ' ') : '') . $entity;
+        return ($this->service ? ($this->service->getName().' ') : '').$entity;
     }
 }

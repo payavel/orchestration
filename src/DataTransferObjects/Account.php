@@ -59,17 +59,17 @@ class Account implements Accountable
     public function getProviders()
     {
         if (! isset($this->providers)) {
-            $this->attributes['providers'] = (new Collection(ServiceConfig::get($this->service, 'accounts.' . $this->attributes['id'] . '.providers', [])))
+            $this->attributes['providers'] = (new Collection(ServiceConfig::get($this->service, 'accounts.'.$this->attributes['id'].'.providers', [])))
                 ->map(
                     fn ($provider, $key) => is_array($provider)
                         ? array_merge(
                             ['id' => $key],
-                            ServiceConfig::get($this->service, 'providers.' . $key),
+                            ServiceConfig::get($this->service, 'providers.'.$key),
                             $provider
                         )
                         : array_merge(
                             ['id' => $provider],
-                            ServiceConfig::get($this->service, 'providers.' . $provider)
+                            ServiceConfig::get($this->service, 'providers.'.$provider)
                         )
                 );
         }

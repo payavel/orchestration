@@ -16,19 +16,19 @@ class ConfigOrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
 
     protected function makeSureProviderExists(Serviceable $service, Providable $provider)
     {
-        $config = require(config_path(Str::slug($service->getId()) . '.php'));
+        $config = require(config_path(Str::slug($service->getId()).'.php'));
 
         $this->assertIsArray($config['providers']);
         $this->assertIsArray($config['providers'][$provider->getId()]);
         $this->assertEquals(
-            'App\\Services\\' . Str::studly($service->getId()) . '\\' . Str::studly($provider->getId()) . Str::studly($service->getId()) . 'Request',
+            'App\\Services\\'.Str::studly($service->getId()).'\\'.Str::studly($provider->getId()).Str::studly($service->getId()).'Request',
             $config['providers'][$provider->getId()]['gateway']
         );
     }
 
     protected function makeSureAccountExists(Serviceable $service, Accountable $account)
     {
-        $config = require(config_path(Str::slug($service->getId()) . '.php'));
+        $config = require(config_path(Str::slug($service->getId()).'.php'));
 
         $this->assertIsArray($config['accounts']);
         $this->assertIsArray($config['accounts'][$account->getId()]);
@@ -38,7 +38,7 @@ class ConfigOrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
 
     protected function makeSureProviderIsLinkedToAccount(Serviceable $service, Providable $provider, Accountable $account)
     {
-        $config = require(config_path(Str::slug($service->getId()) . '.php'));
+        $config = require(config_path(Str::slug($service->getId()).'.php'));
 
         $this->assertIsArray($config['accounts'][$account->getId()]['providers'][$provider->getId()]);
     }

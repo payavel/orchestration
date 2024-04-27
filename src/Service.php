@@ -64,7 +64,7 @@ class Service
 
         $this->service = $service;
 
-        if (! class_exists($driver = ServiceConfig::get($this->service, 'drivers.' . ServiceConfig::get($this->service, 'defaults.driver')))) {
+        if (! class_exists($driver = ServiceConfig::get($this->service, 'drivers.'.ServiceConfig::get($this->service, 'defaults.driver')))) {
             throw new Exception('Invalid driver provided.');
         }
 

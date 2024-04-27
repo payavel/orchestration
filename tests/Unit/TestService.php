@@ -124,7 +124,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
             $incompatibleAccount = $this->createAccount($this->serviceable);
 
             $this->expectException(Exception::class);
-            $this->expectExceptionMessage('The ' . $incompatibleAccount->getName() . ' account is not supported by the ' . $this->providable->getName() . ' provider.');
+            $this->expectExceptionMessage('The '.$incompatibleAccount->getName().' account is not supported by the '.$this->providable->getName().' provider.');
 
             $this->service->provider($this->providable)->account($incompatibleAccount)->getIdentity();
         });
@@ -154,7 +154,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
 
         $this->assertRealIsAlignedWithFake(function () use ($undefinedMethod) {
             $this->expectException(BadMethodCallException::class);
-            $this->expectExceptionMessage(get_class($this->service->gateway) . "::{$undefinedMethod}() not found.");
+            $this->expectExceptionMessage(get_class($this->service->gateway)."::{$undefinedMethod}() not found.");
 
             $this->service->{$undefinedMethod}();
         });
