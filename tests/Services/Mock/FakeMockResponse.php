@@ -33,6 +33,6 @@ class FakeMockResponse extends ServiceResponse implements MockResponder
 
     public function getIdentityResponse()
     {
-        return 'Fake'.(is_null($this->additionalInformation) ? '' : ' with '.$this->additionalInformation);
+        return 'Fake'.(is_null($this->additionalData) ? '' : ' with '.$this->additionalData);
     }
 }

@@ -34,11 +34,11 @@ abstract class ServiceResponse
     protected $rawResponse;
 
     /**
-     * Additional information needed to format the response.
+     * Additional data needed to format the response.
      *
      * @var mixed
      */
-    protected $additionalInformation;
+    protected $additionalData;
 
     /**
      * The request method that returned this response.
@@ -70,13 +70,12 @@ abstract class ServiceResponse
 
     /**
      * @param mixed $rawResponse
-     * @param mixed|null $additionalInformation
-     * @deprecated $additonalInformation will be removed, use with() instead.
+     * @param mixed|null $additionalData
      */
-    public function __construct($rawResponse, $additionalInformation = null)
+    public function __construct($rawResponse, $additionalData = null)
     {
         $this->rawResponse = $rawResponse;
-        $this->additionalInformation = $additionalInformation;
+        $this->additionalData = $additionalData;
 
         $this->setUp();
     }
@@ -92,15 +91,15 @@ abstract class ServiceResponse
     }
 
     /**
-     * Share additional information.
+     * Share additional data.
      *
-     * @param mixed $additionalInformation
+     * @param mixed $additionalData
      *
      * @return static
      */
-    public function with($additionalInformation)
+    public function with($additionalData)
     {
-        $this->additionalInformation = $additionalInformation;
+        $this->additionalData = $additionalData;
 
         return $this;
     }
