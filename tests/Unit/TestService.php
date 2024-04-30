@@ -166,7 +166,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
         $this->assertRealIsAlignedWithFake(function () {
             $response = $this->service->getIdentity(true);
 
-            $this->assertStringEndsWith('additional information', $response->data);
+            $this->assertStringEndsWith('additional data', $response->data);
         });
     }
 

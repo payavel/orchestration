@@ -7,12 +7,12 @@ use Payavel\Orchestration\Tests\Services\Mock\Contracts\MockRequester;
 
 class FakeMockRequest extends ServiceRequest implements MockRequester
 {
-    public function getIdentity($withAdditionalInformation = false)
+    public function getIdentity($withAdditionalData = false)
     {
         $response = [];
 
-        if ($withAdditionalInformation) {
-            $response = $this->response($response)->with('additional information');
+        if ($withAdditionalData) {
+            $response = $this->response($response)->with('additional data');
         }
 
         return $response;
