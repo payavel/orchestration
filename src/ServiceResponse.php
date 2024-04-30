@@ -70,12 +70,10 @@ abstract class ServiceResponse
 
     /**
      * @param mixed $rawResponse
-     * @param mixed|null $additionalData
      */
-    public function __construct($rawResponse, $additionalData = null)
+    public function __construct($rawResponse)
     {
         $this->rawResponse = $rawResponse;
-        $this->additionalData = $additionalData;
 
         $this->setUp();
     }
