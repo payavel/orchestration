@@ -153,7 +153,7 @@ class ConfigDriver extends ServiceDriver
         $this->check($provider, $account);
 
         $gateway = ServiceConfig::get($this->service, 'test_mode')
-            ? ServiceConfig::get($this->service, 'testing.gateway')
+            ? ServiceConfig::get($this->service, 'test_gateway')
             : $provider->gateway;
 
         if (! class_exists($gateway)) {
