@@ -28,7 +28,7 @@ trait CreatesServices
         Config::set('orchestration.services.'.$data['id'], Str::slug($data['id']));
 
         ServiceConfig::set($data['id'], 'name', $data['name']);
-        ServiceConfig::set($data['id'], 'testing.gateway', $data['test_gateway']);
+        ServiceConfig::set($data['id'], 'test_gateway', $data['test_gateway']);
 
         return new Service($data);
     }
