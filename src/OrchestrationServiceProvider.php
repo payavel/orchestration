@@ -6,9 +6,12 @@ use Illuminate\Support\ServiceProvider;
 use Payavel\Orchestration\Console\Commands\OrchestrateService;
 use Payavel\Orchestration\Console\Commands\OrchestrateProvider;
 use Payavel\Orchestration\Console\Commands\OrchestrateStubs;
+use Payavel\Orchestration\Traits\MergesConfigRecursively;
 
 class OrchestrationServiceProvider extends ServiceProvider
 {
+    use MergesConfigRecursively;
+
     public function boot()
     {
         if (! $this->app->runningInConsole()) {
@@ -22,7 +25,7 @@ class OrchestrationServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(
+        $this->recursivelyMergesConfigFrom(
             __DIR__.'/../config/orchestration.php',
             'orchestration'
         );
