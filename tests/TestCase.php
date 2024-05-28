@@ -58,6 +58,10 @@ class TestCase extends \Orchestra\Testbench\TestCase
             unlink($config);
         }
 
+        if (file_exists($migration = database_path('migrations/2024_01_01_000001_create_base_orchestration_tables.php'))) {
+            unlink($migration);
+        }
+
         foreach (glob(database_path('migrations/*_add_providers_and_accounts_to_*_service.php')) as $migration) {
             unlink($migration);
         }
