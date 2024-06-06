@@ -14,7 +14,7 @@ trait OrchestratesService
     private $orchestratedService;
 
     /**
-     * Gets the orchestrated service. Also sets it if it hasn't been resolved yet.
+     * Gets the orchestrable service. Also sets it if it hasn't been resolved yet.
      *
      * @return \Payavel\Orchestration\Service
      */
@@ -30,7 +30,7 @@ trait OrchestratesService
     }
 
     /**
-     * Gets the orchestrated service's provider.
+     * Gets the orchestrable service's provider.
      *
      * @return \Payavel\Orchestration\Contracts\Providable
      */
@@ -40,7 +40,7 @@ trait OrchestratesService
     }
 
     /**
-     * Gets the orchestrated service's account.
+     * Gets the orchestrable service's account.
      *
      * @return \Payavel\Orchestration\Contracts\Accountable
      */
