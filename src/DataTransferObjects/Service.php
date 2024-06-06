@@ -2,8 +2,6 @@
 
 namespace Payavel\Orchestration\DataTransferObjects;
 
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
 
@@ -17,7 +15,7 @@ class Service implements Serviceable
     }
 
     /**
-     * Get the provider's id.
+     * Get the service's id.
      *
      * @return int
      */
@@ -27,7 +25,7 @@ class Service implements Serviceable
     }
 
     /**
-     * Get the provider's name.
+     * Get the service's name.
      *
      * @return string
      */
