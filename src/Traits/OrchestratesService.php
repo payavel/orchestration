@@ -18,7 +18,7 @@ trait OrchestratesService
      *
      * @return \Payavel\Orchestration\Service
      */
-    protected function getService()
+    public function getService()
     {
         if (! isset($this->orchestratedService)) {
             $this->orchestratedService = (new Service($this->service_id ?? $this->serviceId))
