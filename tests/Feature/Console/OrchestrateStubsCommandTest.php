@@ -1,6 +1,6 @@
 <?php
 
-namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
+namespace Payavel\Orchestration\Tests\Feature\Console;
 
 use Payavel\Orchestration\Console\Commands\OrchestrateStubs;
 use Payavel\Orchestration\Tests\TestCase;
