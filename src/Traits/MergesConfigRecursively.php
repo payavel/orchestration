@@ -6,7 +6,7 @@ use Illuminate\Contracts\Foundation\CachesConfiguration;
 
 trait MergesConfigRecursively
 {
-    protected function recursivelyMergesConfigFrom($path, $key)
+    protected function recursivelyMergeConfigFrom($path, $key)
     {
         if (! ($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
             $config = $this->app->make('config');

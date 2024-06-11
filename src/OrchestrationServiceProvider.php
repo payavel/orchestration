@@ -25,7 +25,7 @@ class OrchestrationServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->recursivelyMergesConfigFrom(
+        $this->recursivelyMergeConfigFrom(
             __DIR__.'/../config/orchestration.php',
             'orchestration'
         );
