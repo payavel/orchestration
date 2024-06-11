@@ -1,6 +1,6 @@
 <?php
 
-namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
+namespace Payavel\Orchestration\Tests\Feature\Console;
 
 use Illuminate\Support\Facades\Config;
 use Payavel\Orchestration\Contracts\Accountable;

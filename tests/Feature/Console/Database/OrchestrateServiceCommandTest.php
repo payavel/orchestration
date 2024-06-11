@@ -1,6 +1,6 @@
 <?php
 
-namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
+namespace Payavel\Orchestration\Tests\Feature\Console\Database;
 
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
@@ -8,10 +8,11 @@ use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\Models\Account;
 use Payavel\Orchestration\Models\Provider;
+use Payavel\Orchestration\Tests\Feature\Console\TestOrchestrateServiceCommand;
 use Payavel\Orchestration\Tests\Traits\CreatesDatabaseServiceables;
 use Payavel\Orchestration\Tests\Traits\SetsDatabaseDriver;
 
-class DatabaseOrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
+class OrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
 {
     use CreatesDatabaseServiceables;
     use SetsDatabaseDriver;

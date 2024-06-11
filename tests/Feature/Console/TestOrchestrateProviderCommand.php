@@ -1,6 +1,6 @@
 <?php
 
-namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
+namespace Payavel\Orchestration\Tests\Feature\Console;
 
 use Payavel\Orchestration\Service;
 use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
