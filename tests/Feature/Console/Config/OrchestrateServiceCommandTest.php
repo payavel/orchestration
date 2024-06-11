@@ -1,15 +1,16 @@
 <?php
 
-namespace Payavel\Orchestration\Tests\Feature\Console\Commands;
+namespace Payavel\Orchestration\Tests\Feature\Console\Config;
 
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
+use Payavel\Orchestration\Tests\Feature\Console\TestOrchestrateServiceCommand;
 use Payavel\Orchestration\Tests\Traits\CreatesConfigServiceables;
 use Payavel\Orchestration\Tests\Traits\SetsConfigDriver;
 
-class ConfigOrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
+class OrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
 {
     use CreatesConfigServiceables;
     use SetsConfigDriver;
