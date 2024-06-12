@@ -22,7 +22,7 @@ trait OrchestratesService
     {
         if (! isset($this->orchestratedService)) {
             $this->orchestratedService = (new Service($this->service_id ?? $this->serviceId))
-                ->provider($this->providerId ?? $this->provider_id)
+                ->provider($this->provider_id ?? $this->providerId)
                 ->account($this->account_id ?? $this->accountId);
         }
 
