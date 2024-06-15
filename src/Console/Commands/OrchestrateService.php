@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-use Payavel\Orchestration\DataTransferObjects\Service;
+use Payavel\Orchestration\Fluent\Config as FluentConfig;
 use Payavel\Orchestration\Traits\AsksQuestions;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
@@ -163,7 +163,7 @@ class OrchestrateService extends Command
      */
     protected function setService()
     {
-        $this->service = new Service([
+        $this->service = new FluentConfig([
             'name' => $name = trim($this->argument('service') ?? $this->askName('service')),
             'id' => $this->option('id') ?? $this->askId('service', $name),
         ]);

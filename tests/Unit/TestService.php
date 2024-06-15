@@ -86,7 +86,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
     public function setting_invalid_driver_throws_exception()
     {
         $this->assertRealIsAlignedWithFake(function () {
-            ServiceConfig::set($this->serviceable, 'defaults.driver', 'invalid');
+            $this->serviceable->set('defaults.driver', 'invalid');
 
             $this->expectException(Exception::class);
             $this->expectExceptionMessage('Invalid driver provided.');
