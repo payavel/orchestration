@@ -36,7 +36,7 @@ class Config extends Fluent implements Serviceable
      */
     public function get($key, $default = null)
     {
-        return parent::get($key, fn () => config('orchestration.'.$key, $default));
+        return data_get($this->attributes, $key, fn () => config('orchestration.'.$key, $default));
     }
 
     /**
