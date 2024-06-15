@@ -5,20 +5,19 @@ namespace Payavel\Orchestration;
 use Exception;
 use Illuminate\Support\Facades\Config;
 use Payavel\Orchestration\Contracts\Serviceable;
-use Payavel\Orchestration\DataTransferObjects\Service as ServiceDTO;
+use Payavel\Orchestration\Fluent\Config as FluentConfig;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
-use Payavel\Orchestration\Support\ServiceConfig;
 
 class Service
 {
     use SimulatesAttributes;
 
     /**
-     * The service.
+     * The service configurations.
      *
-     * @var \Payavel\Orchestration\Contracts\Serviceable
+     * @var \Payavel\Orchestration\Fluent\Config
      */
-    private $service;
+    private $config;
 
     /**
      * The service driver that will handle provider & account configurations.
@@ -49,26 +48,27 @@ class Service
     private $gateway;
 
     /**
-     * Determines the service and sets up the driver for it.
+     * Sets the service config and the driver for it.
      *
-     * @param \Payavel\Orchestration\Contracts\Serviceable|string $service
+     * @param \Payavel\Orchestration\Contracts\Serviceable|string $config
+     * @deprecated Use \Payavel\Orchestration\Fluent\Config type as param instead of \Payavel\Orchestration\Contracts\Serviceable.
      * @return void
      *
      * @throws Exception
      */
-    public function __construct($service)
+    public function __construct($config)
     {
-        if (! $service instanceof Serviceable && is_null($service = static::find($service))) {
-            throw new Exception('The provided service does not exist.');
+        if (! $config instanceof Serviceable && is_null($config = static::find($config))) {
+            throw new Exception("Service config with id '{$config}' was not found.");
         }
 
-        $this->service = $service;
+        $this->config = $config;
 
-        if (! class_exists($driver = ServiceConfig::get($this->service, 'drivers.'.ServiceConfig::get($this->service, 'defaults.driver')))) {
+        if (! class_exists($driver = $this->config->get('drivers.'.$this->config->get('defaults.driver')))) {
             throw new Exception('Invalid driver provided.');
         }
 
-        $this->driver = new $driver($this->service);
+        $this->driver = new $driver($this->config);
     }
 
     /**
@@ -234,25 +234,27 @@ class Service
     }
 
     /**
-     * Retrieve all service ids.
+     * Retrieve all service configs.
      *
      * @return \Illuminate\Support\Collection
      */
     public static function all()
     {
         return collect(Config::get('orchestration.services', []))->map(
-            fn ($value, $key) => new ServiceDTO(array_merge(['id' => $key], is_array($value) ? $value : Config::get($value)))
+            fn ($value, $key) => new FluentConfig(array_merge(['id' => $key], is_array($value) ? $value : Config::get($value)))
         )->values();
     }
 
     /**
-     * Find a serviceable via the default driver.
+     * Find a service config using it's id.
+     *
+     * @deprecated Use \Payavel\Orchestration\Fluent\Config type as return type instead of \Payavel\Orchestration\Contracts\Serviceable.
      *
      * @param string|int $id
      * @return \Payavel\Orchestration\Contracts\Serviceable|null
      */
     public static function find($id)
     {
-        return static::all()->first(fn ($service) => $service->getId() == $id);
+        return static::all()->first(fn ($config) => $config->getId() == $id);
     }
 }

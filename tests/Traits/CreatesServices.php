@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Contracts\Serviceable;
-use Payavel\Orchestration\DataTransferObjects\Service;
+use Payavel\Orchestration\Fluent\Config as FluentConfig;
 use Payavel\Orchestration\Support\ServiceConfig;
 
 trait CreatesServices
@@ -30,7 +30,7 @@ trait CreatesServices
         ServiceConfig::set($data['id'], 'name', $data['name']);
         ServiceConfig::set($data['id'], 'test_gateway', $data['test_gateway']);
 
-        return new Service($data);
+        return new FluentConfig($data);
     }
 
     /**
