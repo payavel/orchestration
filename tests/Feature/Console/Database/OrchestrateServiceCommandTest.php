@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Tests\Feature\Console\Database;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Contracts\Serviceable;
+use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\Models\Account;
 use Payavel\Orchestration\Models\Provider;
 use Payavel\Orchestration\Tests\Feature\Console\TestOrchestrateServiceCommand;
@@ -24,22 +24,22 @@ class OrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
      */
     private bool $migrated = false;
 
-    protected function makeSureProviderExists(Serviceable $service, Providable $provider)
+    protected function makeSureProviderExists(FluentConfig $serviceConfig, Providable $provider)
     {
-        $this->migrate($service);
+        $this->migrate($serviceConfig);
 
         $provider = Provider::find($provider->getId());
 
         $this->assertNotNull($provider);
         $this->assertEquals(
-            'App\\Services\\'.Str::studly($service->getId()).'\\'.Str::studly($provider->getId()).Str::studly($service->getId()).'Request',
+            'App\\Services\\'.Str::studly($serviceConfig->id).'\\'.Str::studly($provider->getId()).Str::studly($serviceConfig->id).'Request',
             $provider->gateway
         );
     }
 
-    protected function makeSureAccountExists(Serviceable $service, Accountable $account)
+    protected function makeSureAccountExists(FluentConfig $serviceConfig, Accountable $account)
     {
-        $this->migrate($service);
+        $this->migrate($serviceConfig);
 
         $account = Account::find($account->getId());
 
@@ -47,9 +47,9 @@ class OrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
         $this->assertNotEmpty($account->providers);
     }
 
-    protected function makeSureProviderIsLinkedToAccount(Serviceable $service, Providable $provider, Accountable $account)
+    protected function makeSureProviderIsLinkedToAccount(FluentConfig $serviceConfig, Providable $provider, Accountable $account)
     {
-        $this->migrate($service);
+        $this->migrate($serviceConfig);
 
         $provider = Provider::find($provider->getId());
         $account = Account::find($account->getId());
@@ -58,14 +58,14 @@ class OrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
         $this->assertNotNull($account->providers()->where('providers.id', $provider->id)->first());
     }
 
-    private function migrate(Serviceable $service)
+    private function migrate(FluentConfig $serviceConfig)
     {
         if ($this->migrated) {
             return;
         }
 
-        Account::where('service_id', $service->getId())->delete();
-        Provider::where('service_id', $service->getId())->delete();
+        Account::where('service_id', $serviceConfig->id)->delete();
+        Provider::where('service_id', $serviceConfig->id)->delete();
 
         $this->artisan('migrate');
 

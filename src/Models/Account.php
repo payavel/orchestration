@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
-use Payavel\Orchestration\Service;
+use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\Traits\HasFactory;
 use Payavel\Orchestration\Support\ServiceConfig;
 
@@ -28,7 +28,7 @@ class Account extends Model implements Accountable
     protected $guarded = [];
 
     /**
-     * Get the account's id.
+     * Get the accountable id.
      *
      * @return string|int
      */
@@ -38,7 +38,7 @@ class Account extends Model implements Accountable
     }
 
     /**
-     * Get the account's name.
+     * Get the accountable name.
      *
      * @return string
      */
@@ -48,17 +48,17 @@ class Account extends Model implements Accountable
     }
 
     /**
-     * Get the entity's service.
+     * Get the accountable service config.
      *
-     * @return \Payavel\Orchestration\Contracts\Serviceable
+     * @return \Payavel\Orchestration\Fluent\FluentConfig
      */
-    public function getService()
+    public function getServiceConfig()
     {
-        return Service::find($this->service_id);
+        return FluentConfig::find($this->service_id);
     }
 
     /**
-     * Get the providers that the account belongs to.
+     * Get the account's related providers.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -68,7 +68,7 @@ class Account extends Model implements Accountable
     }
 
     /**
-     * Get the provider model's class of this account's service.
+     * Get the provider model class relative to the account.
      *
      * @return string
      */
@@ -82,7 +82,7 @@ class Account extends Model implements Accountable
     }
 
     /**
-     * Guess the provider model's class name by convention.
+     * Guess the provider model class name by convention.
      *
      * @return string
      */

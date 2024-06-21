@@ -5,13 +5,13 @@ namespace Payavel\Orchestration\Tests\Traits;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Contracts\Serviceable;
+use Payavel\Orchestration\Fluent\FluentConfig;
 
 trait AssertsServiceExists
 {
-    protected function configPath(Serviceable $serviceable)
+    protected function configPath(FluentConfig $serviceConfig)
     {
-        $service = Str::slug($serviceable->getId());
+        $service = Str::slug($serviceConfig->id);
 
         return new Fluent([
             'orchestration' => "orchestration.php",
@@ -19,9 +19,9 @@ trait AssertsServiceExists
         ]);
     }
 
-    protected function contractPath(Serviceable $serviceable)
+    protected function contractPath(FluentConfig $serviceConfig)
     {
-        $service = Str::studly($serviceable->getId());
+        $service = Str::studly($serviceConfig->id);
 
         $ds = DIRECTORY_SEPARATOR;
         return new Fluent([
@@ -30,15 +30,10 @@ trait AssertsServiceExists
         ]);
     }
 
-    protected function gatewayPath(Serviceable $serviceable)
+    protected function gatewayPath(FluentConfig $serviceConfig, Providable $provider = null)
     {
-        if ($serviceable instanceof Providable) {
-            $service = Str::studly($serviceable->getService()->getId());
-            $provider = Str::studly($serviceable->getId());
-        } else {
-            $service = Str::studly($serviceable->getId());
-            $provider = 'Fake';
-        }
+        $service = Str::studly($serviceConfig->id);
+        $provider = is_null($provider) ? 'Fake' : Str::studly($provider->getId());
 
         $ds = DIRECTORY_SEPARATOR;
         return new Fluent([
@@ -47,27 +42,27 @@ trait AssertsServiceExists
         ]);
     }
 
-    protected function assertConfigExists(Serviceable $serviceable)
+    protected function assertConfigExists(FluentConfig $serviceConfig)
     {
-        $config = $this->configPath($serviceable);
+        $configPath = $this->configPath($serviceConfig);
 
-        $this->assertFileExists(config_path($config->orchestration));
-        $this->assertFileExists(config_path($config->service));
+        $this->assertFileExists(config_path($configPath->orchestration));
+        $this->assertFileExists(config_path($configPath->service));
     }
 
-    protected function assertContractExists(Serviceable $serviceable)
+    protected function assertContractExists(FluentConfig $serviceConfig)
     {
-        $contract = $this->contractPath($serviceable);
+        $contractPath = $this->contractPath($serviceConfig);
 
-        $this->assertFileExists(app_path($contract->requester));
-        $this->assertFileExists(app_path($contract->responder));
+        $this->assertFileExists(app_path($contractPath->requester));
+        $this->assertFileExists(app_path($contractPath->responder));
     }
 
-    protected function assertGatewayExists(Serviceable $serviceable)
+    protected function assertGatewayExists(FluentConfig $serviceConfig, Providable $provider = null)
     {
-        $gateway = $this->gatewayPath($serviceable);
+        $gatewayPath = $this->gatewayPath($serviceConfig, $provider);
 
-        $this->assertFileExists(app_path($gateway->request));
-        $this->assertFileExists(app_path($gateway->response));
+        $this->assertFileExists(app_path($gatewayPath->request));
+        $this->assertFileExists(app_path($gatewayPath->response));
     }
 }

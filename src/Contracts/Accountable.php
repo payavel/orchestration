@@ -2,12 +2,26 @@
 
 namespace Payavel\Orchestration\Contracts;
 
-interface Accountable extends Serviceable
+interface Accountable
 {
     /**
-     * Get the entity service.
+     * Get the accountable id.
      *
-     * @return \Payavel\Orchestration\Contracts\Serviceable
+     * @return string|int
      */
-    public function getService();
+    public function getId();
+
+    /**
+     * Get the accountable name.
+     *
+     * @return string
+     */
+    public function getName();
+
+    /**
+     * Get the accountable service config.
+     *
+     * @return \Payavel\Orchestration\Fluent\FluentConfig
+     */
+    public function getServiceConfig();
 }

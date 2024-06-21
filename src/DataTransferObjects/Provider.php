@@ -2,9 +2,8 @@
 
 namespace Payavel\Orchestration\DataTransferObjects;
 
-use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Contracts\Serviceable;
+use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
 
 class Provider implements Providable
@@ -12,21 +11,21 @@ class Provider implements Providable
     use SimulatesAttributes;
 
     /**
-     * The compatible service.
+     * The service config.
      *
-     * @var \Payavel\Orchestration\Contracts\Serviceable
+     * @var \Payavel\Orchestration\Fluent\FluentConfig
      */
-    public Serviceable $service;
+    public FluentConfig $config;
 
-    public function __construct(Serviceable $service, array $data)
+    public function __construct(FluentConfig $config, array $data)
     {
-        $this->service = $service;
+        $this->config = $config;
 
         $this->attributes = $data;
     }
 
     /**
-     * Get the provider's id.
+     * Get the providable id.
      *
      * @return int
      */
@@ -36,7 +35,7 @@ class Provider implements Providable
     }
 
     /**
-     * Get the provider's name.
+     * Get the providable name.
      *
      * @return string
      */
@@ -46,12 +45,12 @@ class Provider implements Providable
     }
 
     /**
-     * Get the entity service.
+     * Get the providable service config.
      *
-     * @return \Payavel\Orchestration\Contracts\Serviceable
+     * @return \Payavel\Orchestration\Fluent\FluentConfig
      */
-    public function getService()
+    public function getServiceConfig()
     {
-        return $this->service;
+        return $this->config;
     }
 }

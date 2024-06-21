@@ -2,12 +2,26 @@
 
 namespace Payavel\Orchestration\Contracts;
 
-interface Providable extends Serviceable
+interface Providable
 {
     /**
-     * Get the entity service.
+     * Get the providable id.
      *
-     * @return \Payavel\Orchestration\Contracts\Serviceable
+     * @return string|int
      */
-    public function getService();
+    public function getId();
+
+    /**
+     * Get the providable name.
+     *
+     * @return string
+     */
+    public function getName();
+
+    /**
+     * Get the providable service config.
+     *
+     * @return \Payavel\Orchestration\Fluent\FluentConfig
+     */
+    public function getServiceConfig();
 }
