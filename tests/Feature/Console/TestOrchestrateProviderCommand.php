@@ -2,7 +2,7 @@
 
 namespace Payavel\Orchestration\Tests\Feature\Console;
 
-use Payavel\Orchestration\Service;
+use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Tests\Traits\AssertsServiceExists;
@@ -17,68 +17,69 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
     #[Test]
     public function orchestrate_provider_command_will_prompt_for_missing_arguments()
     {
-        $service = $this->createService();
-        $provider = $this->createProvider($service);
+        $serviceConfig = $this->createServiceConfig();
+        $provider = $this->createProvider($serviceConfig);
 
-        $services = Service::all()->map(fn ($service) => $service->getId());
+        $configs = FluentConfig::all()->map(fn ($config) => $config->id);
 
-        $gateway = $this->gatewayPath($provider);
+        $gateway = $this->gatewayPath($serviceConfig, $provider);
 
         $ds = DIRECTORY_SEPARATOR;
         $this->artisan('orchestrate:provider')
-            ->expectsQuestion('Which service will the provider be offering?', $services->search($service->getId()))
-            ->expectsQuestion("How should the {$service->getName()} provider be named?", $provider->getName())
-            ->expectsQuestion("How should the {$service->getName()} provider be identified?", $provider->getId())
+            ->expectsQuestion('Which service will the provider be offering?', $configs->search($serviceConfig->getId()))
+            ->expectsQuestion("How should the {$serviceConfig->name} provider be named?", $provider->getName())
+            ->expectsQuestion("How should the {$serviceConfig->name} provider be identified?", $provider->getId())
             ->expectsOutputToContain("Gateway [app{$ds}{$gateway->request}] created successfully.")
             ->expectsOutputToContain("Gateway [app{$ds}{$gateway->response}] created successfully.")
             ->assertSuccessful();
 
-        $this->assertGatewayExists($provider);
+        $this->assertGatewayExists($serviceConfig, $provider);
     }
 
     #[Test]
     public function orchestrate_provider_command_completes_without_asking_questions_when_providing_the_arguments()
     {
-        $provider = $this->createProvider();
+        $serviceConfig = $this->createServiceConfig();
+        $provider = $this->createProvider($serviceConfig);
 
-        $gateway = $this->gatewayPath($provider);
+        $gateway = $this->gatewayPath($provider->getServiceConfig(), $provider);
 
         $ds = DIRECTORY_SEPARATOR;
         $this->artisan('orchestrate:provider', [
             'provider' => $provider->getName(),
             '--id' => $provider->getId(),
-            '--service' => $provider->getService()->getId(),
+            '--service' => $provider->getServiceConfig()->id,
         ])
             ->expectsOutputToContain("Gateway [app{$ds}{$gateway->request}] created successfully.")
             ->expectsOutputToContain("Gateway [app{$ds}{$gateway->response}] created successfully.")
             ->assertSuccessful();
 
-        $this->assertGatewayExists($provider);
+        $this->assertGatewayExists($provider->getServiceConfig(), $provider);
     }
 
     #[Test]
     public function orchestrate_provider_command_with_fake_argument_generates_fake_gateway()
     {
-        $service = $this->createService();
+        $serviceConfig = $this->createServiceConfig();
 
-        $gateway = $this->gatewayPath($service);
+        $gateway = $this->gatewayPath($serviceConfig);
 
         $ds = DIRECTORY_SEPARATOR;
         $this->artisan('orchestrate:provider', [
-            '--service' => $service->getId(),
+            '--service' => $serviceConfig->id,
             '--fake' => true,
         ])
             ->expectsOutputToContain("Gateway [app{$ds}{$gateway->request}] created successfully.")
             ->expectsOutputToContain("Gateway [app{$ds}{$gateway->response}] created successfully.")
             ->assertSuccessful();
 
-        $this->assertGatewayExists($service);
+        $this->assertGatewayExists($serviceConfig);
     }
 
     #[Test]
     public function orchestrate_provider_command_using_fake_service()
     {
-        $this->createService();
+        $this->createServiceConfig();
 
         $this->artisan('orchestrate:provider', [
             '--service' => 'fake',

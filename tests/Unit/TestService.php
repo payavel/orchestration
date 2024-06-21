@@ -18,7 +18,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
 {
     use CreatesServices;
 
-    private $serviceable;
+    private $serviceConfig;
     private $providable;
     private $accountable;
 
@@ -28,34 +28,34 @@ abstract class TestService extends TestCase implements CreatesServiceables
     {
         parent::setUp();
 
-        $this->serviceable = $this->createService([
+        $this->serviceConfig = $this->createServiceConfig([
             'id' => 'mock',
             'test_gateway' => FakeMockRequest::class,
         ]);
 
-        $this->providable = $this->createProvider($this->serviceable, [
+        $this->providable = $this->createProvider($this->serviceConfig, [
             'id' => 'test',
             'gateway' => TestMockRequest::class,
         ]);
 
-        $this->accountable = $this->createAccount($this->serviceable, [
+        $this->accountable = $this->createAccount($this->serviceConfig, [
             'id' => 'x',
         ]);
 
         $this->linkAccountToProvider($this->accountable, $this->providable);
 
-        $this->setDefaultsForService($this->serviceable, $this->accountable, $this->providable);
+        $this->setDefaultsForService($this->serviceConfig, $this->accountable, $this->providable);
 
-        $this->service = new Service($this->serviceable);
+        $this->service = new Service($this->serviceConfig->id);
     }
 
     public function assertRealIsAlignedWithFake(callable $test)
     {
-        ServiceConfig::set($this->serviceable, 'test_mode', false);
+        ServiceConfig::set($this->serviceConfig, 'test_mode', false);
 
         $test();
 
-        ServiceConfig::set($this->serviceable, 'test_mode', true);
+        ServiceConfig::set($this->serviceConfig, 'test_mode', true);
 
         $this->service->reset();
 
@@ -72,7 +72,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
             ->getIdentity();
 
             $this->assertEquals(
-                ServiceConfig::get($this->serviceable, 'test_mode')
+                ServiceConfig::get($this->serviceConfig, 'test_mode')
                     ? 'Fake'
                     : 'Real',
                 $response->data
@@ -86,12 +86,12 @@ abstract class TestService extends TestCase implements CreatesServiceables
     public function setting_invalid_driver_throws_exception()
     {
         $this->assertRealIsAlignedWithFake(function () {
-            $this->serviceable->set('defaults.driver', 'invalid');
+            $this->serviceConfig->set('defaults.driver', 'invalid');
 
             $this->expectException(Exception::class);
             $this->expectExceptionMessage('Invalid driver provided.');
 
-            new Service($this->serviceable);
+            new Service($this->serviceConfig);
         });
     }
 
@@ -121,7 +121,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
     public function setting_incompatible_account_provider_throws_exception()
     {
         $this->assertRealIsAlignedWithFake(function () {
-            $incompatibleAccount = $this->createAccount($this->serviceable);
+            $incompatibleAccount = $this->createAccount($this->serviceConfig);
 
             $this->expectException(Exception::class);
             $this->expectExceptionMessage('The '.$incompatibleAccount->getName().' account is not supported by the '.$this->providable->getName().' provider.');
@@ -134,7 +134,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
     public function resetting_service_to_default_configuration()
     {
         $this->assertRealIsAlignedWithFake(function () {
-            $alternativeAccount = $this->createAccount($this->serviceable);
+            $alternativeAccount = $this->createAccount($this->serviceConfig);
             $this->linkAccountToProvider($alternativeAccount, $this->providable);
 
             $this->service->provider($this->providable)->account($alternativeAccount);

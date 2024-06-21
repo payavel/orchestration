@@ -4,7 +4,7 @@ namespace Payavel\Orchestration\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Payavel\Orchestration\Service;
+use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\Traits\AsksQuestions;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
@@ -37,11 +37,11 @@ class OrchestrateProvider extends Command
     protected $description = 'Scaffold a new service provider\'s gateway request and response classes.';
 
     /**
-     * The provider's service.
+     * The provider's service config.
      *
-     * @var \Payavel\Orchestration\Contracts\Serviceable
+     * @var \Payavel\Orchestration\Fluent\FluentConfig
      */
-    protected $service;
+    protected $serviceConfig;
 
     /**
      * The service provider's name.
@@ -103,13 +103,13 @@ class OrchestrateProvider extends Command
      */
     protected function generateProvider()
     {
-        $service = Str::studly($this->service->getId());
+        $service = Str::studly($this->serviceConfig->id);
         $provider = Str::studly($this->id);
 
         static::putFile(
             app_path($requestPath = join_paths('Services', $service, "{$provider}{$service}Request.php")),
             static::makeFile(
-                static::getStub('service-request', $this->service->getId()),
+                static::getStub('service-request', $this->serviceConfig->id),
                 [
                     'Provider' => $provider,
                     'Service' => $service,
@@ -122,7 +122,7 @@ class OrchestrateProvider extends Command
         static::putFile(
             app_path($responsePath = join_paths('Services', $service, "{$provider}{$service}Response.php")),
             static::makeFile(
-                static::getStub('service-response', $this->service->getId()),
+                static::getStub('service-response', $this->serviceConfig->id),
                 [
                     'Provider' => $provider,
                     'Service' => $service,
@@ -140,26 +140,26 @@ class OrchestrateProvider extends Command
      */
     protected function setService()
     {
-        if (! is_null($this->option('service')) && is_null($service = Service::find($this->option('service')))) {
+        if (! is_null($this->option('service')) && is_null($serviceConfig = FluentConfig::find($this->option('service')))) {
             error("Service with id {$this->option('service')} does not exist.");
 
             return false;
-        } elseif (! isset($service) && ($existingServices = Service::all())->isNotEmpty()) {
+        } elseif (! isset($serviceConfig) && ($existingConfigs = FluentConfig::all())->isNotEmpty()) {
             $id = select(
                 label: 'Which service will the provider be offering?',
-                options: $existingServices->map(fn ($existingService) => $existingService->getId())->all()
+                options: $existingConfigs->map(fn ($existingConfig) => $existingConfig->id)->all()
             );
 
-            $service = $existingServices->all()[$id];
+            $serviceConfig = $existingConfigs->all()[$id];
         }
 
-        if (! isset($service)) {
+        if (! isset($serviceConfig)) {
             error('Your must first set up a service! Please call the orchestrate:service artisan command.');
 
             return false;
         }
 
-        $this->service = $service;
+        $this->serviceConfig = $serviceConfig;
 
         return true;
     }

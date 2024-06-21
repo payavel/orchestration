@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Service;
+use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\Traits\HasFactory;
 use Payavel\Orchestration\Support\ServiceConfig;
 
@@ -28,7 +28,7 @@ class Provider extends Model implements Providable
     protected $guarded = [];
 
     /**
-     * Get the provider's id.
+     * Get the providable id.
      *
      * @return string|int
      */
@@ -38,7 +38,7 @@ class Provider extends Model implements Providable
     }
 
     /**
-     * Get the provider's name.
+     * Get the providable name.
      *
      * @return string
      */
@@ -48,17 +48,17 @@ class Provider extends Model implements Providable
     }
 
     /**
-     * Get the entity's service.
+     * Get the providable service config.
      *
-     * @return \Payavel\Orchestration\Contracts\Serviceable
+     * @return \Payavel\Orchestration\Fluent\FluentConfig
      */
-    public function getService()
+    public function getServiceConfig()
     {
-        return Service::find($this->service_id);
+        return FluentConfig::find($this->service_id);
     }
 
     /**
-     * Get the account's the provider supports.
+     * Get the provider's related accounts.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -68,7 +68,7 @@ class Provider extends Model implements Providable
     }
 
     /**
-     * Get the account model's class of this provider's service.
+     * Get the account model class relative to the provider.
      *
      * @return string
      */
@@ -83,7 +83,7 @@ class Provider extends Model implements Providable
 
 
     /**
-     * Guess the account model's class name by convention.
+     * Guess the account model class name by convention.
      *
      * @return string
      */

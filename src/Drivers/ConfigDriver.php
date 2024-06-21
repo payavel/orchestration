@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\DataTransferObjects\Account;
 use Payavel\Orchestration\DataTransferObjects\Provider;
+use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 use Payavel\Orchestration\Support\ServiceConfig;
@@ -40,12 +40,12 @@ class ConfigDriver extends ServiceDriver
     /**
      * Collect the service's providers & accounts.
      */
-    public function __construct(Serviceable $service)
+    public function __construct(FluentConfig $serviceConfig)
     {
-        parent::__construct($service);
+        parent::__construct($serviceConfig);
 
-        $this->providers = collect(ServiceConfig::get($this->service, 'providers'));
-        $this->accounts = collect(ServiceConfig::get($this->service, 'accounts'));
+        $this->providers = collect(ServiceConfig::get($this->serviceConfig, 'providers'));
+        $this->accounts = collect(ServiceConfig::get($this->serviceConfig, 'accounts'));
     }
 
     /**
@@ -65,7 +65,7 @@ class ConfigDriver extends ServiceDriver
         }
 
         return new Provider(
-            $this->service,
+            $this->serviceConfig,
             array_merge(['id' => $provider], $attributes)
         );
     }
@@ -74,7 +74,7 @@ class ConfigDriver extends ServiceDriver
      * Get the default providable identifier.
      *
      * @param \Payavel\Orchestration\Contracts\Accountable|null $account
-     * @return string|int|\Payavel\Orchestration\Contracts\Providable
+     * @return string|int
      */
     public function getDefaultProvider(Accountable $account = null)
     {
@@ -82,7 +82,7 @@ class ConfigDriver extends ServiceDriver
             ! $account instanceof Account ||
             is_null($provider = $account->providers->first())
         ) {
-            return ServiceConfig::get($this->service, 'defaults.provider');
+            return ServiceConfig::get($this->serviceConfig, 'defaults.provider');
         }
 
         return $provider['id'];
@@ -91,7 +91,7 @@ class ConfigDriver extends ServiceDriver
     /**
      * Resolve the accountable instance.
      *
-     * @param \Payavel\Orchestration\Contracts\Accountable|string $account
+     * @param \Payavel\Orchestration\Contracts\Accountable|string|int $account
      * @return \Payavel\Orchestration\Contracts\Accountable|null
      */
     public function resolveAccount($account)
@@ -105,7 +105,7 @@ class ConfigDriver extends ServiceDriver
         }
 
         return new Account(
-            $this->service,
+            $this->serviceConfig,
             array_merge(['id' => $account], $attributes)
         );
     }
@@ -118,7 +118,7 @@ class ConfigDriver extends ServiceDriver
      */
     public function getDefaultAccount(Providable $provider = null)
     {
-        return ServiceConfig::get($this->service, 'defaults.account');
+        return ServiceConfig::get($this->serviceConfig, 'defaults.account');
     }
 
     /**
@@ -130,7 +130,7 @@ class ConfigDriver extends ServiceDriver
      *
      * @throws Exception
      */
-    protected function check($provider, $account)
+    protected function check(Providable $provider, Accountable $account)
     {
         if ($account->providers->contains('id', $provider->id)) {
             return;
@@ -148,18 +148,18 @@ class ConfigDriver extends ServiceDriver
      *
      * @throws Exception
      */
-    public function resolveGateway($provider, $account)
+    public function resolveGateway(Providable $provider, Accountable $account)
     {
         $this->check($provider, $account);
 
-        $gateway = ServiceConfig::get($this->service, 'test_mode')
-            ? ServiceConfig::get($this->service, 'test_gateway')
+        $gateway = ServiceConfig::get($this->serviceConfig, 'test_mode')
+            ? ServiceConfig::get($this->serviceConfig, 'test_gateway')
             : $provider->gateway;
 
         if (! class_exists($gateway)) {
             throw new Exception(
                 is_null($gateway)
-                    ? "You must set a gateway for the {$provider->getName()} {$this->service->getName()} provider."
+                    ? "You must set a gateway for the {$provider->getName()} {$this->serviceConfig->name} provider."
                     : "The {$gateway}::class does not exist."
             );
         }
@@ -170,21 +170,21 @@ class ConfigDriver extends ServiceDriver
     /**
      * Generate the service skeleton based on the current driver.
      *
-     * @param \Payavel\Orchestration\Contracts\Serviceable $service
+     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
      * @param \Illuminate\Support\Collection $providers
      * @param \Illuminate\Support\Collection $accounts
      * @param array $defaults
      * @return void
      */
-    public static function generateService(Serviceable $service, Collection $providers, Collection $accounts, array $defaults)
+    public static function generateService(FluentConfig $serviceConfig, Collection $providers, Collection $accounts, array $defaults)
     {
-        $config = [];
+        $data = [];
 
-        $config['providers'] = $providers->reduce(
-            fn ($config, $provider) =>
-                $config .
+        $data['providers'] = $providers->reduce(
+            fn ($stub, $provider) =>
+                $stub .
                 static::makeFile(
-                    static::getStub('config-service-provider', $service->getId()),
+                    static::getStub('config-service-provider', $serviceConfig->id),
                     [
                         'id' => $provider['id'],
                         'name' => $provider['name'],
@@ -194,18 +194,18 @@ class ConfigDriver extends ServiceDriver
             ""
         );
 
-        $config['accounts'] = $accounts->reduce(
-            fn ($config, $account) =>
-                $config.static::makeFile(
-                    static::getStub('config-service-account', $service->getId()),
+        $data['accounts'] = $accounts->reduce(
+            fn ($stub, $account) =>
+                $stub.static::makeFile(
+                    static::getStub('config-service-account', $serviceConfig->id),
                     [
                         'id' => $account['id'],
                         'name' => $account['name'],
                         'providers' => Collection::make($account['providers'])->reduce(
-                            fn ($config, $provider, $index) =>
-                                $config .
+                            fn ($stub, $provider, $index) =>
+                                $stub .
                                 static::makeFile(
-                                    static::getStub('config-service-account-providers', $service->getId()),
+                                    static::getStub('config-service-account-providers', $serviceConfig->id),
                                     ['id' => $provider]
                                 ) .
                                 ($index < count($providers) - 1 ? "\n" : ""),
@@ -217,25 +217,25 @@ class ConfigDriver extends ServiceDriver
         );
 
         static::putFile(
-            config_path($configPath = Str::slug($service->getId()).'.php'),
+            config_path($configPath = Str::slug($serviceConfig->id).'.php'),
             static::makeFile(
-                static::getStub('config-service', $service->getId()),
+                static::getStub('config-service', $serviceConfig->id),
                 [
-                    'Title' => $service->getName(),
-                    'Service' => Str::studly($service->getId()),
-                    'service' => Str::lower($service->getName()),
-                    'SERVICE' => Str::upper(Str::slug($service->getId(), '_')),
+                    'Title' => $serviceConfig->id,
+                    'Service' => Str::studly($serviceConfig->id),
+                    'service' => Str::lower($serviceConfig->id),
+                    'SERVICE' => Str::upper(Str::slug($serviceConfig->id, '_')),
                     'driver' => $defaults['driver'],
                     'provider' => $defaults['provider'],
-                    'providers' => $config['providers'],
+                    'providers' => $data['providers'],
                     'account' => $defaults['account'],
-                    'accounts' => $config['accounts'],
+                    'accounts' => $data['accounts'],
                 ]
             )
         );
 
         info('Config ['.join_paths('config', $configPath).'] created successfully.');
 
-        Config::set(Str::slug($service->getId()), require(config_path($configPath)));
+        Config::set(Str::slug($serviceConfig->id), require(config_path($configPath)));
     }
 }

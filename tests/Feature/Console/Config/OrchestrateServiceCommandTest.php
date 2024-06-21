@@ -3,9 +3,9 @@
 namespace Payavel\Orchestration\Tests\Feature\Console\Config;
 
 use Illuminate\Support\Str;
-use Payavel\Orchestration\Contracts\Serviceable;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
+use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\Tests\Feature\Console\TestOrchestrateServiceCommand;
 use Payavel\Orchestration\Tests\Traits\CreatesConfigServiceables;
 use Payavel\Orchestration\Tests\Traits\SetsConfigDriver;
@@ -15,32 +15,32 @@ class OrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
     use CreatesConfigServiceables;
     use SetsConfigDriver;
 
-    protected function makeSureProviderExists(Serviceable $service, Providable $provider)
+    protected function makeSureProviderExists(FluentConfig $serviceConfig, Providable $provider)
     {
-        $config = require(config_path(Str::slug($service->getId()).'.php'));
+        $data = require(config_path(Str::slug($serviceConfig->id).'.php'));
 
-        $this->assertIsArray($config['providers']);
-        $this->assertIsArray($config['providers'][$provider->getId()]);
+        $this->assertIsArray($data['providers']);
+        $this->assertIsArray($data['providers'][$provider->getId()]);
         $this->assertEquals(
-            'App\\Services\\'.Str::studly($service->getId()).'\\'.Str::studly($provider->getId()).Str::studly($service->getId()).'Request',
-            $config['providers'][$provider->getId()]['gateway']
+            'App\\Services\\'.Str::studly($serviceConfig->id).'\\'.Str::studly($provider->getId()).Str::studly($serviceConfig->id).'Request',
+            $data['providers'][$provider->getId()]['gateway']
         );
     }
 
-    protected function makeSureAccountExists(Serviceable $service, Accountable $account)
+    protected function makeSureAccountExists(FluentConfig $serviceConfig, Accountable $account)
     {
-        $config = require(config_path(Str::slug($service->getId()).'.php'));
+        $data = require(config_path(Str::slug($serviceConfig->id).'.php'));
 
-        $this->assertIsArray($config['accounts']);
-        $this->assertIsArray($config['accounts'][$account->getId()]);
-        $this->assertIsArray($config['accounts'][$account->getId()]['providers']);
-        $this->assertNotEmpty($config['accounts'][$account->getId()]['providers']);
+        $this->assertIsArray($data['accounts']);
+        $this->assertIsArray($data['accounts'][$account->getId()]);
+        $this->assertIsArray($data['accounts'][$account->getId()]['providers']);
+        $this->assertNotEmpty($data['accounts'][$account->getId()]['providers']);
     }
 
-    protected function makeSureProviderIsLinkedToAccount(Serviceable $service, Providable $provider, Accountable $account)
+    protected function makeSureProviderIsLinkedToAccount(FluentConfig $serviceConfig, Providable $provider, Accountable $account)
     {
-        $config = require(config_path(Str::slug($service->getId()).'.php'));
+        $data = require(config_path(Str::slug($serviceConfig->id).'.php'));
 
-        $this->assertIsArray($config['accounts'][$account->getId()]['providers'][$provider->getId()]);
+        $this->assertIsArray($data['accounts'][$account->getId()]['providers'][$provider->getId()]);
     }
 }

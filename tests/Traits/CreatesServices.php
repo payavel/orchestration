@@ -7,19 +7,18 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Contracts\Serviceable;
-use Payavel\Orchestration\Fluent\Config as FluentConfig;
+use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\Support\ServiceConfig;
 
 trait CreatesServices
 {
     /**
-     * Creates a serviceable instance.
+     * Creates a service config instance.
      *
      * @param array $data
-     * @return \Payavel\Orchestration\Contracts\Serviceable
+     * @return \Payavel\Orchestration\Fluent\FluentConfig
      */
-    public function createService($data = [])
+    public function createServiceConfig($data = [])
     {
         $data['name'] = $data['name'] ?? Str::ucfirst($this->faker->unique()->word());
         $data['id'] = $data['id'] ?? Str::slug($data['name'], '_');
@@ -34,31 +33,31 @@ trait CreatesServices
     }
 
     /**
-     * Sets the default configuration for a serviceable instance.
+     * Sets the defaults for the service config.
      *
-     * @param Serviceable $service
+     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
      * @param Accountable|null $account
      * @param Providable|null $provider
      * @return void
      */
-    public function setDefaultsForService(Serviceable $service, Accountable $account = null, Providable $provider = null)
+    public function setDefaultsForService(FluentConfig $serviceConfig, Accountable $account = null, Providable $provider = null)
     {
         ServiceConfig::set(
-            $service,
+            $serviceConfig,
             'defaults.account',
             $account instanceof Accountable ? $account->getId() : $account
         );
 
         if (is_null($provider) && ! is_null($account)) {
             $provider = Collection::make(
-                ServiceConfig::get($service, 'accounts.'.$account->getId().'.providers')
+                ServiceConfig::get($serviceConfig, 'accounts.'.$account->getId().'.providers')
             )
                 ->keys()
                 ->first();
         }
 
         ServiceConfig::set(
-            $service,
+            $serviceConfig,
             'defaults.provider',
             $provider instanceof Providable ? $provider->getId() : $provider
         );

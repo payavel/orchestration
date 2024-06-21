@@ -42,14 +42,14 @@ abstract class TestOrchestratesServiceTrait extends TestCase implements CreatesS
             $table->timestamps();
         });
 
-        $service = $this->createService();
-        $provider = $this->createProvider($service);
-        $account = $this->createAccount($service);
+        $serviceConfig = $this->createServiceConfig();
+        $provider = $this->createProvider($serviceConfig);
+        $account = $this->createAccount($serviceConfig);
         $this->linkAccountToProvider($account, $provider);
-        $this->setDefaultsForService($service, $account, $provider);
+        $this->setDefaultsForService($serviceConfig, $account, $provider);
 
         $this->fakeModel = FakeModel::create([
-            'service_id' => $service->getId(),
+            'service_id' => $serviceConfig->id,
             'provider_id' => $provider->getId(),
             'account_id' => $account->getId(),
         ]);

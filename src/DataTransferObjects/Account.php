@@ -4,7 +4,7 @@ namespace Payavel\Orchestration\DataTransferObjects;
 
 use Illuminate\Support\Collection;
 use Payavel\Orchestration\Contracts\Accountable;
-use Payavel\Orchestration\Contracts\Serviceable;
+use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
 use Payavel\Orchestration\Support\ServiceConfig;
 
@@ -13,21 +13,21 @@ class Account implements Accountable
     use SimulatesAttributes;
 
     /**
-     * The compatible service.
+     * The service config.
      *
-     * @var \Payavel\Orchestration\Contracts\Serviceable
+     * @var \Payavel\Orchestration\Fluent\FluentConfig
      */
-    public Serviceable $service;
+    public FluentConfig $config;
 
-    public function __construct(Serviceable $service, array $data)
+    public function __construct(FluentConfig $config, array $data)
     {
-        $this->service = $service;
+        $this->config = $config;
 
         $this->attributes = $data;
     }
 
     /**
-     * Get the provider's id.
+     * Get the accountable id.
      *
      * @return int
      */
@@ -37,7 +37,7 @@ class Account implements Accountable
     }
 
     /**
-     * Get the provider's name.
+     * Get the accountable name.
      *
      * @return string
      */
@@ -47,29 +47,34 @@ class Account implements Accountable
     }
 
     /**
-     * Get the entity service.
+     * Get the accountable service config.
      *
-     * @return \Payavel\Orchestration\Contracts\Serviceable
+     * @return \Payavel\Orchestration\Fluent\FluentConfig
      */
-    public function getService()
+    public function getServiceConfig()
     {
-        return $this->service;
+        return $this->config;
     }
 
+    /**
+     * Get the account's providers.
+     *
+     * @return mixed
+     */
     public function getProviders()
     {
         if (! isset($this->providers)) {
-            $this->attributes['providers'] = (new Collection(ServiceConfig::get($this->service, 'accounts.'.$this->attributes['id'].'.providers', [])))
+            $this->attributes['providers'] = (new Collection(ServiceConfig::get($this->config, 'accounts.'.$this->attributes['id'].'.providers', [])))
                 ->map(
                     fn ($provider, $key) => is_array($provider)
                         ? array_merge(
                             ['id' => $key],
-                            ServiceConfig::get($this->service, 'providers.'.$key),
+                            ServiceConfig::get($this->config, 'providers.'.$key),
                             $provider
                         )
                         : array_merge(
                             ['id' => $provider],
-                            ServiceConfig::get($this->service, 'providers.'.$provider)
+                            ServiceConfig::get($this->config, 'providers.'.$provider)
                         )
                 );
         }

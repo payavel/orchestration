@@ -4,7 +4,7 @@ namespace Payavel\Orchestration\Tests\Traits;
 
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Contracts\Serviceable;
+use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\Models\Account;
 use Payavel\Orchestration\Models\Provider;
 
@@ -13,17 +13,17 @@ trait CreatesDatabaseServiceables
     /**
      * Creates a providable instance.
      *
-     * @param Serviceable|null $service
+     * @param \Payavel\Orchestration\Fluent\FluentConfig|null $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Providable
      */
-    public function createProvider(Serviceable $service = null, $data = [])
+    public function createProvider(FluentConfig $serviceConfig = null, $data = [])
     {
-        if (is_null($service)) {
-            $service = $this->createService();
+        if (is_null($serviceConfig)) {
+            $serviceConfig = $this->createServiceConfig();
         }
 
-        $data['service_id'] = $service->getId();
+        $data['service_id'] = $serviceConfig->id;
 
         return Provider::factory()->create($data);
     }
@@ -31,17 +31,17 @@ trait CreatesDatabaseServiceables
     /**
      * Creates a accountable instance.
      *
-     * @param Serviceable|null $service
+     * @param \Payavel\Orchestration\Fluent\FluentConfig|null $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Accountable
      */
-    public function createAccount(Serviceable $service = null, $data = [])
+    public function createAccount(FluentConfig $serviceConfig = null, $data = [])
     {
-        if (is_null($service)) {
-            $service = $this->createService();
+        if (is_null($serviceConfig)) {
+            $serviceConfig = $this->createServiceConfig();
         }
 
-        $data['service_id'] = $service->getId();
+        $data['service_id'] = $serviceConfig->id;
 
         return Account::factory()->create($data);
     }

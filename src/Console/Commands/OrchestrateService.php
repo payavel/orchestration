@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-use Payavel\Orchestration\Fluent\Config as FluentConfig;
+use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\Traits\AsksQuestions;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
@@ -37,11 +37,11 @@ class OrchestrateService extends Command
     protected $description = 'Install a new service into the application.';
 
     /**
-     * The serviceable to be saved.
+     * The service config.
      *
-     * @var \Payavel\Orchestration\Contracts\Serviceable
+     * @var \Payavel\Orchestration\Fluent\FluentConfig
      */
-    protected $service;
+    protected $serviceConfig;
 
     /**
      * The driver to execute the new service.
@@ -94,7 +94,7 @@ class OrchestrateService extends Command
      */
     protected function setProperties()
     {
-        $this->setService();
+        $this->setServiceConfig();
         $this->setDriver();
         $this->setProviders();
         $this->setAccounts();
@@ -107,14 +107,14 @@ class OrchestrateService extends Command
      */
     protected function generateService()
     {
-        $this->driver::generateService($this->service, $this->providers, $this->accounts, $this->defaults);
+        $this->driver::generateService($this->serviceConfig, $this->providers, $this->accounts, $this->defaults);
 
-        $studlyService = Str::studly($this->service->getId());
+        $studlyService = Str::studly($this->serviceConfig->id);
 
         static::putFile(
             app_path($requesterPath = join_paths('Services', $studlyService, 'Contracts', "{$studlyService}Requester.php")),
             static::makeFile(
-                static::getStub('service-requester', $this->service->getId()),
+                static::getStub('service-requester', $this->serviceConfig->id),
                 [
                     'Service' => $studlyService,
                 ]
@@ -126,7 +126,7 @@ class OrchestrateService extends Command
         static::putFile(
             app_path($responderPath = join_paths('Services', $studlyService, 'Contracts', "{$studlyService}Responder.php")),
             static::makeFile(
-                static::getStub('service-responder', $this->service->getId()),
+                static::getStub('service-responder', $this->serviceConfig->id),
                 [
                     'Service' => $studlyService,
                 ]
@@ -143,27 +143,27 @@ class OrchestrateService extends Command
      */
     protected function generateProviders()
     {
-        $this->call("orchestrate:provider", ['--service' => $this->service->getId(), '--fake' => true]);
+        $this->call("orchestrate:provider", ['--service' => $this->serviceConfig->id, '--fake' => true]);
 
         $this->providers->each(
             fn ($provider) =>  $this->call(
                 "orchestrate:provider",
                 [
                     'provider' => $provider['id'],
-                    '--service' => $this->service->getId(),
+                    '--service' => $this->serviceConfig->id,
                 ]
             )
         );
     }
 
     /**
-     * Query the service information and set the serviceable.
+     * Request service information and set the config.
      *
      * @return void
      */
-    protected function setService()
+    protected function setServiceConfig()
     {
-        $this->service = new FluentConfig([
+        $this->serviceConfig = new FluentConfig([
             'name' => $name = trim($this->argument('service') ?? $this->askName('service')),
             'id' => $this->option('id') ?? $this->askId('service', $name),
         ]);
@@ -177,7 +177,7 @@ class OrchestrateService extends Command
     protected function setDriver()
     {
         $this->defaults['driver'] = select(
-            label: "Choose a driver for the {$this->service->getName()} service.",
+            label: "Choose a driver for the {$this->serviceConfig->name} service.",
             options: array_keys(Config::get('orchestration.drivers')),
             default: 'config'
         );
@@ -194,7 +194,7 @@ class OrchestrateService extends Command
     {
         $this->providers = collect([]);
 
-        $studlyService = Str::studly($this->service->getId());
+        $studlyService = Str::studly($this->serviceConfig->id);
 
         do {
             $provider = [
@@ -207,10 +207,10 @@ class OrchestrateService extends Command
             $provider['gateway'] = "\\App\\Services\\{$studlyService}\\{$studlyProvider}{$studlyService}Request";
 
             $this->providers->push($provider);
-        } while (confirm(label: "Would you like to add another {$this->service->getName()} provider?", default: false));
+        } while (confirm(label: "Would you like to add another {$this->serviceConfig->name} provider?", default: false));
 
         $this->defaults['provider'] = $this->providers->count() > 1
-            ? select(label: "Choose a default provider for the {$this->service->getName()} service.", options: $this->providers->pluck('id')->all())
+            ? select(label: "Choose a default provider for the {$this->serviceConfig->name} service.", options: $this->providers->pluck('id')->all())
             : $this->providers->first()['id'];
     }
 
@@ -229,7 +229,7 @@ class OrchestrateService extends Command
                 'id' => $this->askId('account', $name),
                 'providers' => $this->providers->count() > 1
                     ? multiselect(
-                        label: "Choose one or more {$this->service->getName()} providers for the {$name} account.",
+                        label: "Choose one or more {$this->serviceConfig->name} providers for the {$name} account.",
                         options: $this->providers->pluck('id')->all(),
                         required: true
                     )
@@ -237,7 +237,7 @@ class OrchestrateService extends Command
             ];
 
             $this->accounts->push($account);
-        } while (confirm(label: "Would you like to add another {$this->service->getName()} account?", default: false));
+        } while (confirm(label: "Would you like to add another {$this->serviceConfig->name} account?", default: false));
 
         $this->defaults['account'] = $this->accounts->count() > 1
             ? select(label: 'Which account will be used as default?', options: $this->accounts->pluck('id')->all())
@@ -245,13 +245,13 @@ class OrchestrateService extends Command
     }
 
     /**
-     * If orchestration config does not exist yet, generate it.
+     * If orchestration config file does not exist yet, generate it.
      *
      * @return void
      */
     protected function makeSureOrchestraIsReady()
     {
-        Config::set("orchestration.services.{$this->service->getId()}", Str::slug($this->service->getId()));
+        Config::set("orchestration.services.{$this->serviceConfig->id}", Str::slug($this->serviceConfig->id));
 
         if (file_exists(config_path('orchestration.php'))) {
             return;
@@ -262,8 +262,8 @@ class OrchestrateService extends Command
             static::makeFile(
                 static::getStub('config-orchestration'),
                 [
-                    'id' => $this->service->getId(),
-                    'config' => Str::slug($this->service->getId()),
+                    'id' => $this->serviceConfig->id,
+                    'config' => Str::slug($this->serviceConfig->id),
                 ]
             )
         );
