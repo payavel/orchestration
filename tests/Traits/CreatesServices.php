@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Fluent\FluentConfig;
-use Payavel\Orchestration\Support\ServiceConfig;
 
 trait CreatesServices
 {
@@ -26,10 +25,12 @@ trait CreatesServices
 
         Config::set('orchestration.services.'.$data['id'], Str::slug($data['id']));
 
-        ServiceConfig::set($data['id'], 'name', $data['name']);
-        ServiceConfig::set($data['id'], 'test_gateway', $data['test_gateway']);
+        $serviceConfig = FluentConfig::find($data['id']);
 
-        return new FluentConfig($data);
+        $serviceConfig->set('name', $data['name']);
+        $serviceConfig->set('test_gateway', $data['test_gateway']);
+
+        return $serviceConfig;
     }
 
     /**
@@ -42,22 +43,20 @@ trait CreatesServices
      */
     public function setDefaultsForService(FluentConfig $serviceConfig, Accountable $account = null, Providable $provider = null)
     {
-        ServiceConfig::set(
-            $serviceConfig,
+        $serviceConfig->set(
             'defaults.account',
             $account instanceof Accountable ? $account->getId() : $account
         );
 
         if (is_null($provider) && ! is_null($account)) {
             $provider = Collection::make(
-                ServiceConfig::get($serviceConfig, 'accounts.'.$account->getId().'.providers')
+                $serviceConfig->get('accounts.'.$account->getId().'.providers')
             )
                 ->keys()
                 ->first();
         }
 
-        ServiceConfig::set(
-            $serviceConfig,
+        $serviceConfig->set(
             'defaults.provider',
             $provider instanceof Providable ? $provider->getId() : $provider
         );

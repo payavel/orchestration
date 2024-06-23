@@ -13,7 +13,6 @@ use Payavel\Orchestration\DataTransferObjects\Provider;
 use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\GeneratesFiles;
-use Payavel\Orchestration\Support\ServiceConfig;
 
 use function Laravel\Prompts\info;
 use function Illuminate\Filesystem\join_paths;
@@ -44,8 +43,8 @@ class ConfigDriver extends ServiceDriver
     {
         parent::__construct($serviceConfig);
 
-        $this->providers = collect(ServiceConfig::get($this->serviceConfig, 'providers'));
-        $this->accounts = collect(ServiceConfig::get($this->serviceConfig, 'accounts'));
+        $this->providers = collect($this->serviceConfig->get('providers'));
+        $this->accounts = collect($this->serviceConfig->get('accounts'));
     }
 
     /**
@@ -82,7 +81,7 @@ class ConfigDriver extends ServiceDriver
             ! $account instanceof Account ||
             is_null($provider = $account->providers->first())
         ) {
-            return ServiceConfig::get($this->serviceConfig, 'defaults.provider');
+            return $this->serviceConfig->get('defaults.provider');
         }
 
         return $provider['id'];
@@ -118,7 +117,7 @@ class ConfigDriver extends ServiceDriver
      */
     public function getDefaultAccount(Providable $provider = null)
     {
-        return ServiceConfig::get($this->serviceConfig, 'defaults.account');
+        return $this->serviceConfig->get('defaults.account');
     }
 
     /**
@@ -152,8 +151,8 @@ class ConfigDriver extends ServiceDriver
     {
         $this->check($provider, $account);
 
-        $gateway = ServiceConfig::get($this->serviceConfig, 'test_mode')
-            ? ServiceConfig::get($this->serviceConfig, 'test_gateway')
+        $gateway = $this->serviceConfig->get('test_mode')
+            ? $this->serviceConfig->get('test_gateway')
             : $provider->gateway;
 
         if (! class_exists($gateway)) {

@@ -15,7 +15,6 @@ use Payavel\Orchestration\Models\Account;
 use Payavel\Orchestration\Models\Provider;
 use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\GeneratesFiles;
-use Payavel\Orchestration\Support\ServiceConfig;
 
 use function Laravel\Prompts\info;
 use function Illuminate\Filesystem\join_paths;
@@ -33,7 +32,7 @@ class DatabaseDriver extends ServiceDriver
     public function resolveProvider($provider)
     {
         if (! $provider instanceof Provider) {
-            $serviceProvider = ServiceConfig::get($this->serviceConfig, 'models.'.Provider::class, Provider::class);
+            $serviceProvider = $this->serviceConfig->get('models.'.Provider::class, Provider::class);
 
             $provider = $serviceProvider::find($provider);
         }
@@ -54,7 +53,7 @@ class DatabaseDriver extends ServiceDriver
     public function getDefaultProvider(Accountable $account = null)
     {
         if (! $account instanceof Account || is_null($provider = $account->default_provider_id)) {
-            $provider = ServiceConfig::get($this->serviceConfig, 'defaults.provider');
+            $provider = $this->serviceConfig->get('defaults.provider');
         }
 
         return $provider;
@@ -69,7 +68,7 @@ class DatabaseDriver extends ServiceDriver
     public function resolveAccount($account)
     {
         if (! $account instanceof Account) {
-            $accountModel = ServiceConfig::get($this->serviceConfig, 'models.'.Account::class, Account::class);
+            $accountModel = $this->serviceConfig->get('models.'.Account::class, Account::class);
 
             $account = $accountModel::find($account);
         }
@@ -89,7 +88,7 @@ class DatabaseDriver extends ServiceDriver
      */
     public function getDefaultAccount(Providable $provider = null)
     {
-        return ServiceConfig::get($this->serviceConfig, 'defaults.account');
+        return $this->serviceConfig->get('defaults.account');
     }
 
     /**
@@ -123,7 +122,7 @@ class DatabaseDriver extends ServiceDriver
     {
         $this->check($provider, $account);
 
-        $gateway = ServiceConfig::get($this->serviceConfig, 'test_mode')
+        $gateway = $this->serviceConfig->get('test_mode')
             ? $this->serviceConfig->test_gateway
             : $provider->gateway;
 

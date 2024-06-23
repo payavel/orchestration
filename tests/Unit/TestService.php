@@ -6,7 +6,6 @@ use BadMethodCallException;
 use Exception;
 use Payavel\Orchestration\Service;
 use Payavel\Orchestration\ServiceResponse;
-use Payavel\Orchestration\Support\ServiceConfig;
 use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\Services\Mock\FakeMockRequest;
 use Payavel\Orchestration\Tests\Services\Mock\TestMockRequest;
@@ -46,16 +45,16 @@ abstract class TestService extends TestCase implements CreatesServiceables
 
         $this->setDefaultsForService($this->serviceConfig, $this->accountable, $this->providable);
 
-        $this->service = new Service($this->serviceConfig->id);
+        $this->service = new Service($this->serviceConfig);
     }
 
     public function assertRealIsAlignedWithFake(callable $test)
     {
-        ServiceConfig::set($this->serviceConfig, 'test_mode', false);
+        $this->serviceConfig->set('test_mode', false);
 
         $test();
 
-        ServiceConfig::set($this->serviceConfig, 'test_mode', true);
+        $this->serviceConfig->set('test_mode', true);
 
         $this->service->reset();
 
@@ -72,7 +71,7 @@ abstract class TestService extends TestCase implements CreatesServiceables
             ->getIdentity();
 
             $this->assertEquals(
-                ServiceConfig::get($this->serviceConfig, 'test_mode')
+                $this->serviceConfig->get('test_mode')
                     ? 'Fake'
                     : 'Real',
                 $response->data

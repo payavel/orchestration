@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\Traits\HasFactory;
-use Payavel\Orchestration\Support\ServiceConfig;
 
 class Account extends Model implements Accountable
 {
@@ -78,7 +77,7 @@ class Account extends Model implements Accountable
             $this->providerModelClass = $this->guessProviderModelClass();
         }
 
-        return ServiceConfig::get($this->service_id, "models.{$this->providerModelClass}", $this->providerModelClass);
+        return $this->getServiceConfig()->get("models.{$this->providerModelClass}", $this->providerModelClass);
     }
 
     /**
