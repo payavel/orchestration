@@ -13,16 +13,12 @@ trait CreatesDatabaseServiceables
     /**
      * Creates a providable instance.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig|null $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Providable
      */
-    public function createProvider(FluentConfig $serviceConfig = null, $data = [])
+    public function createProvider(FluentConfig $serviceConfig, $data = [])
     {
-        if (is_null($serviceConfig)) {
-            $serviceConfig = $this->createServiceConfig();
-        }
-
         $data['service_id'] = $serviceConfig->id;
 
         return Provider::factory()->create($data);
@@ -31,16 +27,12 @@ trait CreatesDatabaseServiceables
     /**
      * Creates a accountable instance.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig|null $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Accountable
      */
-    public function createAccount(FluentConfig $serviceConfig = null, $data = [])
+    public function createAccount(FluentConfig $serviceConfig, $data = [])
     {
-        if (is_null($serviceConfig)) {
-            $serviceConfig = $this->createServiceConfig();
-        }
-
         $data['service_id'] = $serviceConfig->id;
 
         return Account::factory()->create($data);
