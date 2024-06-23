@@ -3,7 +3,7 @@
 namespace Payavel\Orchestration\Tests\Unit;
 
 use Illuminate\Support\Facades\Config;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -14,7 +14,7 @@ class ServiceConfigTest extends TestCase
     {
         Config::set('orchestration.services.mock', 'fake');
 
-        $serviceConfig = FluentConfig::find('mock');
+        $serviceConfig = ServiceConfig::find('mock');
 
         $serviceConfig->set('assert', true);
 
@@ -27,7 +27,7 @@ class ServiceConfigTest extends TestCase
     {
         Config::set('orchestration.services.mock', []);
 
-        $serviceConfig = FluentConfig::find('mock');
+        $serviceConfig = ServiceConfig::find('mock');
 
         $serviceConfig->set('assert', true);
 

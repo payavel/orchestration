@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\Models\Account;
 use Payavel\Orchestration\Models\Provider;
 use Payavel\Orchestration\ServiceDriver;
@@ -140,13 +140,13 @@ class DatabaseDriver extends ServiceDriver
     /**
      * Generate the service skeleton based on the current driver.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
      * @param \Illuminate\Support\Collection $providers
      * @param \Illuminate\Support\Collection $accounts
      * @param array $defaults
      * @return void
      */
-    public static function generateService(FluentConfig $serviceConfig, Collection $providers, Collection $accounts, array $defaults)
+    public static function generateService(ServiceConfig $serviceConfig, Collection $providers, Collection $accounts, array $defaults)
     {
         Artisan::call('vendor:publish', ['--tag' => 'payavel-orchestration-migrations']);
 

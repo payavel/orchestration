@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Tests\Feature\Console\Database;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\Models\Account;
 use Payavel\Orchestration\Models\Provider;
 use Payavel\Orchestration\Tests\Feature\Console\TestOrchestrateServiceCommand;
@@ -24,7 +24,7 @@ class OrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
      */
     private bool $migrated = false;
 
-    protected function makeSureProviderExists(FluentConfig $serviceConfig, Providable $provider)
+    protected function makeSureProviderExists(ServiceConfig $serviceConfig, Providable $provider)
     {
         $this->migrate($serviceConfig);
 
@@ -37,7 +37,7 @@ class OrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
         );
     }
 
-    protected function makeSureAccountExists(FluentConfig $serviceConfig, Accountable $account)
+    protected function makeSureAccountExists(ServiceConfig $serviceConfig, Accountable $account)
     {
         $this->migrate($serviceConfig);
 
@@ -47,7 +47,7 @@ class OrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
         $this->assertNotEmpty($account->providers);
     }
 
-    protected function makeSureProviderIsLinkedToAccount(FluentConfig $serviceConfig, Providable $provider, Accountable $account)
+    protected function makeSureProviderIsLinkedToAccount(ServiceConfig $serviceConfig, Providable $provider, Accountable $account)
     {
         $this->migrate($serviceConfig);
 
@@ -58,7 +58,7 @@ class OrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
         $this->assertNotNull($account->providers()->where('providers.id', $provider->id)->first());
     }
 
-    private function migrate(FluentConfig $serviceConfig)
+    private function migrate(ServiceConfig $serviceConfig)
     {
         if ($this->migrated) {
             return;

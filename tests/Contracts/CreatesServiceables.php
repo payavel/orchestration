@@ -4,7 +4,7 @@ namespace Payavel\Orchestration\Tests\Contracts;
 
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 
 interface CreatesServiceables
 {
@@ -12,27 +12,27 @@ interface CreatesServiceables
      * Creates a service config instance.
      *
      * @param array $data
-     * @return \Payavel\Orchestration\Fluent\FluentConfig
+     * @return \Payavel\Orchestration\Fluent\ServiceConfig
      */
     public function createServiceConfig($data = []);
 
     /**
      * Creates a providable instance.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Providable
      */
-    public function createProvider(FluentConfig $serviceConfig, $data = []);
+    public function createProvider(ServiceConfig $serviceConfig, $data = []);
 
     /**
      * Creates an accountable instance.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Accountable
      */
-    public function createAccount(FluentConfig $serviceConfig, $data = []);
+    public function createAccount(ServiceConfig $serviceConfig, $data = []);
 
     /**
      * Links a accountable instance to a providable one.
@@ -47,10 +47,10 @@ interface CreatesServiceables
     /**
      * Sets the default configuration for a service.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
      * @param Accountable|null $account
      * @param Providable|null $provider
      * @return void
      */
-    public function setDefaultsForService(FluentConfig $serviceConfig, Accountable $account = null, Providable $provider = null);
+    public function setDefaultsForService(ServiceConfig $serviceConfig, Accountable $account = null, Providable $provider = null);
 }

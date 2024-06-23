@@ -3,7 +3,7 @@
 namespace Payavel\Orchestration\DataTransferObjects;
 
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
 
 class Provider implements Providable
@@ -13,11 +13,11 @@ class Provider implements Providable
     /**
      * The service config.
      *
-     * @var \Payavel\Orchestration\Fluent\FluentConfig
+     * @var \Payavel\Orchestration\Fluent\ServiceConfig
      */
-    public FluentConfig $config;
+    public ServiceConfig $config;
 
-    public function __construct(FluentConfig $config, array $data)
+    public function __construct(ServiceConfig $config, array $data)
     {
         $this->config = $config;
 
@@ -47,7 +47,7 @@ class Provider implements Providable
     /**
      * Get the providable service config.
      *
-     * @return \Payavel\Orchestration\Fluent\FluentConfig
+     * @return \Payavel\Orchestration\Fluent\ServiceConfig
      */
     public function getServiceConfig()
     {

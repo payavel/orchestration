@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Tests\Feature\Console;
 use Illuminate\Support\Facades\Config;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Tests\Traits\AssertsServiceExists;
@@ -142,17 +142,17 @@ abstract class TestOrchestrateServiceCommand extends TestCase implements Creates
         $this->assertTrue(unlink(config_path($serviceConfigPath->service)));
     }
 
-    protected function makeSureProviderExists(FluentConfig $serviceConfig, Providable $provider)
+    protected function makeSureProviderExists(ServiceConfig $serviceConfig, Providable $provider)
     {
         //
     }
 
-    protected function makeSureAccountExists(FluentConfig $serviceConfig, Accountable $account)
+    protected function makeSureAccountExists(ServiceConfig $serviceConfig, Accountable $account)
     {
         //
     }
 
-    protected function makeSureProviderIsLinkedToAccount(FluentConfig $serviceConfig, Providable $provider, Accountable $account)
+    protected function makeSureProviderIsLinkedToAccount(ServiceConfig $serviceConfig, Providable $provider, Accountable $account)
     {
         //
     }

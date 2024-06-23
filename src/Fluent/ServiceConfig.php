@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 
-class FluentConfig extends Fluent
+class ServiceConfig extends Fluent
 {
     /**
      * Get an attribute from the fluent instance using "dot" notation.
