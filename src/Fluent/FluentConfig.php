@@ -5,6 +5,7 @@ namespace Payavel\Orchestration\Fluent;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Fluent;
+use Illuminate\Support\Str;
 
 class FluentConfig extends Fluent
 {
@@ -17,19 +18,38 @@ class FluentConfig extends Fluent
      */
     public function get($key, $default = null)
     {
-        return data_get($this->attributes, $key, fn () => config('orchestration.'.$key, $default));
+        return data_get($this->attributes, $key, fn () => Config::get('orchestration.'.$key, $default));
     }
 
     /**
      * Set an attribute to the fluent instance using "dot" notation.
      *
-     * @param  string  $key
-     * @param  mixed $default
+     * @param string $key
+     * @param mixed $value
      * @return void
      */
     public function set($key, $value)
     {
         data_set($this->attributes, $key, $value);
+
+        $this->setConfig($key, $value);
+    }
+
+    /**
+     * Update the service config with he provided key/value pair.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return void
+     */
+    private function setConfig($key, $value)
+    {
+        $config = Config::get('orchestration.services.'.$this->id, Str::slug($this->id));
+
+        Config::set(
+            (is_array($config) ? 'orchestration.services.'.$this->id : $config).'.'.$key,
+            $value
+        );
     }
 
     /**
@@ -56,6 +76,6 @@ class FluentConfig extends Fluent
             return null;
         }
 
-        return new static(array_merge(['id' => $id], is_array($config) ? $config : Config::get($config)));
+        return new static(array_merge(['id' => $id], is_array($config) ? $config : Config::get($config, [])));
     }
 }

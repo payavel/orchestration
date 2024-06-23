@@ -48,7 +48,7 @@ class Service
     /**
      * Sets the service config and the driver for it.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig|string $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\FluentConfig|string|int $serviceConfig
      * @return void
      *
      * @throws Exception

@@ -5,7 +5,6 @@ namespace Payavel\Orchestration\Tests\Unit;
 use Illuminate\Support\Facades\Config;
 use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\Tests\TestCase;
-use Payavel\Orchestration\Support\ServiceConfig;
 use PHPUnit\Framework\Attributes\Test;
 
 class ServiceConfigTest extends TestCase
@@ -15,10 +14,11 @@ class ServiceConfigTest extends TestCase
     {
         Config::set('orchestration.services.mock', 'fake');
 
-        ServiceConfig::set('mock', 'assert', true);
+        $serviceConfig = FluentConfig::find('mock');
 
-        $this->assertTrue(ServiceConfig::get(FluentConfig::find('mock'), 'assert'));
-        $this->assertTrue(ServiceConfig::get('mock', 'assert'));
+        $serviceConfig->set('assert', true);
+
+        $this->assertTrue($serviceConfig->get('assert'));
         $this->assertTrue(Config::get('fake.assert'));
     }
 
@@ -27,10 +27,11 @@ class ServiceConfigTest extends TestCase
     {
         Config::set('orchestration.services.mock', []);
 
-        ServiceConfig::set('mock', 'assert', true);
+        $serviceConfig = FluentConfig::find('mock');
 
-        $this->assertTrue(ServiceConfig::get(FluentConfig::find('mock'), 'assert'));
-        $this->assertTrue(ServiceConfig::get('mock', 'assert'));
+        $serviceConfig->set('assert', true);
+
+        $this->assertTrue($serviceConfig->get('assert'));
         $this->assertTrue(Config::get('orchestration.services.mock.assert'));
     }
 }

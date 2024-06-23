@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Fluent\FluentConfig;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
-use Payavel\Orchestration\Support\ServiceConfig;
 
 class Account implements Accountable
 {
@@ -17,11 +16,11 @@ class Account implements Accountable
      *
      * @var \Payavel\Orchestration\Fluent\FluentConfig
      */
-    public FluentConfig $config;
+    public FluentConfig $serviceConfig;
 
-    public function __construct(FluentConfig $config, array $data)
+    public function __construct(FluentConfig $serviceConfig, array $data)
     {
-        $this->config = $config;
+        $this->serviceConfig = $serviceConfig;
 
         $this->attributes = $data;
     }
@@ -53,7 +52,7 @@ class Account implements Accountable
      */
     public function getServiceConfig()
     {
-        return $this->config;
+        return $this->serviceConfig;
     }
 
     /**
@@ -64,17 +63,17 @@ class Account implements Accountable
     public function getProviders()
     {
         if (! isset($this->providers)) {
-            $this->attributes['providers'] = (new Collection(ServiceConfig::get($this->config, 'accounts.'.$this->attributes['id'].'.providers', [])))
+            $this->attributes['providers'] = (new Collection($this->serviceConfig->get('accounts.'.$this->attributes['id'].'.providers', [])))
                 ->map(
                     fn ($provider, $key) => is_array($provider)
                         ? array_merge(
                             ['id' => $key],
-                            ServiceConfig::get($this->config, 'providers.'.$key),
+                            $this->serviceConfig->get('providers.'.$key),
                             $provider
                         )
                         : array_merge(
                             ['id' => $provider],
-                            ServiceConfig::get($this->config, 'providers.'.$provider)
+                            $this->serviceConfig->get('providers.'.$provider)
                         )
                 );
         }
