@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Tests\Feature\Console\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\Tests\Feature\Console\TestOrchestrateServiceCommand;
 use Payavel\Orchestration\Tests\Traits\CreatesConfigServiceables;
 use Payavel\Orchestration\Tests\Traits\SetsConfigDriver;
@@ -15,7 +15,7 @@ class OrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
     use CreatesConfigServiceables;
     use SetsConfigDriver;
 
-    protected function makeSureProviderExists(FluentConfig $serviceConfig, Providable $provider)
+    protected function makeSureProviderExists(ServiceConfig $serviceConfig, Providable $provider)
     {
         $data = require(config_path(Str::slug($serviceConfig->id).'.php'));
 
@@ -27,7 +27,7 @@ class OrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
         );
     }
 
-    protected function makeSureAccountExists(FluentConfig $serviceConfig, Accountable $account)
+    protected function makeSureAccountExists(ServiceConfig $serviceConfig, Accountable $account)
     {
         $data = require(config_path(Str::slug($serviceConfig->id).'.php'));
 
@@ -37,7 +37,7 @@ class OrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
         $this->assertNotEmpty($data['accounts'][$account->getId()]['providers']);
     }
 
-    protected function makeSureProviderIsLinkedToAccount(FluentConfig $serviceConfig, Providable $provider, Accountable $account)
+    protected function makeSureProviderIsLinkedToAccount(ServiceConfig $serviceConfig, Providable $provider, Accountable $account)
     {
         $data = require(config_path(Str::slug($serviceConfig->id).'.php'));
 

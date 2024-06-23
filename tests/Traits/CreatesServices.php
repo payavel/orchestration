@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 
 trait CreatesServices
 {
@@ -15,7 +15,7 @@ trait CreatesServices
      * Creates a service config instance.
      *
      * @param array $data
-     * @return \Payavel\Orchestration\Fluent\FluentConfig
+     * @return \Payavel\Orchestration\Fluent\ServiceConfig
      */
     public function createServiceConfig($data = [])
     {
@@ -25,7 +25,7 @@ trait CreatesServices
 
         Config::set('orchestration.services.'.$data['id'], Str::slug($data['id']));
 
-        $serviceConfig = FluentConfig::find($data['id']);
+        $serviceConfig = ServiceConfig::find($data['id']);
 
         $serviceConfig->set('name', $data['name']);
         $serviceConfig->set('test_gateway', $data['test_gateway']);
@@ -36,12 +36,12 @@ trait CreatesServices
     /**
      * Sets the defaults for the service config.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
      * @param Accountable|null $account
      * @param Providable|null $provider
      * @return void
      */
-    public function setDefaultsForService(FluentConfig $serviceConfig, Accountable $account = null, Providable $provider = null)
+    public function setDefaultsForService(ServiceConfig $serviceConfig, Accountable $account = null, Providable $provider = null)
     {
         $serviceConfig->set(
             'defaults.account',

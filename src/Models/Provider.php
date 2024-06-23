@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\Traits\HasFactory;
 
 class Provider extends Model implements Providable
@@ -49,11 +49,11 @@ class Provider extends Model implements Providable
     /**
      * Get the providable service config.
      *
-     * @return \Payavel\Orchestration\Fluent\FluentConfig
+     * @return \Payavel\Orchestration\Fluent\ServiceConfig
      */
     public function getServiceConfig()
     {
-        return FluentConfig::find($this->service_id);
+        return ServiceConfig::find($this->service_id);
     }
 
     /**

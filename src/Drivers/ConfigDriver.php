@@ -10,7 +10,7 @@ use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\DataTransferObjects\Account;
 use Payavel\Orchestration\DataTransferObjects\Provider;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
@@ -39,7 +39,7 @@ class ConfigDriver extends ServiceDriver
     /**
      * Collect the service's providers & accounts.
      */
-    public function __construct(FluentConfig $serviceConfig)
+    public function __construct(ServiceConfig $serviceConfig)
     {
         parent::__construct($serviceConfig);
 
@@ -169,13 +169,13 @@ class ConfigDriver extends ServiceDriver
     /**
      * Generate the service skeleton based on the current driver.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
      * @param \Illuminate\Support\Collection $providers
      * @param \Illuminate\Support\Collection $accounts
      * @param array $defaults
      * @return void
      */
-    public static function generateService(FluentConfig $serviceConfig, Collection $providers, Collection $accounts, array $defaults)
+    public static function generateService(ServiceConfig $serviceConfig, Collection $providers, Collection $accounts, array $defaults)
     {
         $data = [];
 

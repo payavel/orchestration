@@ -21,7 +21,7 @@ interface Accountable
     /**
      * Get the accountable service config.
      *
-     * @return \Payavel\Orchestration\Fluent\FluentConfig
+     * @return \Payavel\Orchestration\Fluent\ServiceConfig
      */
     public function getServiceConfig();
 }

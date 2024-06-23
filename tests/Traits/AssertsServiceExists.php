@@ -5,11 +5,11 @@ namespace Payavel\Orchestration\Tests\Traits;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 
 trait AssertsServiceExists
 {
-    protected function configPath(FluentConfig $serviceConfig)
+    protected function configPath(ServiceConfig $serviceConfig)
     {
         $service = Str::slug($serviceConfig->id);
 
@@ -19,7 +19,7 @@ trait AssertsServiceExists
         ]);
     }
 
-    protected function contractPath(FluentConfig $serviceConfig)
+    protected function contractPath(ServiceConfig $serviceConfig)
     {
         $service = Str::studly($serviceConfig->id);
 
@@ -30,7 +30,7 @@ trait AssertsServiceExists
         ]);
     }
 
-    protected function gatewayPath(FluentConfig $serviceConfig, Providable $provider = null)
+    protected function gatewayPath(ServiceConfig $serviceConfig, Providable $provider = null)
     {
         $service = Str::studly($serviceConfig->id);
         $provider = is_null($provider) ? 'Fake' : Str::studly($provider->getId());
@@ -42,7 +42,7 @@ trait AssertsServiceExists
         ]);
     }
 
-    protected function assertConfigExists(FluentConfig $serviceConfig)
+    protected function assertConfigExists(ServiceConfig $serviceConfig)
     {
         $configPath = $this->configPath($serviceConfig);
 
@@ -50,7 +50,7 @@ trait AssertsServiceExists
         $this->assertFileExists(config_path($configPath->service));
     }
 
-    protected function assertContractExists(FluentConfig $serviceConfig)
+    protected function assertContractExists(ServiceConfig $serviceConfig)
     {
         $contractPath = $this->contractPath($serviceConfig);
 
@@ -58,7 +58,7 @@ trait AssertsServiceExists
         $this->assertFileExists(app_path($contractPath->responder));
     }
 
-    protected function assertGatewayExists(FluentConfig $serviceConfig, Providable $provider = null)
+    protected function assertGatewayExists(ServiceConfig $serviceConfig, Providable $provider = null)
     {
         $gatewayPath = $this->gatewayPath($serviceConfig, $provider);
 

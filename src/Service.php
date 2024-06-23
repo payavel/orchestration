@@ -3,7 +3,7 @@
 namespace Payavel\Orchestration;
 
 use Exception;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
 
 class Service
@@ -13,7 +13,7 @@ class Service
     /**
      * The service config.
      *
-     * @var \Payavel\Orchestration\Fluent\FluentConfig
+     * @var \Payavel\Orchestration\Fluent\ServiceConfig
      */
     private $config;
 
@@ -48,14 +48,14 @@ class Service
     /**
      * Sets the service config and the driver for it.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig|string|int $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\ServiceConfig|string|int $serviceConfig
      * @return void
      *
      * @throws Exception
      */
     public function __construct($serviceConfig)
     {
-        if (! $serviceConfig instanceof FluentConfig && is_null($serviceConfig = FluentConfig::find($serviceConfig))) {
+        if (! $serviceConfig instanceof ServiceConfig && is_null($serviceConfig = ServiceConfig::find($serviceConfig))) {
             throw new Exception("Service config with id '{$serviceConfig}' was not found.");
         }
 

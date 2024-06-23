@@ -4,7 +4,7 @@ namespace Payavel\Orchestration\DataTransferObjects;
 
 use Illuminate\Support\Collection;
 use Payavel\Orchestration\Contracts\Accountable;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
 
 class Account implements Accountable
@@ -14,11 +14,11 @@ class Account implements Accountable
     /**
      * The service config.
      *
-     * @var \Payavel\Orchestration\Fluent\FluentConfig
+     * @var \Payavel\Orchestration\Fluent\ServiceConfig
      */
-    public FluentConfig $serviceConfig;
+    public ServiceConfig $serviceConfig;
 
-    public function __construct(FluentConfig $serviceConfig, array $data)
+    public function __construct(ServiceConfig $serviceConfig, array $data)
     {
         $this->serviceConfig = $serviceConfig;
 
@@ -48,7 +48,7 @@ class Account implements Accountable
     /**
      * Get the accountable service config.
      *
-     * @return \Payavel\Orchestration\Fluent\FluentConfig
+     * @return \Payavel\Orchestration\Fluent\ServiceConfig
      */
     public function getServiceConfig()
     {

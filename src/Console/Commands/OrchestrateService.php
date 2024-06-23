@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\Traits\AsksQuestions;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
@@ -39,7 +39,7 @@ class OrchestrateService extends Command
     /**
      * The service config.
      *
-     * @var \Payavel\Orchestration\Fluent\FluentConfig
+     * @var \Payavel\Orchestration\Fluent\ServiceConfig
      */
     protected $serviceConfig;
 
@@ -163,7 +163,7 @@ class OrchestrateService extends Command
      */
     protected function setServiceConfig()
     {
-        $this->serviceConfig = new FluentConfig([
+        $this->serviceConfig = new ServiceConfig([
             'name' => $name = trim($this->argument('service') ?? $this->askName('service')),
             'id' => $this->option('id') ?? $this->askId('service', $name),
         ]);

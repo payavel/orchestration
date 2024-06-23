@@ -5,24 +5,24 @@ namespace Payavel\Orchestration;
 use Illuminate\Support\Collection;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 
 abstract class ServiceDriver
 {
     /**
      * The service's config.
      *
-     * @var \Payavel\Orchestration\Fluent\FluentConfig
+     * @var \Payavel\Orchestration\Fluent\ServiceConfig
      */
-    protected FluentConfig $serviceConfig;
+    protected ServiceConfig $serviceConfig;
 
     /**
      * Set's the service's config.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
      * @return void
      */
-    public function __construct(FluentConfig $serviceConfig)
+    public function __construct(ServiceConfig $serviceConfig)
     {
         $this->serviceConfig = $serviceConfig;
     }
@@ -81,13 +81,13 @@ abstract class ServiceDriver
     /**
      * Generate the service skeleton based on the current driver.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
      * @param \Illuminate\Support\Collection $providers
      * @param \Illuminate\Support\Collection $accounts
      * @param array $defaults
      * @return void
      */
-    public static function generateService(FluentConfig $serviceConfig, Collection $providers, Collection $accounts, array $defaults)
+    public static function generateService(ServiceConfig $serviceConfig, Collection $providers, Collection $accounts, array $defaults)
     {
         //
     }

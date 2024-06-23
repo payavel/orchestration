@@ -7,18 +7,18 @@ use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\DataTransferObjects\Account;
 use Payavel\Orchestration\DataTransferObjects\Provider;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 
 trait CreatesConfigServiceables
 {
     /**
      * Creates a providable instance.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Providable
      */
-    public function createProvider(FluentConfig $serviceConfig, $data = [])
+    public function createProvider(ServiceConfig $serviceConfig, $data = [])
     {
         $data['name'] = $data['name'] ?? Str::remove(['\'', ','], $this->faker->unique()->company());
         $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower($data['name']));
@@ -38,11 +38,11 @@ trait CreatesConfigServiceables
     /**
      * Creates a accountable instance.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Accountable
      */
-    public function createAccount(FluentConfig $serviceConfig, $data = [])
+    public function createAccount(ServiceConfig $serviceConfig, $data = [])
     {
         $data['name'] = $data['name'] ?? Str::remove(['\'', ','], $this->faker->unique()->company());
         $data['id'] = $data['id'] ?? preg_replace('/[^a-z0-9]+/i', '_', strtolower($data['name']));

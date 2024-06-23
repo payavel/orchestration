@@ -2,7 +2,7 @@
 
 namespace Payavel\Orchestration\Tests\Feature\Console;
 
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Tests\Traits\AssertsServiceExists;
@@ -20,7 +20,7 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
         $serviceConfig = $this->createServiceConfig();
         $provider = $this->createProvider($serviceConfig);
 
-        $configs = FluentConfig::all()->map(fn ($config) => $config->id);
+        $configs = ServiceConfig::all()->map(fn ($config) => $config->id);
 
         $gateway = $this->gatewayPath($serviceConfig, $provider);
 

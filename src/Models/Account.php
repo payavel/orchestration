@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
-use Payavel\Orchestration\Fluent\FluentConfig;
+use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\Traits\HasFactory;
 
 class Account extends Model implements Accountable
@@ -49,11 +49,11 @@ class Account extends Model implements Accountable
     /**
      * Get the accountable service config.
      *
-     * @return \Payavel\Orchestration\Fluent\FluentConfig
+     * @return \Payavel\Orchestration\Fluent\ServiceConfig
      */
     public function getServiceConfig()
     {
-        return FluentConfig::find($this->service_id);
+        return ServiceConfig::find($this->service_id);
     }
 
     /**
