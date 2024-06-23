@@ -19,20 +19,20 @@ interface CreatesServiceables
     /**
      * Creates a providable instance.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig|null $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Providable
      */
-    public function createProvider(FluentConfig $serviceConfig = null, $data = []);
+    public function createProvider(FluentConfig $serviceConfig, $data = []);
 
     /**
      * Creates an accountable instance.
      *
-     * @param \Payavel\Orchestration\Fluent\FluentConfig|null $serviceConfig
+     * @param \Payavel\Orchestration\Fluent\FluentConfig $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Accountable
      */
-    public function createAccount(FluentConfig $serviceConfig = null, $data = []);
+    public function createAccount(FluentConfig $serviceConfig, $data = []);
 
     /**
      * Links a accountable instance to a providable one.
