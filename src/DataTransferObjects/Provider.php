@@ -15,11 +15,11 @@ class Provider implements Providable
      *
      * @var \Payavel\Orchestration\Fluent\ServiceConfig
      */
-    public ServiceConfig $config;
+    public ServiceConfig $serviceConfig;
 
-    public function __construct(ServiceConfig $config, array $data)
+    public function __construct(ServiceConfig $serviceConfig, array $data)
     {
-        $this->config = $config;
+        $this->serviceConfig = $serviceConfig;
 
         $this->attributes = $data;
     }
@@ -51,6 +51,6 @@ class Provider implements Providable
      */
     public function getServiceConfig()
     {
-        return $this->config;
+        return $this->serviceConfig;
     }
 }
