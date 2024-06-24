@@ -17,30 +17,30 @@ class OrchestrateServiceCommandTest extends TestOrchestrateServiceCommand
 
     protected function makeSureProviderExists(ServiceConfig $serviceConfig, Providable $provider)
     {
-        $data = require(config_path(Str::slug($serviceConfig->id).'.php'));
+        $config = require(config_path(Str::slug($serviceConfig->id).'.php'));
 
-        $this->assertIsArray($data['providers']);
-        $this->assertIsArray($data['providers'][$provider->getId()]);
+        $this->assertIsArray($config['providers']);
+        $this->assertIsArray($config['providers'][$provider->getId()]);
         $this->assertEquals(
             'App\\Services\\'.Str::studly($serviceConfig->id).'\\'.Str::studly($provider->getId()).Str::studly($serviceConfig->id).'Request',
-            $data['providers'][$provider->getId()]['gateway']
+            $config['providers'][$provider->getId()]['gateway']
         );
     }
 
     protected function makeSureAccountExists(ServiceConfig $serviceConfig, Accountable $account)
     {
-        $data = require(config_path(Str::slug($serviceConfig->id).'.php'));
+        $config = require(config_path(Str::slug($serviceConfig->id).'.php'));
 
-        $this->assertIsArray($data['accounts']);
-        $this->assertIsArray($data['accounts'][$account->getId()]);
-        $this->assertIsArray($data['accounts'][$account->getId()]['providers']);
-        $this->assertNotEmpty($data['accounts'][$account->getId()]['providers']);
+        $this->assertIsArray($config['accounts']);
+        $this->assertIsArray($config['accounts'][$account->getId()]);
+        $this->assertIsArray($config['accounts'][$account->getId()]['providers']);
+        $this->assertNotEmpty($config['accounts'][$account->getId()]['providers']);
     }
 
     protected function makeSureProviderIsLinkedToAccount(ServiceConfig $serviceConfig, Providable $provider, Accountable $account)
     {
-        $data = require(config_path(Str::slug($serviceConfig->id).'.php'));
+        $config = require(config_path(Str::slug($serviceConfig->id).'.php'));
 
-        $this->assertIsArray($data['accounts'][$account->getId()]['providers'][$provider->getId()]);
+        $this->assertIsArray($config['accounts'][$account->getId()]['providers'][$provider->getId()]);
     }
 }
