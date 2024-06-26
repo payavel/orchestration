@@ -5,9 +5,10 @@ namespace Payavel\Orchestration\Tests\Traits;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\DataTransferObjects\Account;
-use Payavel\Orchestration\DataTransferObjects\Provider;
+use Payavel\Orchestration\Fluent\Account;
+use Payavel\Orchestration\Fluent\Provider;
 use Payavel\Orchestration\Fluent\ServiceConfig;
+use RuntimeException;
 
 trait CreatesConfigServiceables
 {
@@ -32,7 +33,7 @@ trait CreatesConfigServiceables
             ]
         );
 
-        return new Provider($serviceConfig, $data);
+        return new Provider($serviceConfig, $data['id']);
     }
 
     /**
@@ -49,7 +50,7 @@ trait CreatesConfigServiceables
 
         $serviceConfig->set('accounts.'.$data['id'], ['name' => $data['name']]);
 
-        return new Account($serviceConfig, $data);
+        return new Account($serviceConfig, $data['id']);
     }
 
     /**
@@ -62,14 +63,22 @@ trait CreatesConfigServiceables
      */
     public function linkAccountToProvider(Accountable $account, Providable $provider, $data = [])
     {
+        if (!$account instanceof Account) {
+            throw new RuntimeException();
+        }
+
         $serviceConfig = $account->getServiceConfig();
 
+        $providers = [
+            ...$serviceConfig->get('accounts.'.$account->getId().'.providers', []),
+            $provider->getId() => $data,
+        ];
+
+        $account->set('providers', $providers);
+
         $serviceConfig->set(
-            'accounts.'.$account->getId().'.providers',
-            array_merge(
-                $serviceConfig->get('accounts.'.$account->getId().'.providers', []),
-                [$provider->getId() => $data]
-            )
+            'accounts.'.$account->id.'.providers',
+            $providers
         );
     }
 }

@@ -7,6 +7,7 @@ use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\Models\Account;
 use Payavel\Orchestration\Models\Provider;
+use RuntimeException;
 
 trait CreatesDatabaseServiceables
 {
@@ -48,7 +49,9 @@ trait CreatesDatabaseServiceables
      */
     public function linkAccountToProvider(Accountable $account, Providable $provider, $data = [])
     {
-        throw_unless($account instanceof Account);
+        if(!$account instanceof Account) {
+            throw new RuntimeException();
+        }
 
         $account->providers()->sync([$provider->getId() => $data], false);
     }

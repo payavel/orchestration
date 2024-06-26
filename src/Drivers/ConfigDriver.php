@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\DataTransferObjects\Account;
-use Payavel\Orchestration\DataTransferObjects\Provider;
+use Payavel\Orchestration\Fluent\Account;
+use Payavel\Orchestration\Fluent\Provider;
 use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\GeneratesFiles;
@@ -43,8 +43,8 @@ class ConfigDriver extends ServiceDriver
     {
         parent::__construct($serviceConfig);
 
-        $this->providers = collect($this->serviceConfig->get('providers'));
-        $this->accounts = collect($this->serviceConfig->get('accounts'));
+        $this->providers = Collection::make($this->serviceConfig->get('providers'));
+        $this->accounts = Collection::make($this->serviceConfig->get('accounts'));
     }
 
     /**
@@ -59,13 +59,13 @@ class ConfigDriver extends ServiceDriver
             return $provider;
         }
 
-        if (is_null($attributes = $this->providers->get($provider))) {
+        if (!$this->providers->has($provider)) {
             return null;
         }
 
         return new Provider(
             $this->serviceConfig,
-            array_merge(['id' => $provider], $attributes)
+            $provider
         );
     }
 
@@ -105,7 +105,7 @@ class ConfigDriver extends ServiceDriver
 
         return new Account(
             $this->serviceConfig,
-            array_merge(['id' => $account], $attributes)
+            $account
         );
     }
 
@@ -129,9 +129,9 @@ class ConfigDriver extends ServiceDriver
      *
      * @throws Exception
      */
-    protected function check(Providable $provider, Accountable $account)
+    protected function check(Provider $provider, Account $account)
     {
-        if ($account->providers->contains('id', $provider->id)) {
+        if (Collection::make($account->get('providers'))->has($provider->id)) {
             return;
         }
 
