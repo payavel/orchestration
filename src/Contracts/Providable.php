@@ -17,11 +17,4 @@ interface Providable
      * @return string
      */
     public function getName();
-
-    /**
-     * Get the providable service config.
-     *
-     * @return \Payavel\Orchestration\Fluent\ServiceConfig
-     */
-    public function getServiceConfig();
 }

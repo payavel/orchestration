@@ -42,19 +42,19 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
         $serviceConfig = $this->createServiceConfig();
         $provider = $this->createProvider($serviceConfig);
 
-        $gateway = $this->gatewayPath($provider->getServiceConfig(), $provider);
+        $gateway = $this->gatewayPath($serviceConfig, $provider);
 
         $ds = DIRECTORY_SEPARATOR;
         $this->artisan('orchestrate:provider', [
             'provider' => $provider->getName(),
             '--id' => $provider->getId(),
-            '--service' => $provider->getServiceConfig()->id,
+            '--service' => $serviceConfig->id,
         ])
             ->expectsOutputToContain("Gateway [app{$ds}{$gateway->request}] created successfully.")
             ->expectsOutputToContain("Gateway [app{$ds}{$gateway->response}] created successfully.")
             ->assertSuccessful();
 
-        $this->assertGatewayExists($provider->getServiceConfig(), $provider);
+        $this->assertGatewayExists($serviceConfig, $provider);
     }
 
     #[Test]

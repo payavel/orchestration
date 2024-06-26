@@ -67,18 +67,6 @@ trait CreatesConfigServiceables
             throw new RuntimeException();
         }
 
-        $serviceConfig = $account->getServiceConfig();
-
-        $providers = [
-            ...$serviceConfig->get('accounts.'.$account->getId().'.providers', []),
-            $provider->getId() => $data,
-        ];
-
-        $account->set('providers', $providers);
-
-        $serviceConfig->set(
-            'accounts.'.$account->id.'.providers',
-            $providers
-        );
+        $account->set('providers.'.$provider->getId(), $data);
     }
 }

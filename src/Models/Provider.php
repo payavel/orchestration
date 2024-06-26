@@ -27,6 +27,13 @@ class Provider extends Model implements Providable
     protected $guarded = [];
 
     /**
+     * The service config.
+     *
+     * @var \Payavel\Orchestration\Fluent\ServiceConfig
+     */
+    private ServiceConfig $serviceConfig;
+
+    /**
      * Get the providable id.
      *
      * @return string|int
@@ -47,16 +54,6 @@ class Provider extends Model implements Providable
     }
 
     /**
-     * Get the providable service config.
-     *
-     * @return \Payavel\Orchestration\Fluent\ServiceConfig
-     */
-    public function getServiceConfig()
-    {
-        return ServiceConfig::find($this->service_id);
-    }
-
-    /**
      * Get the provider's related accounts.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -73,11 +70,15 @@ class Provider extends Model implements Providable
      */
     private function getAccountModelClass()
     {
-        if(! isset($this->accountModelClass)) {
+        if(!isset($this->accountModelClass)) {
             $this->accountModelClass = $this->guessAccountModelClass();
         }
 
-        return $this->getServiceConfig()->get("models.{$this->accountModelClass}", $this->accountModelClass);
+        if (!isset($this->serviceConfig)) {
+            $this->serviceConfig = ServiceConfig::find($this->service_id);
+        }
+
+        return $this->serviceConfig->get("models.{$this->accountModelClass}", $this->accountModelClass);
     }
 
 
