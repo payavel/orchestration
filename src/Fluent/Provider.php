@@ -11,7 +11,6 @@ class Provider extends Fluent implements Providable
      * The service config.
      *
      * @var \Payavel\Orchestration\Fluent\ServiceConfig
-     * @var string|int $id
      */
     public ServiceConfig $serviceConfig;
 
@@ -69,15 +68,5 @@ class Provider extends Fluent implements Providable
     public function getName()
     {
         return $this->attributes['name'] ?? $this->attributes['id'];
-    }
-
-    /**
-     * Get the providable service config.
-     *
-     * @return \Payavel\Orchestration\Fluent\ServiceConfig
-     */
-    public function getServiceConfig()
-    {
-        return $this->serviceConfig;
     }
 }

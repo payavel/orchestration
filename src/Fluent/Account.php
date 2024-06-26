@@ -12,7 +12,6 @@ class Account extends Fluent implements Accountable
      * The service config.
      *
      * @var \Payavel\Orchestration\Fluent\ServiceConfig
-     * @var string|int $id
      */
     private ServiceConfig $serviceConfig;
 
@@ -70,15 +69,5 @@ class Account extends Fluent implements Accountable
     public function getName()
     {
         return $this->attributes['name'] ?? $this->attributes['id'];
-    }
-
-    /**
-     * Get the accountable service config.
-     *
-     * @return \Payavel\Orchestration\Fluent\ServiceConfig
-     */
-    public function getServiceConfig()
-    {
-        return $this->serviceConfig;
     }
 }

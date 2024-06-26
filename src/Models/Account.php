@@ -27,6 +27,13 @@ class Account extends Model implements Accountable
     protected $guarded = [];
 
     /**
+     * The service config.
+     *
+     * @var \Payavel\Orchestration\Fluent\ServiceConfig
+     */
+    private ServiceConfig $serviceConfig;
+
+    /**
      * Get the accountable id.
      *
      * @return string|int
@@ -47,16 +54,6 @@ class Account extends Model implements Accountable
     }
 
     /**
-     * Get the accountable service config.
-     *
-     * @return \Payavel\Orchestration\Fluent\ServiceConfig
-     */
-    public function getServiceConfig()
-    {
-        return ServiceConfig::find($this->service_id);
-    }
-
-    /**
      * Get the account's related providers.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -73,11 +70,15 @@ class Account extends Model implements Accountable
      */
     private function getProviderModelClass()
     {
-        if(! isset($this->providerModelClass)) {
+        if(!isset($this->providerModelClass)) {
             $this->providerModelClass = $this->guessProviderModelClass();
         }
 
-        return $this->getServiceConfig()->get("models.{$this->providerModelClass}", $this->providerModelClass);
+        if(!isset($this->serviceConfig)) {
+            $this->serviceConfig = ServiceConfig::find($this->service_id);
+        }
+
+        return $this->serviceConfig->get("models.{$this->providerModelClass}", $this->providerModelClass);
     }
 
     /**
