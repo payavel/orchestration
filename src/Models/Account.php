@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
-use Payavel\Orchestration\Fluent\ServiceConfig;
+use Payavel\Orchestration\ServiceConfig;
 use Payavel\Orchestration\Traits\HasFactory;
 
 class Account extends Model implements Accountable
@@ -29,7 +29,7 @@ class Account extends Model implements Accountable
     /**
      * The service config.
      *
-     * @var \Payavel\Orchestration\Fluent\ServiceConfig
+     * @var \Payavel\Orchestration\ServiceConfig
      */
     private ServiceConfig $serviceConfig;
 

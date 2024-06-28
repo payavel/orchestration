@@ -3,7 +3,7 @@
 namespace Payavel\Orchestration;
 
 use Exception;
-use Payavel\Orchestration\Fluent\ServiceConfig;
+use Payavel\Orchestration\ServiceConfig;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
 
 class Service
@@ -13,7 +13,7 @@ class Service
     /**
      * The service config.
      *
-     * @var \Payavel\Orchestration\Fluent\ServiceConfig
+     * @var \Payavel\Orchestration\ServiceConfig
      */
     private $config;
 
@@ -48,7 +48,7 @@ class Service
     /**
      * Sets the service config and the driver for it.
      *
-     * @param \Payavel\Orchestration\Fluent\ServiceConfig|string|int $serviceConfig
+     * @param \Payavel\Orchestration\ServiceConfig|string|int $serviceConfig
      * @return void
      *
      * @throws Exception

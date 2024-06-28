@@ -4,7 +4,7 @@ namespace Payavel\Orchestration\Tests\Contracts;
 
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\ServiceConfig;
+use Payavel\Orchestration\ServiceConfig;
 
 interface CreatesServiceables
 {
@@ -12,14 +12,14 @@ interface CreatesServiceables
      * Creates a service config instance.
      *
      * @param array $data
-     * @return \Payavel\Orchestration\Fluent\ServiceConfig
+     * @return \Payavel\Orchestration\ServiceConfig
      */
     public function createServiceConfig($data = []);
 
     /**
      * Creates a providable instance.
      *
-     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
+     * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Providable
      */
@@ -28,7 +28,7 @@ interface CreatesServiceables
     /**
      * Creates an accountable instance.
      *
-     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
+     * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Accountable
      */
@@ -47,7 +47,7 @@ interface CreatesServiceables
     /**
      * Sets the default configuration for a service.
      *
-     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
+     * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param Accountable|null $account
      * @param Providable|null $provider
      * @return void

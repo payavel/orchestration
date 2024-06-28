@@ -2,7 +2,8 @@
 
 namespace Payavel\Orchestration\Tests\Feature\Console;
 
-use Payavel\Orchestration\Fluent\ServiceConfig;
+use Illuminate\Support\Collection;
+use Payavel\Orchestration\ServiceConfig;
 use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Tests\Traits\AssertsServiceExists;
@@ -20,13 +21,13 @@ abstract class TestOrchestrateProviderCommand extends TestCase implements Create
         $serviceConfig = $this->createServiceConfig();
         $provider = $this->createProvider($serviceConfig);
 
-        $configs = ServiceConfig::all()->map(fn ($config) => $config->id);
+        $serviceConfigs = ServiceConfig::all()->map(fn ($serviceConfig) => $serviceConfig->id);
 
         $gateway = $this->gatewayPath($serviceConfig, $provider);
 
         $ds = DIRECTORY_SEPARATOR;
         $this->artisan('orchestrate:provider')
-            ->expectsQuestion('Which service will the provider be offering?', $configs->search($serviceConfig->getId()))
+            ->expectsQuestion('Which service will the provider be offering?', $serviceConfigs->search($serviceConfig->id))
             ->expectsQuestion("How should the {$serviceConfig->name} provider be named?", $provider->getName())
             ->expectsQuestion("How should the {$serviceConfig->name} provider be identified?", $provider->getId())
             ->expectsOutputToContain("Gateway [app{$ds}{$gateway->request}] created successfully.")

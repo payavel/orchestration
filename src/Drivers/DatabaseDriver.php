@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\Models\Account;
 use Payavel\Orchestration\Models\Provider;
+use Payavel\Orchestration\ServiceConfig;
 use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
@@ -123,7 +123,7 @@ class DatabaseDriver extends ServiceDriver
         $this->check($provider, $account);
 
         $gateway = $this->serviceConfig->get('test_mode')
-            ? $this->serviceConfig->test_gateway
+            ? $this->serviceConfig->get('test_gateway')
             : $provider->gateway;
 
         if (! class_exists($gateway)) {
@@ -140,7 +140,7 @@ class DatabaseDriver extends ServiceDriver
     /**
      * Generate the service skeleton based on the current driver.
      *
-     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
+     * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param \Illuminate\Support\Collection $providers
      * @param \Illuminate\Support\Collection $accounts
      * @param array $defaults

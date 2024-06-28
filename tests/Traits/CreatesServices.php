@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\ServiceConfig;
+use Payavel\Orchestration\ServiceConfig;
 
 trait CreatesServices
 {
@@ -15,7 +15,7 @@ trait CreatesServices
      * Creates a service config instance.
      *
      * @param array $data
-     * @return \Payavel\Orchestration\Fluent\ServiceConfig
+     * @return \Payavel\Orchestration\ServiceConfig
      */
     public function createServiceConfig($data = [])
     {
@@ -36,7 +36,7 @@ trait CreatesServices
     /**
      * Sets the defaults for the service config.
      *
-     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
+     * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param Accountable|null $account
      * @param Providable|null $provider
      * @return void

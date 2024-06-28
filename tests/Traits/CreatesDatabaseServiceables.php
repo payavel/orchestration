@@ -4,9 +4,9 @@ namespace Payavel\Orchestration\Tests\Traits;
 
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\ServiceConfig;
 use Payavel\Orchestration\Models\Account;
 use Payavel\Orchestration\Models\Provider;
+use Payavel\Orchestration\ServiceConfig;
 use RuntimeException;
 
 trait CreatesDatabaseServiceables
@@ -14,7 +14,7 @@ trait CreatesDatabaseServiceables
     /**
      * Creates a providable instance.
      *
-     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
+     * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Providable
      */
@@ -28,7 +28,7 @@ trait CreatesDatabaseServiceables
     /**
      * Creates a accountable instance.
      *
-     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
+     * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Accountable
      */

@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Tests\Traits;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\ServiceConfig;
+use Payavel\Orchestration\ServiceConfig;
 
 trait AssertsServiceExists
 {

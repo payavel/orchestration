@@ -4,7 +4,7 @@ namespace Payavel\Orchestration\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Payavel\Orchestration\Fluent\ServiceConfig;
+use Payavel\Orchestration\ServiceConfig;
 use Payavel\Orchestration\Traits\AsksQuestions;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
@@ -39,7 +39,7 @@ class OrchestrateProvider extends Command
     /**
      * The provider's service config.
      *
-     * @var \Payavel\Orchestration\Fluent\ServiceConfig
+     * @var \Payavel\Orchestration\ServiceConfig
      */
     protected $serviceConfig;
 
@@ -144,13 +144,13 @@ class OrchestrateProvider extends Command
             error("Service with id {$this->option('service')} does not exist.");
 
             return false;
-        } elseif (! isset($serviceConfig) && ($existingConfigs = ServiceConfig::all())->isNotEmpty()) {
-            $id = select(
+        } elseif (! isset($serviceConfig) && ($serviceConfigs = ServiceConfig::all())->isNotEmpty()) {
+            $index = select(
                 label: 'Which service will the provider be offering?',
-                options: $existingConfigs->map(fn ($existingConfig) => $existingConfig->id)->all()
+                options: $serviceConfigs->map(fn ($serviceConfig) => $serviceConfig->id)->all()
             );
 
-            $serviceConfig = $existingConfigs->all()[$id];
+            $serviceConfig = $serviceConfigs->get($index);
         }
 
         if (! isset($serviceConfig)) {

@@ -7,7 +7,7 @@ use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Fluent\Account;
 use Payavel\Orchestration\Fluent\Provider;
-use Payavel\Orchestration\Fluent\ServiceConfig;
+use Payavel\Orchestration\ServiceConfig;
 use RuntimeException;
 
 trait CreatesConfigServiceables
@@ -15,7 +15,7 @@ trait CreatesConfigServiceables
     /**
      * Creates a providable instance.
      *
-     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
+     * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Providable
      */
@@ -39,7 +39,7 @@ trait CreatesConfigServiceables
     /**
      * Creates a accountable instance.
      *
-     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
+     * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param array $data
      * @return \Payavel\Orchestration\Contracts\Accountable
      */

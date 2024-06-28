@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Tests\Feature\Console\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\ServiceConfig;
+use Payavel\Orchestration\ServiceConfig;
 use Payavel\Orchestration\Tests\Feature\Console\TestOrchestrateServiceCommand;
 use Payavel\Orchestration\Tests\Traits\CreatesConfigServiceables;
 use Payavel\Orchestration\Tests\Traits\SetsConfigDriver;
