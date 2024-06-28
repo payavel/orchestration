@@ -5,21 +5,21 @@ namespace Payavel\Orchestration;
 use Illuminate\Support\Collection;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\ServiceConfig;
+use Payavel\Orchestration\ServiceConfig;
 
 abstract class ServiceDriver
 {
     /**
      * The service's config.
      *
-     * @var \Payavel\Orchestration\Fluent\ServiceConfig
+     * @var \Payavel\Orchestration\ServiceConfig
      */
     protected ServiceConfig $serviceConfig;
 
     /**
      * Set's the service's config.
      *
-     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
+     * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @return void
      */
     public function __construct(ServiceConfig $serviceConfig)
@@ -81,7 +81,7 @@ abstract class ServiceDriver
     /**
      * Generate the service skeleton based on the current driver.
      *
-     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
+     * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param \Illuminate\Support\Collection $providers
      * @param \Illuminate\Support\Collection $accounts
      * @param array $defaults

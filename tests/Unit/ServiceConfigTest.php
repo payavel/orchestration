@@ -3,7 +3,7 @@
 namespace Payavel\Orchestration\Tests\Unit;
 
 use Illuminate\Support\Facades\Config;
-use Payavel\Orchestration\Fluent\ServiceConfig;
+use Payavel\Orchestration\ServiceConfig;
 use Payavel\Orchestration\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 

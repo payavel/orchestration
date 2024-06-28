@@ -10,7 +10,7 @@ use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Fluent\Account;
 use Payavel\Orchestration\Fluent\Provider;
-use Payavel\Orchestration\Fluent\ServiceConfig;
+use Payavel\Orchestration\ServiceConfig;
 use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
@@ -169,7 +169,7 @@ class ConfigDriver extends ServiceDriver
     /**
      * Generate the service skeleton based on the current driver.
      *
-     * @param \Payavel\Orchestration\Fluent\ServiceConfig $serviceConfig
+     * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param \Illuminate\Support\Collection $providers
      * @param \Illuminate\Support\Collection $accounts
      * @param array $defaults

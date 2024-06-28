@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\ServiceConfig;
+use Payavel\Orchestration\ServiceConfig;
 use Payavel\Orchestration\Traits\HasFactory;
 
 class Provider extends Model implements Providable
@@ -29,7 +29,7 @@ class Provider extends Model implements Providable
     /**
      * The service config.
      *
-     * @var \Payavel\Orchestration\Fluent\ServiceConfig
+     * @var \Payavel\Orchestration\ServiceConfig
      */
     private ServiceConfig $serviceConfig;
 

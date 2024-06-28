@@ -4,13 +4,14 @@ namespace Payavel\Orchestration\Fluent;
 
 use Illuminate\Support\Fluent;
 use Payavel\Orchestration\Contracts\Providable;
+use Payavel\Orchestration\ServiceConfig;
 
 class Provider extends Fluent implements Providable
 {
     /**
      * The service config.
      *
-     * @var \Payavel\Orchestration\Fluent\ServiceConfig
+     * @var \Payavel\Orchestration\ServiceConfig
      */
     public ServiceConfig $serviceConfig;
 

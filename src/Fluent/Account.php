@@ -2,16 +2,16 @@
 
 namespace Payavel\Orchestration\Fluent;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 use Payavel\Orchestration\Contracts\Accountable;
+use Payavel\Orchestration\ServiceConfig;
 
 class Account extends Fluent implements Accountable
 {
     /**
      * The service config.
      *
-     * @var \Payavel\Orchestration\Fluent\ServiceConfig
+     * @var \Payavel\Orchestration\ServiceConfig
      */
     private ServiceConfig $serviceConfig;
 

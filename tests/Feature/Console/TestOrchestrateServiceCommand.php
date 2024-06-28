@@ -5,7 +5,7 @@ namespace Payavel\Orchestration\Tests\Feature\Console;
 use Illuminate\Support\Facades\Config;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\Contracts\Providable;
-use Payavel\Orchestration\Fluent\ServiceConfig;
+use Payavel\Orchestration\ServiceConfig;
 use Payavel\Orchestration\Tests\Contracts\CreatesServiceables;
 use Payavel\Orchestration\Tests\TestCase;
 use Payavel\Orchestration\Tests\Traits\AssertsServiceExists;
