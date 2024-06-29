@@ -13,7 +13,7 @@ class Account extends Fluent implements Accountable
      *
      * @var \Payavel\Orchestration\ServiceConfig
      */
-    private ServiceConfig $serviceConfig;
+    protected ServiceConfig $serviceConfig;
 
     public function __construct(ServiceConfig $serviceConfig, $id)
     {

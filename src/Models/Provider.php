@@ -31,7 +31,7 @@ class Provider extends Model implements Providable
      *
      * @var \Payavel\Orchestration\ServiceConfig
      */
-    private ServiceConfig $serviceConfig;
+    protected ServiceConfig $serviceConfig;
 
     /**
      * Get the providable id.
@@ -68,7 +68,7 @@ class Provider extends Model implements Providable
      *
      * @return string
      */
-    private function getAccountModelClass()
+    protected function getAccountModelClass()
     {
         if(!isset($this->accountModelClass)) {
             $this->accountModelClass = $this->guessAccountModelClass();
@@ -87,7 +87,7 @@ class Provider extends Model implements Providable
      *
      * @return string
      */
-    private function guessAccountModelClass()
+    protected function guessAccountModelClass()
     {
         $parentClass = get_class($this);
 

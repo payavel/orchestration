@@ -31,7 +31,7 @@ class Account extends Model implements Accountable
      *
      * @var \Payavel\Orchestration\ServiceConfig
      */
-    private ServiceConfig $serviceConfig;
+    protected ServiceConfig $serviceConfig;
 
     /**
      * Get the accountable id.
@@ -68,7 +68,7 @@ class Account extends Model implements Accountable
      *
      * @return string
      */
-    private function getProviderModelClass()
+    protected function getProviderModelClass()
     {
         if(!isset($this->providerModelClass)) {
             $this->providerModelClass = $this->guessProviderModelClass();
@@ -86,7 +86,7 @@ class Account extends Model implements Accountable
      *
      * @return string
      */
-    private function guessProviderModelClass()
+    protected function guessProviderModelClass()
     {
         $parentClass = get_class($this);
 

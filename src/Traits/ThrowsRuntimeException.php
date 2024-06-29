@@ -13,7 +13,7 @@ trait ThrowsRuntimeException
      *
      * @throws \RuntimeException
      */
-    private function throwRuntimeException($method)
+    protected function throwRuntimeException($method)
     {
         throw new RuntimeException(get_class($this)."::class does not implement the {$method}() method.");
     }
