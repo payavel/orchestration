@@ -15,35 +15,35 @@ class Service
      *
      * @var \Payavel\Orchestration\ServiceConfig
      */
-    private $config;
+    protected $config;
 
     /**
      * The service driver that will handle provider/account gateway resolutions.
      *
      * @var \Payavel\Orchestration\ServiceDriver
      */
-    private $driver;
+    protected $driver;
 
     /**
      * The configured provider.
      *
      * @var \Payavel\Orchestration\Contracts\Providable
      */
-    private $provider;
+    protected $provider;
 
     /**
      * The configured account.
      *
      * @var \Payavel\Orchestration\Contracts\Accountable
      */
-    private $account;
+    protected $account;
 
     /**
      * The gateway class where requests will be executed.
      *
      * @var \Payavel\Orchestration\ServiceRequest
      */
-    private $gateway;
+    protected $gateway;
 
     /**
      * Sets the service config and the driver for it.
