@@ -13,7 +13,7 @@ class Provider extends Fluent implements Providable
      *
      * @var \Payavel\Orchestration\ServiceConfig
      */
-    public ServiceConfig $serviceConfig;
+    protected ServiceConfig $serviceConfig;
 
     public function __construct(ServiceConfig $serviceConfig, $id)
     {
