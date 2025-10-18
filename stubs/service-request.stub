@@ -8,11 +8,11 @@ use Payavel\Orchestration\ServiceRequest;
 class {{ Provider }}{{ Service }}Request extends ServiceRequest implements {{ Service }}Requester
 {
     /**
-     * Set up the request.
+     * Sets up the request.
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         //
     }
