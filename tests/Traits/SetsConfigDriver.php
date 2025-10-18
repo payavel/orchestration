@@ -11,7 +11,7 @@ trait SetsConfigDriver
      *
      * @return void
      */
-    protected function setDriver()
+    protected function setDriver(): void
     {
         Config::set('orchestration.defaults.driver', 'config');
     }

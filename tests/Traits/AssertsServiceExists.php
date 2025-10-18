@@ -9,7 +9,7 @@ use Payavel\Orchestration\ServiceConfig;
 
 trait AssertsServiceExists
 {
-    protected function configPath(ServiceConfig $serviceConfig)
+    protected function configPath(ServiceConfig $serviceConfig): Fluent
     {
         $service = Str::slug($serviceConfig->id);
 
@@ -19,7 +19,7 @@ trait AssertsServiceExists
         ]);
     }
 
-    protected function contractPath(ServiceConfig $serviceConfig)
+    protected function contractPath(ServiceConfig $serviceConfig): Fluent
     {
         $service = Str::studly($serviceConfig->id);
 
@@ -30,7 +30,7 @@ trait AssertsServiceExists
         ]);
     }
 
-    protected function gatewayPath(ServiceConfig $serviceConfig, ?Providable $provider = null)
+    protected function gatewayPath(ServiceConfig $serviceConfig, ?Providable $provider = null): Fluent
     {
         $service = Str::studly($serviceConfig->id);
         $provider = is_null($provider) ? 'Fake' : Str::studly($provider->getId());
@@ -42,7 +42,7 @@ trait AssertsServiceExists
         ]);
     }
 
-    protected function assertConfigExists(ServiceConfig $serviceConfig)
+    protected function assertConfigExists(ServiceConfig $serviceConfig): void
     {
         $configPath = $this->configPath($serviceConfig);
 
@@ -50,7 +50,7 @@ trait AssertsServiceExists
         $this->assertFileExists(config_path($configPath->service));
     }
 
-    protected function assertContractExists(ServiceConfig $serviceConfig)
+    protected function assertContractExists(ServiceConfig $serviceConfig): void
     {
         $contractPath = $this->contractPath($serviceConfig);
 
@@ -58,7 +58,7 @@ trait AssertsServiceExists
         $this->assertFileExists(app_path($contractPath->responder));
     }
 
-    protected function assertGatewayExists(ServiceConfig $serviceConfig, ?Providable $provider = null)
+    protected function assertGatewayExists(ServiceConfig $serviceConfig, ?Providable $provider = null): void
     {
         $gatewayPath = $this->gatewayPath($serviceConfig, $provider);
 

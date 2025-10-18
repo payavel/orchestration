@@ -12,7 +12,7 @@ trait SetsDatabaseDriver
      *
      * @return void
      */
-    protected function setDriver()
+    protected function setDriver(): void
     {
         Config::set('orchestration.defaults.driver', 'database');
 

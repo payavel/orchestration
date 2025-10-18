@@ -16,9 +16,10 @@ trait CreatesDatabaseServiceables
      *
      * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param array $data
+     *
      * @return \Payavel\Orchestration\Contracts\Providable
      */
-    public function createProvider(ServiceConfig $serviceConfig, $data = [])
+    public function createProvider(ServiceConfig $serviceConfig, array $data = []): Providable
     {
         $data['service_id'] = $serviceConfig->id;
 
@@ -30,9 +31,10 @@ trait CreatesDatabaseServiceables
      *
      * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param array $data
+     *
      * @return \Payavel\Orchestration\Contracts\Accountable
      */
-    public function createAccount(ServiceConfig $serviceConfig, $data = [])
+    public function createAccount(ServiceConfig $serviceConfig, array $data = []): Accountable
     {
         $data['service_id'] = $serviceConfig->id;
 
@@ -45,11 +47,12 @@ trait CreatesDatabaseServiceables
      * @param Accountable $account
      * @param Providable $provider
      * @param array $data
+     *
      * @return void
      */
-    public function linkAccountToProvider(Accountable $account, Providable $provider, $data = [])
+    public function linkAccountToProvider(Accountable $account, Providable $provider, array $data = []): void
     {
-        if(!$account instanceof Account) {
+        if (!$account instanceof Account) {
             throw new RuntimeException();
         }
 
