@@ -5,16 +5,16 @@ namespace Payavel\Orchestration\Contracts;
 interface Providable
 {
     /**
-     * Get the providable id.
+     * Gets the providable id.
      *
      * @return string|int
      */
-    public function getId();
+    public function getId(): string|int;
 
     /**
-     * Get the providable name.
+     * Gets the providable name.
      *
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 }

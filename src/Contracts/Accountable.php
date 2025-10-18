@@ -5,16 +5,16 @@ namespace Payavel\Orchestration\Contracts;
 interface Accountable
 {
     /**
-     * Get the accountable id.
+     * Gets the accountable id.
      *
      * @return string|int
      */
-    public function getId();
+    public function getId(): string|int;
 
     /**
-     * Get the accountable name.
+     * Gets the accountable name.
      *
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 }
