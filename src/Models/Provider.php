@@ -18,14 +18,14 @@ class Provider extends Model implements Providable
      *
      * @var bool
      */
-    public bool $incrementing = false;
+    public $incrementing = false;
 
     /**
      * The attributes that aren't mass assignable.
      *
      * @var array<string>
      */
-    protected array $guarded = [];
+    protected $guarded = [];
 
     /**
      * The service config.
