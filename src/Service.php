@@ -31,21 +31,21 @@ class Service
      *
      * @var \Payavel\Orchestration\Contracts\Providable
      */
-    protected ?Providable $provider;
+    protected ?Providable $provider = null;
 
     /**
      * The configured account.
      *
      * @var \Payavel\Orchestration\Contracts\Accountable
      */
-    protected ?Accountable $account;
+    protected ?Accountable $account = null;
 
     /**
      * The gateway class where requests will be executed.
      *
      * @var \Payavel\Orchestration\ServiceRequest|null
      */
-    protected ?ServiceRequest $gateway;
+    protected ?ServiceRequest $gateway = null;
 
     /**
      * Sets the service config and the driver for it.
