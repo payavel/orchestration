@@ -3,6 +3,8 @@
 namespace Payavel\Orchestration;
 
 use Exception;
+use Payavel\Orchestration\Contracts\Accountable;
+use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\ServiceConfig;
 use Payavel\Orchestration\Traits\SimulatesAttributes;
 
@@ -15,35 +17,35 @@ class Service
      *
      * @var \Payavel\Orchestration\ServiceConfig
      */
-    protected $config;
+    protected ServiceConfig $config;
 
     /**
      * The service driver that will handle provider/account gateway resolutions.
      *
      * @var \Payavel\Orchestration\ServiceDriver
      */
-    protected $driver;
+    protected ServiceDriver $driver;
 
     /**
      * The configured provider.
      *
      * @var \Payavel\Orchestration\Contracts\Providable
      */
-    protected $provider;
+    protected ?Providable $provider;
 
     /**
      * The configured account.
      *
      * @var \Payavel\Orchestration\Contracts\Accountable
      */
-    protected $account;
+    protected ?Accountable $account;
 
     /**
      * The gateway class where requests will be executed.
      *
-     * @var \Payavel\Orchestration\ServiceRequest
+     * @var \Payavel\Orchestration\ServiceRequest|null
      */
-    protected $gateway;
+    protected ?ServiceRequest $gateway;
 
     /**
      * Sets the service config and the driver for it.
@@ -53,7 +55,7 @@ class Service
      *
      * @throws Exception
      */
-    public function __construct($serviceConfig)
+    public function __construct(ServiceConfig|string|int $serviceConfig)
     {
         if (! $serviceConfig instanceof ServiceConfig && is_null($serviceConfig = ServiceConfig::find($serviceConfig))) {
             throw new Exception("Service config with id '{$serviceConfig}' was not found.");
@@ -69,12 +71,12 @@ class Service
     }
 
     /**
-     * Fluent provider setter.
+     * Sets the provider fluently.
      *
      * @param \Payavel\Orchestration\Contracts\Providable|string|int $provider
      * @return \Payavel\Orchestration\Service
      */
-    public function provider($provider)
+    public function provider(Providable|string|int $provider): static
     {
         $this->setProvider($provider);
 
@@ -82,11 +84,11 @@ class Service
     }
 
     /**
-     * Get the current provider.
+     * Gets the current provider.
      *
      * @return \Payavel\Orchestration\Contracts\Providable
      */
-    public function getProvider()
+    public function getProvider(): Providable
     {
         if (! isset($this->provider)) {
             $this->setProvider($this->getDefaultProvider());
@@ -96,14 +98,14 @@ class Service
     }
 
     /**
-     * Set the provider.
+     * Sets the provider.
      *
      * @param \Payavel\Orchestration\Contracts\Providable|string|int $provider
      * @return void
      *
      * @throws Exception
      */
-    public function setProvider($provider)
+    public function setProvider(Providable|string|int $provider): void
     {
         if (is_null($provider = $this->driver->resolveProvider($provider))) {
             throw new Exception('Invalid provider.');
@@ -115,22 +117,22 @@ class Service
     }
 
     /**
-     * Get the default service provider.
+     * Gets the default service provider.
      *
      * @return string|int|\Payavel\Orchestration\Contracts\Providable
      */
-    public function getDefaultProvider()
+    public function getDefaultProvider(): string|int|Providable
     {
         return $this->driver->getDefaultProvider($this->account);
     }
 
     /**
-     * Fluent account setter.
+     * Sets the account fluently.
      *
      * @param \Payavel\Orchestration\Contracts\Accountable|string|int $account
      * @return \Payavel\Orchestration\Service
      */
-    public function account($account)
+    public function account(Accountable|string|int $account): static
     {
         $this->setAccount($account);
 
@@ -138,11 +140,11 @@ class Service
     }
 
     /**
-     * Get the current account.
+     * Gets the current account.
      *
      * @return \Payavel\Orchestration\Contracts\Accountable
      */
-    public function getAccount()
+    public function getAccount(): Accountable
     {
         if (! isset($this->account)) {
             $this->setAccount($this->getDefaultAccount());
@@ -152,14 +154,14 @@ class Service
     }
 
     /**
-     * Set the specified account.
+     * Sets the specified account.
      *
      * @param \Payavel\Orchestration\Contracts\Accountable|string|int $account
      * @return void
      *
      * @throws Exception
      */
-    public function setAccount($account)
+    public function setAccount(Accountable|string|int $account): void
     {
         if (is_null($account = $this->driver->resolveAccount($account))) {
             throw new Exception('Invalid account.');
@@ -171,21 +173,21 @@ class Service
     }
 
     /**
-     * Get the default account.
+     * Gets the default account.
      *
      * @return string|int|\Payavel\Orchestration\Contracts\Accountable
      */
-    public function getDefaultAccount()
+    public function getDefaultAccount(): string|int|Accountable
     {
         return $this->driver->getDefaultAccount($this->provider);
     }
 
     /**
-     * Get the service's gateway.
+     * Gets the service's gateway.
      *
      * @return \Payavel\Orchestration\ServiceRequest
      */
-    protected function getGateway()
+    protected function getGateway(): ServiceRequest
     {
         if (! isset($this->gateway)) {
             $this->setGateway();
@@ -195,11 +197,11 @@ class Service
     }
 
     /**
-     * Resolve a new instance of the service's gateway.
+     * Resolves a new instance of the service's gateway.
      *
      * @return void
      */
-    protected function setGateway()
+    protected function setGateway(): void
     {
         $provider = $this->getProvider();
         $account = $this->getAccount();
@@ -208,11 +210,11 @@ class Service
     }
 
     /**
-     * Reset the service to its defaults.
+     * Resets the service to its defaults.
      *
      * @return void
      */
-    public function reset()
+    public function reset(): void
     {
         $this->driver->refresh();
 
@@ -223,9 +225,11 @@ class Service
      * @param string $method
      * @param array $params
      *
+     * @return \Payavel\Orchestration\ServiceResponse|mixed
+     *
      * @throws \BadMethodCallException
      */
-    public function __call($method, $params)
+    public function __call(string $method, array $params = []): mixed
     {
         return $this->getGateway()->request($method, $params);
     }

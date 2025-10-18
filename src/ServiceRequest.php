@@ -13,26 +13,22 @@ abstract class ServiceRequest
      *
      * @var \Payavel\Orchestration\ServiceResponse
      */
-    protected $serviceResponse;
+    protected ServiceResponse $serviceResponse;
 
     /**
      * The service provider.
      *
      * @var \Payavel\Orchestration\Contracts\Providable
      */
-    protected $provider;
+    protected Providable $provider;
 
     /**
      * The service account.
      *
      * @var \Payavel\Orchestration\Contracts\Accountable
      */
-    protected $account;
+    protected Accountable $account;
 
-    /**
-     * @param  \Payavel\Orchestration\Contracts\Providable $provider
-     * @param  \Payavel\Orchestration\Contracts\Accountable $account
-     */
     public function __construct(Providable $provider, Accountable $account)
     {
         $this->provider = $provider;
@@ -42,26 +38,26 @@ abstract class ServiceRequest
     }
 
     /**
-     * Set up the request.
+     * Sets up the request.
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         //
     }
 
     /**
-     * Make the request.
+     * Makes the request.
      *
      * @param string $method
-     * @param array|null $params
+     * @param array $params
      *
      * @return \Payavel\Orchestration\ServiceResponse|mixed
      *
      * @throws \BadMethodCallException
      */
-    public function request($method, $params)
+    public function request(string $method, array $params = []): mixed
     {
         if (! method_exists($this, $method)) {
             throw new \BadMethodCallException(get_class($this)."::{$method}() not found.");
@@ -77,13 +73,13 @@ abstract class ServiceRequest
     }
 
     /**
-     * Format the response.
+     * Formats the response.
      *
      * @param mixed $rawResponse
      *
      * @return \Payavel\Orchestration\ServiceResponse
      */
-    public function response($rawResponse)
+    public function response(mixed $rawResponse): ServiceResponse
     {
         $serviceResponse = $this->serviceResponse ?? Str::replace('Request', 'Response', get_class($this));
 
