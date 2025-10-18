@@ -2,6 +2,8 @@
 
 namespace Payavel\Orchestration\Traits;
 
+use Payavel\Orchestration\Contracts\Accountable;
+use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\Service;
 
 trait OrchestratesService
@@ -11,14 +13,14 @@ trait OrchestratesService
      *
      * @param \Payavel\Orchestration\Service
      */
-    private $orchestratedService;
+    private Service $orchestratedService;
 
     /**
-     * Gets the orchestrable service. Also sets it if it hasn't been resolved yet.
+     * Gets the orchestrable service, or sets it if it hasn't been resolved yet.
      *
      * @return \Payavel\Orchestration\Service
      */
-    public function getService()
+    public function getService(): Service
     {
         if (! isset($this->orchestratedService)) {
             $this->orchestratedService = (new Service($this->service_id ?? $this->serviceId))
@@ -34,7 +36,7 @@ trait OrchestratesService
      *
      * @return \Payavel\Orchestration\Contracts\Providable
      */
-    public function getProvider()
+    public function getProvider(): Providable
     {
         return $this->getService()->getProvider();
     }
@@ -44,17 +46,17 @@ trait OrchestratesService
      *
      * @return \Payavel\Orchestration\Contracts\Accountable
      */
-    public function getAccount()
+    public function getAccount(): Accountable
     {
         return $this->getService()->getAccount();
     }
 
     /**
-     * Retrieve the service as a property when applied to a Model.
+     * Retrieves the service as a property when applied to a Model.
      *
      * @return \Payavel\Orchestration\Service
      */
-    protected function getServiceAttribute()
+    protected function getServiceAttribute(): Service
     {
         return $this->getService();
     }

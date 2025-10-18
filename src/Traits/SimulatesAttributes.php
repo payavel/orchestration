@@ -14,12 +14,12 @@ trait SimulatesAttributes
     protected array $attributes = [];
 
     /**
-     * If a get method exists, it gets executed, otherwise returns a value from the $attributes array.
+     * If a get method exists, it gets executed, otherwise it returns a value from the $attributes array.
      *
-     * @param string $key.
+     * @param string $key
      * @return mixed
      */
-    public function __get($key)
+    public function __get(string $key): mixed
     {
         if (! method_exists(self::class, $method = 'get'.Str::studly($key))) {
             return $this->getAttribute($key);
@@ -29,13 +29,13 @@ trait SimulatesAttributes
     }
 
     /**
-     * If a set method exists, it gets executed, otherwise sets value in the $attributes array.
+     * If a set method exists, it gets executed, otherwise it sets a value in the $attributes array.
      *
      * @param string $key
      * @param mixed $value
      * @return void
      */
-    public function __set($key, $value): void
+    public function __set(string $key, mixed $value): void
     {
         if (! method_exists(self::class, $method = 'set'.Str::studly($key))) {
             $this->setAttribute($key, $value);
@@ -47,12 +47,12 @@ trait SimulatesAttributes
     }
 
     /**
-     * Get an attribute from the $attributes array.
+     * Gets an attribute from the $attributes array.
      *
      * @param string $key
      * @return mixed
      */
-    protected function getAttribute($key)
+    protected function getAttribute(string $key): mixed
     {
         return $this->attributes[$key] ?? null;
     }
@@ -64,7 +64,7 @@ trait SimulatesAttributes
      * @param mixed $value
      * @return void
      */
-    protected function setAttribute($key, $value)
+    protected function setAttribute(string $key, mixed $value): void
     {
         $this->attributes[$key] = $value;
     }

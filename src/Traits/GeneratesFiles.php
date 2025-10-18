@@ -8,13 +8,13 @@ use Illuminate\Support\Str;
 trait GeneratesFiles
 {
     /**
-     * Get the contents of the file.
+     * Gets the contents of the file.
      *
      * @param string $stub
      * @param array $data
      * @return string
      */
-    protected static function makeFile($stub, $data)
+    protected static function makeFile(string $stub, array $data): string
     {
         $file = file_get_contents($stub);
 
@@ -26,13 +26,13 @@ trait GeneratesFiles
     }
 
     /**
-     * Put the given file in the specified path.
+     * Puts the given file in the specified path.
      *
      * @param string $path
      * @param string $file
      * @return void
      */
-    protected static function putFile($path, $file)
+    protected static function putFile(string $path, string $file): void
     {
         $fileSystem = new Filesystem();
 
@@ -43,13 +43,13 @@ trait GeneratesFiles
     }
 
     /**
-     * Get the most relevant stub file.
+     * Gets the most relevant stub file.
      *
      * @param string $stub
      * @param string|null $service
      * @return string
      */
-    protected static function getStub(string $stub, ?string $service = null)
+    protected static function getStub(string $stub, ?string $service = null): string
     {
         if (
             (

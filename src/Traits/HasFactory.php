@@ -11,11 +11,11 @@ trait HasFactory
     use HasEloquentFactory;
 
     /**
-     * Create a new factory instance for the model.
+     * Creates a new factory instance for the model.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory<static>
      */
-    protected static function newFactory()
+    protected static function newFactory(): Factory
     {
         if (! class_exists($factory = Factory::resolveFactoryName(get_called_class()))) {
             $factory =
@@ -33,7 +33,7 @@ trait HasFactory
      *
      * @return string
      */
-    protected static function getFactoryNamespace()
+    protected static function getFactoryNamespace(): string
     {
         return 'Payavel\\Orchestration\\Database\\Factories';
     }
