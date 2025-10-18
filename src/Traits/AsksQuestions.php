@@ -7,12 +7,12 @@ use function Laravel\Prompts\text;
 trait AsksQuestions
 {
     /**
-     * Ask for the name of the entity (provider, account, etc...) to be added.
+     * Asks for the name of the entity (provider, account, etc...) to be added.
      *
      * @param string $entity
      * @return string
      */
-    protected function askName($entity)
+    protected function askName(string $entity): string
     {
         return text(
             label: "How should the {$this->formatService($entity)} be named?"
@@ -20,13 +20,13 @@ trait AsksQuestions
     }
 
     /**
-     * Ask for the id of the entity (provider, account, etc...) to be added.
+     * Asks for the id of the entity (provider, account, etc...) to be added.
      *
      * @param string $entity
      * @param string $name
      * @return string
      */
-    protected function askId($entity, $name)
+    protected function askId(string $entity, string $name): string
     {
         $id = preg_replace('/[^a-z0-9]+/i', '_', strtolower($name));
 
@@ -39,12 +39,12 @@ trait AsksQuestions
     }
 
     /**
-     * Properly format the service entity.
+     * Properly formats the service entity.
      *
      * @param string $entity
      * @return string
      */
-    private function formatService($entity)
+    private function formatService(string $entity): string
     {
         return ($this->serviceConfig ? ($this->serviceConfig->name.' ') : '').$entity;
     }
