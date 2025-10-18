@@ -15,9 +15,10 @@ trait CreatesServices
      * Creates a service config instance.
      *
      * @param array $data
+     *
      * @return \Payavel\Orchestration\ServiceConfig
      */
-    public function createServiceConfig($data = [])
+    public function createServiceConfig(array $data = []): ServiceConfig
     {
         $data['name'] = $data['name'] ?? Str::ucfirst($this->faker->unique()->word());
         $data['id'] = $data['id'] ?? Str::slug($data['name'], '_');
@@ -39,9 +40,10 @@ trait CreatesServices
      * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param Accountable|null $account
      * @param Providable|null $provider
+     *
      * @return void
      */
-    public function setDefaultsForService(ServiceConfig $serviceConfig, ?Accountable $account = null, ?Providable $provider = null)
+    public function setDefaultsForService(ServiceConfig $serviceConfig, ?Accountable $account = null, ?Providable $provider = null): void
     {
         $serviceConfig->set(
             'defaults.account',

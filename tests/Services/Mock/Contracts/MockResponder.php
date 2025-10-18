@@ -4,5 +4,10 @@ namespace Payavel\Orchestration\Tests\Services\Mock\Contracts;
 
 interface MockResponder
 {
-    public function getIdentityResponse();
+    /**
+     * Dummy method to assert against.
+     *
+     * @return mixed
+     */
+    public function getIdentityResponse(): mixed;
 }

@@ -7,31 +7,22 @@ use Payavel\Orchestration\Tests\Services\Mock\Contracts\MockResponder;
 
 class TestMockResponse extends ServiceResponse implements MockResponder
 {
-    /**
-     * @inheritDoc
-     */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return 200;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getStatusMessage()
+    public function getStatusMessage(): string
     {
         return 'Success';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getStatusDescription()
+    public function getStatusDescription(): string
     {
         return 'All good for now!';
     }
 
-    public function getIdentityResponse()
+    public function getIdentityResponse(): string
     {
         return 'Real'.(is_null($this->additionalData) ? '' : ' with '.$this->additionalData);
     }
