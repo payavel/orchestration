@@ -21,7 +21,7 @@ class AccountFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         $account = Str::remove(['\'', ','], $this->faker->unique()->company());
 
@@ -34,12 +34,12 @@ class AccountFactory extends Factory
     /**
      * Configure the model factory.
      *
-     * @return $this
+     * @return static
      */
-    public function configure()
+    public function configure(): static
     {
         return $this->afterMaking(function (Account $account) {
-            if(is_null($account->service_id)) {
+            if (is_null($account->service_id)) {
                 $account->service_id = is_null($service = Service::all()->random())
                     ? Str::lower($this->faker->unique()->word())
                     : $service->getId();

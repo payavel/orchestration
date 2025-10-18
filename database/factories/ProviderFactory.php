@@ -21,7 +21,7 @@ class ProviderFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         $provider = Str::remove(['\'', ','], $this->faker->unique()->company());
 
@@ -34,12 +34,12 @@ class ProviderFactory extends Factory
     /**
      * Configure the model factory.
      *
-     * @return $this
+     * @return static
      */
-    public function configure()
+    public function configure(): static
     {
         return $this->afterMaking(function (Provider $provider) {
-            if(is_null($provider->service_id)) {
+            if (is_null($provider->service_id)) {
                 $provider->service_id = is_null($service = Service::all()->random())
                     ? Str::lower($this->faker->unique()->word())
                     : $service->getId();
