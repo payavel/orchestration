@@ -14,6 +14,7 @@ use Payavel\Orchestration\Models\Account;
 use Payavel\Orchestration\Models\Provider;
 use Payavel\Orchestration\ServiceConfig;
 use Payavel\Orchestration\ServiceDriver;
+use Payavel\Orchestration\ServiceRequest;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
 use function Laravel\Prompts\info;
@@ -24,12 +25,12 @@ class DatabaseDriver extends ServiceDriver
     use GeneratesFiles;
 
     /**
-     * Resolve the providable instance.
+     * Resolves the providable instance.
      *
-     * @param \Payavel\Orchestration\Contracts\Providable|string $provider
+     * @param \Payavel\Orchestration\Contracts\Providable|string|int $provider
      * @return \Payavel\Orchestration\Contracts\Providable|null
      */
-    public function resolveProvider($provider)
+    public function resolveProvider(Providable|string|int $provider): ?Providable
     {
         if (! $provider instanceof Provider) {
             $serviceProvider = $this->serviceConfig->get('models.'.Provider::class, Provider::class);
@@ -45,12 +46,12 @@ class DatabaseDriver extends ServiceDriver
     }
 
     /**
-     * Get the default providable identifier.
+     * Gets the default providable identifier.
      *
      * @param \Payavel\Orchestration\Contracts\Accountable|null $account
      * @return string|int
      */
-    public function getDefaultProvider(?Accountable $account = null)
+    public function getDefaultProvider(?Accountable $account = null): string|int
     {
         if (! $account instanceof Account || is_null($provider = $account->default_provider_id)) {
             $provider = $this->serviceConfig->get('defaults.provider');
@@ -60,12 +61,12 @@ class DatabaseDriver extends ServiceDriver
     }
 
     /**
-     * Resolve the accountable instance.
+     * Resolves the accountable instance.
      *
      * @param \Payavel\Orchestration\Contracts\Accountable|string|int $account
      * @return \Payavel\Orchestration\Contracts\Accountable|null
      */
-    public function resolveAccount($account)
+    public function resolveAccount(Accountable|string|int $account): ?Accountable
     {
         if (! $account instanceof Account) {
             $accountModel = $this->serviceConfig->get('models.'.Account::class, Account::class);
@@ -81,26 +82,26 @@ class DatabaseDriver extends ServiceDriver
     }
 
     /**
-     * Get the default accountable identifier.
+     * Gets the default accountable identifier.
      *
      * @param \Payavel\Orchestration\Contracts\Providable|null $provider
      * @return string|int
      */
-    public function getDefaultAccount(?Providable $provider = null)
+    public function getDefaultAccount(?Providable $provider = null): string|int
     {
         return $this->serviceConfig->get('defaults.account');
     }
 
     /**
-     * Verify that the account is compatible with the provider.
+     * Verifies that the account is compatible with the provider.
      *
-     * @param \Payavel\Orchestration\Contracts\Providable
-     * @param \Payavel\Orchestration\Contracts\Accountable
+     * @param \Payavel\Orchestration\Models\Provider $provider
+     * @param \Payavel\Orchestration\Models\Account $account
      * @return void
      *
      * @throws Exception
      */
-    protected function check(Providable $provider, Accountable $account)
+    protected function check(Provider $provider, Account $account): void
     {
         if ($account->providers->contains($provider)) {
             return;
@@ -110,7 +111,7 @@ class DatabaseDriver extends ServiceDriver
     }
 
     /**
-     * Resolve the gateway.
+     * Resolves the gateway.
      *
      * @param \Payavel\Orchestration\Contracts\Providable $provider
      * @param \Payavel\Orchestration\Contracts\Accountable $account
@@ -118,7 +119,7 @@ class DatabaseDriver extends ServiceDriver
      *
      * @throws Exception
      */
-    public function resolveGateway(Providable $provider, Accountable $account)
+    public function resolveGateway(Providable $provider, Accountable $account): ServiceRequest
     {
         $this->check($provider, $account);
 
@@ -138,7 +139,7 @@ class DatabaseDriver extends ServiceDriver
     }
 
     /**
-     * Generate the service skeleton based on the current driver.
+     * Generates the service skeleton based on the current driver.
      *
      * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param \Illuminate\Support\Collection $providers
@@ -146,7 +147,7 @@ class DatabaseDriver extends ServiceDriver
      * @param array $defaults
      * @return void
      */
-    public static function generateService(ServiceConfig $serviceConfig, Collection $providers, Collection $accounts, array $defaults)
+    public static function generateService(ServiceConfig $serviceConfig, Collection $providers, Collection $accounts, array $defaults): void
     {
         Artisan::call('vendor:publish', ['--tag' => 'payavel-orchestration-migrations']);
 
