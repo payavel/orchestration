@@ -3,6 +3,7 @@
 namespace Payavel\Orchestration\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\ServiceConfig;
@@ -17,14 +18,14 @@ class Provider extends Model implements Providable
      *
      * @var bool
      */
-    public $incrementing = false;
+    public bool $incrementing = false;
 
     /**
      * The attributes that aren't mass assignable.
      *
-     * @var string[]|bool
+     * @var array<string>
      */
-    protected $guarded = [];
+    protected array $guarded = [];
 
     /**
      * The service config.
@@ -34,43 +35,43 @@ class Provider extends Model implements Providable
     protected ServiceConfig $serviceConfig;
 
     /**
-     * Get the providable id.
+     * Gets the providable id.
      *
      * @return string|int
      */
-    public function getId()
+    public function getId(): string|int
     {
         return $this->id;
     }
 
     /**
-     * Get the providable name.
+     * Gets the providable name.
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name ?? $this->id;
     }
 
     /**
-     * Get the provider's related accounts.
+     * Gets the provider's related accounts.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function accounts()
+    public function accounts(): BelongsToMany
     {
         return $this->belongsToMany($this->getAccountModelClass(), 'account_provider', 'provider_id', 'account_id')->withTimestamps();
     }
 
     /**
-     * Get the account model class relative to the provider.
+     * Gets the account model class relative to the provider.
      *
      * @return string
      */
-    protected function getAccountModelClass()
+    protected function getAccountModelClass(): string
     {
-        if(!isset($this->accountModelClass)) {
+        if (!isset($this->accountModelClass)) {
             $this->accountModelClass = $this->guessAccountModelClass();
         }
 
@@ -83,11 +84,11 @@ class Provider extends Model implements Providable
 
 
     /**
-     * Guess the account model class name by convention.
+     * Guesses the account model class name by convention.
      *
      * @return string
      */
-    protected function guessAccountModelClass()
+    protected function guessAccountModelClass(): string
     {
         $parentClass = get_class($this);
 

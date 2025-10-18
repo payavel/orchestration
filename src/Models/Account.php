@@ -3,6 +3,7 @@
 namespace Payavel\Orchestration\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
 use Payavel\Orchestration\ServiceConfig;
@@ -17,14 +18,14 @@ class Account extends Model implements Accountable
      *
      * @var bool
      */
-    public $incrementing = false;
+    public bool $incrementing = false;
 
     /**
      * The attributes that aren't mass assignable.
      *
-     * @var string[]|bool
+     * @var array<string>
      */
-    protected $guarded = [];
+    protected array $guarded = [];
 
     /**
      * The service config.
@@ -34,47 +35,47 @@ class Account extends Model implements Accountable
     protected ServiceConfig $serviceConfig;
 
     /**
-     * Get the accountable id.
+     * Gets the accountable id.
      *
      * @return string|int
      */
-    public function getId()
+    public function getId(): string|int
     {
         return $this->id;
     }
 
     /**
-     * Get the accountable name.
+     * Gets the accountable name.
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name ?? $this->id;
     }
 
     /**
-     * Get the account's related providers.
+     * Gets the account's related providers.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function providers()
+    public function providers(): BelongsToMany
     {
         return $this->belongsToMany($this->getProviderModelClass(), 'account_provider', 'account_id', 'provider_id')->withTimestamps();
     }
 
     /**
-     * Get the provider model class relative to the account.
+     * Gets the provider model class relative to the account.
      *
      * @return string
      */
-    protected function getProviderModelClass()
+    protected function getProviderModelClass(): string
     {
-        if(!isset($this->providerModelClass)) {
+        if (!isset($this->providerModelClass)) {
             $this->providerModelClass = $this->guessProviderModelClass();
         }
 
-        if(!isset($this->serviceConfig)) {
+        if (!isset($this->serviceConfig)) {
             $this->serviceConfig = ServiceConfig::find($this->service_id);
         }
 
@@ -82,11 +83,11 @@ class Account extends Model implements Accountable
     }
 
     /**
-     * Guess the provider model class name by convention.
+     * Guesses the provider model class name by convention.
      *
      * @return string
      */
-    protected function guessProviderModelClass()
+    protected function guessProviderModelClass(): string
     {
         $parentClass = get_class($this);
 
