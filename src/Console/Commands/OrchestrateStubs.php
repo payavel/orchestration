@@ -19,23 +19,23 @@ class OrchestrateStubs extends Command
      *
      * @var string
      */
-    protected $signature = 'orchestrate:stubs
-                            {stub? : The stub file}
-                            {--service= : The service}';
+    protected string $signature = 'orchestrate:stubs
+                                    {stub? : The stub file}
+                                    {--service= : The service}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Publishes this package\'s stub files.';
+    protected string $description = 'Publishes this package\'s stub files.';
 
     /**
      * Stubs that can be overridden on the orchestration level.
      *
-     * @var string[]
+     * @var array<string>
      */
-    public static $baseStubs = [
+    public static array $baseStubs = [
       'config-service',
       'config-service-database',
       'config-service-account',
@@ -53,19 +53,19 @@ class OrchestrateStubs extends Command
     /**
      * Stubs that can be overridden on a service level.
      *
-     * @var string[]
+     * @var array<string>
      */
-    public static $serviceSpecificStubs = [
+    public static array $serviceSpecificStubs = [
         'service-request',
         'service-response',
     ];
 
     /**
-     * Execute the console command.
+     * Executes the console command.
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $stubs = is_null($this->option('service'))
             ? static::$baseStubs
@@ -87,7 +87,7 @@ class OrchestrateStubs extends Command
                 : ('/'.$this->option('service'))
         );
 
-        foreach($stubs as $stub) {
+        foreach ($stubs as $stub) {
             static::putFile(
                 base_path(join_paths($directory, "{$stub}.stub")),
                 file_get_contents(__DIR__."/../../../stubs/{$stub}.stub")

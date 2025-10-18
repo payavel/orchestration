@@ -3,9 +3,11 @@
 namespace Payavel\Orchestration\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\ServiceConfig;
+use Payavel\Orchestration\ServiceDriver;
 use Payavel\Orchestration\Traits\AsksQuestions;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
@@ -25,58 +27,58 @@ class OrchestrateService extends Command
      *
      * @var string
      */
-    protected $signature = 'orchestrate:service
-                            {service? : The service name}
-                            {--id= : The service ID }';
+    protected string $signature = 'orchestrate:service
+                                    {service? : The service name}
+                                    {--id= : The service ID }';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Install a new service into the application.';
+    protected string $description = 'Install a new service into the application.';
 
     /**
      * The service config.
      *
      * @var \Payavel\Orchestration\ServiceConfig
      */
-    protected $serviceConfig;
+    protected ServiceConfig $serviceConfig;
 
     /**
      * The driver to execute the new service.
      *
      * @var Payavel\Orchestration\ServiceDriver
      */
-    protected $driver;
+    protected ServiceDriver $driver;
 
     /**
      * The collected providers.
      *
      * @var \Illuminate\Support\Collection
      */
-    protected $providers;
+    protected Collection $providers;
 
     /**
      * The collected accounts.
      *
      * @var \Illuminate\Support\Collection
      */
-    protected $accounts;
+    protected Collection $accounts;
 
     /**
      * The defaults to be set.
      *
      * @var array
      */
-    protected $defaults = [];
+    protected array $defaults = [];
 
     /**
-     * Execute the console command.
+     * Executes the console command.
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $this->setProperties();
 
@@ -88,11 +90,11 @@ class OrchestrateService extends Command
     }
 
     /**
-     * Sets the properties necessary to handle this command.
+     * Sets the necessary properties to handle this command.
      *
      * @return void
      */
-    protected function setProperties()
+    protected function setProperties(): void
     {
         $this->setServiceConfig();
         $this->setDriver();
@@ -105,7 +107,7 @@ class OrchestrateService extends Command
      *
      * @return void
      */
-    protected function generateService()
+    protected function generateService(): void
     {
         $this->driver::generateService($this->serviceConfig, $this->providers, $this->accounts, $this->defaults);
 
@@ -141,7 +143,7 @@ class OrchestrateService extends Command
      *
      * @return void
      */
-    protected function generateProviders()
+    protected function generateProviders(): void
     {
         $this->call("orchestrate:provider", ['--service' => $this->serviceConfig->id, '--fake' => true]);
 
@@ -157,11 +159,11 @@ class OrchestrateService extends Command
     }
 
     /**
-     * Request service information and set the config.
+     * Requests the service information and sets the config.
      *
      * @return void
      */
-    protected function setServiceConfig()
+    protected function setServiceConfig(): void
     {
         $name = trim($this->argument('service') ?? $this->askName('service'));
         $id = $this->option('id') ?? $this->askId('service', $name);
@@ -172,11 +174,11 @@ class OrchestrateService extends Command
     }
 
     /**
-     * Query for driver information and set the corresponding class.
+     * Queries for driver information and sets the corresponding class.
      *
      * @return void
      */
-    protected function setDriver()
+    protected function setDriver(): void
     {
         $this->defaults['driver'] = select(
             label: "Choose a driver for the {$this->serviceConfig->name} service.",
@@ -188,11 +190,11 @@ class OrchestrateService extends Command
     }
 
     /**
-     * Query for provider information, generate the service & set the config for chosen providers.
+     * Queries the provider information, generates the service and sets the config for the chosen providers.
      *
      * @return void
      */
-    protected function setProviders()
+    protected function setProviders(): void
     {
         $this->providers = collect([]);
 
@@ -217,11 +219,11 @@ class OrchestrateService extends Command
     }
 
     /**
-     * Query account information & set the config for chosen accounts.
+     * Queries the account information and sets the config for the chosen accounts.
      *
      * @return void
      */
-    protected function setAccounts()
+    protected function setAccounts(): void
     {
         $this->accounts = collect([]);
 
@@ -247,11 +249,11 @@ class OrchestrateService extends Command
     }
 
     /**
-     * If orchestration config file does not exist yet, generate it.
+     * Generates the orchestration config file if it does not exist.
      *
      * @return void
      */
-    protected function makeSureOrchestraIsReady()
+    protected function makeSureOrchestraIsReady(): void
     {
         if (file_exists(config_path('orchestration.php'))) {
             return;
