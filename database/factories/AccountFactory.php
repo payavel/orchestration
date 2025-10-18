@@ -34,7 +34,7 @@ class AccountFactory extends Factory
     /**
      * Configure the model factory.
      *
-     * @return static
+     * @return \Payavel\Orchestration\Database\Factories\AccountFactory
      */
     public function configure(): static
     {
