@@ -27,16 +27,16 @@ class OrchestrateService extends Command
      *
      * @var string
      */
-    protected string $signature = 'orchestrate:service
-                                    {service? : The service name}
-                                    {--id= : The service ID }';
+    protected $signature = 'orchestrate:service
+                            {service? : The service name}
+                            {--id= : The service ID }';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected string $description = 'Install a new service into the application.';
+    protected $description = 'Install a new service into the application.';
 
     /**
      * The service config.

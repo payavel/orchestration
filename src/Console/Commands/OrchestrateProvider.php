@@ -23,18 +23,18 @@ class OrchestrateProvider extends Command
      *
      * @var string
      */
-    protected string $signature = 'orchestrate:provider
-                                    {provider? : The provider name}
-                                    {--id= : The provider ID}
-                                    {--service= : The service ID}
-                                    {--fake : Generates a gateway to be used for testing purposes}';
+    protected $signature = 'orchestrate:provider
+                            {provider? : The provider name}
+                            {--id= : The provider ID}
+                            {--service= : The service ID}
+                            {--fake : Generates a gateway to be used for testing purposes}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected string $description = 'Scaffold a new service provider\'s gateway request and response classes.';
+    protected $description = 'Scaffold a new service provider\'s gateway request and response classes.';
 
     /**
      * The provider's service config.

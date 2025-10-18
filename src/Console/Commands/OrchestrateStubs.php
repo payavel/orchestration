@@ -19,16 +19,16 @@ class OrchestrateStubs extends Command
      *
      * @var string
      */
-    protected string $signature = 'orchestrate:stubs
-                                    {stub? : The stub file}
-                                    {--service= : The service}';
+    protected $signature = 'orchestrate:stubs
+                            {stub? : The stub file}
+                            {--service= : The service}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected string $description = 'Publishes this package\'s stub files.';
+    protected $description = 'Publishes this package\'s stub files.';
 
     /**
      * Stubs that can be overridden on the orchestration level.
