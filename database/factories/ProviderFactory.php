@@ -34,7 +34,7 @@ class ProviderFactory extends Factory
     /**
      * Configure the model factory.
      *
-     * @return static
+     * @return \Payavel\Orchestration\Database\Factories\ProviderFactory
      */
     public function configure(): static
     {
