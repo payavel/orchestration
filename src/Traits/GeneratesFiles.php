@@ -49,7 +49,7 @@ trait GeneratesFiles
      * @param string|null $service
      * @return string
      */
-    protected static function getStub($stub, $service = null)
+    protected static function getStub(string $stub, ?string $service = null)
     {
         if (
             (

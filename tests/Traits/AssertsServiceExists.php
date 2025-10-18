@@ -30,7 +30,7 @@ trait AssertsServiceExists
         ]);
     }
 
-    protected function gatewayPath(ServiceConfig $serviceConfig, Providable $provider = null)
+    protected function gatewayPath(ServiceConfig $serviceConfig, ?Providable $provider = null)
     {
         $service = Str::studly($serviceConfig->id);
         $provider = is_null($provider) ? 'Fake' : Str::studly($provider->getId());
@@ -58,7 +58,7 @@ trait AssertsServiceExists
         $this->assertFileExists(app_path($contractPath->responder));
     }
 
-    protected function assertGatewayExists(ServiceConfig $serviceConfig, Providable $provider = null)
+    protected function assertGatewayExists(ServiceConfig $serviceConfig, ?Providable $provider = null)
     {
         $gatewayPath = $this->gatewayPath($serviceConfig, $provider);
 

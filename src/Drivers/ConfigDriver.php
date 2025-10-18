@@ -75,7 +75,7 @@ class ConfigDriver extends ServiceDriver
      * @param \Payavel\Orchestration\Contracts\Accountable|null $account
      * @return string|int
      */
-    public function getDefaultProvider(Accountable $account = null)
+    public function getDefaultProvider(?Accountable $account = null)
     {
         if (
             ! $account instanceof Account ||
@@ -115,7 +115,7 @@ class ConfigDriver extends ServiceDriver
      * @param \Payavel\Orchestration\Contracts\Providable|null $provider
      * @return string|int
      */
-    public function getDefaultAccount(Providable $provider = null)
+    public function getDefaultAccount(?Providable $provider = null)
     {
         return $this->serviceConfig->get('defaults.account');
     }

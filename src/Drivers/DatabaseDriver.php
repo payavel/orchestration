@@ -50,7 +50,7 @@ class DatabaseDriver extends ServiceDriver
      * @param \Payavel\Orchestration\Contracts\Accountable|null $account
      * @return string|int
      */
-    public function getDefaultProvider(Accountable $account = null)
+    public function getDefaultProvider(?Accountable $account = null)
     {
         if (! $account instanceof Account || is_null($provider = $account->default_provider_id)) {
             $provider = $this->serviceConfig->get('defaults.provider');
@@ -86,7 +86,7 @@ class DatabaseDriver extends ServiceDriver
      * @param \Payavel\Orchestration\Contracts\Providable|null $provider
      * @return string|int
      */
-    public function getDefaultAccount(Providable $provider = null)
+    public function getDefaultAccount(?Providable $provider = null)
     {
         return $this->serviceConfig->get('defaults.account');
     }

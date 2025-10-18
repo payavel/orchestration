@@ -41,7 +41,7 @@ trait CreatesServices
      * @param Providable|null $provider
      * @return void
      */
-    public function setDefaultsForService(ServiceConfig $serviceConfig, Accountable $account = null, Providable $provider = null)
+    public function setDefaultsForService(ServiceConfig $serviceConfig, ?Accountable $account = null, ?Providable $provider = null)
     {
         $serviceConfig->set(
             'defaults.account',
