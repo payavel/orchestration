@@ -51,7 +51,7 @@ abstract class ServiceDriver
      * @param \Payavel\Orchestration\Contracts\Accountable|null $account
      * @return string|int
      */
-    abstract public function getDefaultProvider(Accountable $account = null);
+    abstract public function getDefaultProvider(?Accountable $account = null);
 
     /**
      * Resolve the accountable instance.
@@ -67,7 +67,7 @@ abstract class ServiceDriver
      * @param \Payavel\Orchestration\Contracts\Providable|null $provider
      * @return string|int
      */
-    abstract public function getDefaultAccount(Providable $provider = null);
+    abstract public function getDefaultAccount(?Providable $provider = null);
 
     /**
      * Resolve the gateway.
