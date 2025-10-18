@@ -12,6 +12,7 @@ use Payavel\Orchestration\Fluent\Account;
 use Payavel\Orchestration\Fluent\Provider;
 use Payavel\Orchestration\ServiceConfig;
 use Payavel\Orchestration\ServiceDriver;
+use Payavel\Orchestration\ServiceRequest;
 use Payavel\Orchestration\Traits\GeneratesFiles;
 
 use function Laravel\Prompts\info;
@@ -26,18 +27,18 @@ class ConfigDriver extends ServiceDriver
      *
      * @var \Illuminate\Support\Collection
      */
-    protected $providers;
+    protected Collection $providers;
 
     /**
      * Collection of the service's accounts.
      *
      * @var \Illuminate\Support\Collection
      */
-    protected $accounts;
+    protected Collection $accounts;
 
 
     /**
-     * Collect the service's providers & accounts.
+     * Collects the service's providers & accounts.
      */
     public function __construct(ServiceConfig $serviceConfig)
     {
@@ -48,12 +49,12 @@ class ConfigDriver extends ServiceDriver
     }
 
     /**
-     * Resolve the providable instance.
+     * Resolves the providable instance.
      *
      * @param \Payavel\Orchestration\Contracts\Providable|string $provider
      * @return \Payavel\Orchestration\Contracts\Providable|null
      */
-    public function resolveProvider($provider)
+    public function resolveProvider(Providable|string|int $provider): ?Providable
     {
         if ($provider instanceof Provider) {
             return $provider;
@@ -70,12 +71,12 @@ class ConfigDriver extends ServiceDriver
     }
 
     /**
-     * Get the default providable identifier.
+     * Gets the default providable identifier.
      *
      * @param \Payavel\Orchestration\Contracts\Accountable|null $account
      * @return string|int
      */
-    public function getDefaultProvider(?Accountable $account = null)
+    public function getDefaultProvider(?Accountable $account = null): string|int
     {
         if (
             ! $account instanceof Account ||
@@ -88,12 +89,12 @@ class ConfigDriver extends ServiceDriver
     }
 
     /**
-     * Resolve the accountable instance.
+     * Resolves the accountable instance.
      *
      * @param \Payavel\Orchestration\Contracts\Accountable|string|int $account
      * @return \Payavel\Orchestration\Contracts\Accountable|null
      */
-    public function resolveAccount($account)
+    public function resolveAccount(Accountable|string|int $account): ?Accountable
     {
         if ($account instanceof Account) {
             return $account;
@@ -110,26 +111,26 @@ class ConfigDriver extends ServiceDriver
     }
 
     /**
-     * Get the default accountable identifier.
+     * Gets the default accountable identifier.
      *
      * @param \Payavel\Orchestration\Contracts\Providable|null $provider
      * @return string|int
      */
-    public function getDefaultAccount(?Providable $provider = null)
+    public function getDefaultAccount(?Providable $provider = null): string|int
     {
         return $this->serviceConfig->get('defaults.account');
     }
 
     /**
-     * Verify that the account is compatible with the provider.
+     * Verifies that the account is compatible with the provider.
      *
-     * @param \Payavel\Orchestration\Contracts\Providable
-     * @param \Payavel\Orchestration\Contracts\Accountable
+     * @param \Payavel\Orchestration\Fluent\Provider $provider
+     * @param \Payavel\Orchestration\Fluent\Account $account
      * @return void
      *
      * @throws Exception
      */
-    protected function check(Provider $provider, Account $account)
+    protected function check(Provider $provider, Account $account): void
     {
         if (Collection::make($account->get('providers'))->has($provider->id)) {
             return;
@@ -139,7 +140,7 @@ class ConfigDriver extends ServiceDriver
     }
 
     /**
-     * Resolve the gateway.
+     * Resolves the gateway.
      *
      * @param \Payavel\Orchestration\Contracts\Providable $provider
      * @param \Payavel\Orchestration\Contracts\Accountable $account
@@ -147,7 +148,7 @@ class ConfigDriver extends ServiceDriver
      *
      * @throws Exception
      */
-    public function resolveGateway(Providable $provider, Accountable $account)
+    public function resolveGateway(Providable $provider, Accountable $account): ServiceRequest
     {
         $this->check($provider, $account);
 
@@ -167,7 +168,7 @@ class ConfigDriver extends ServiceDriver
     }
 
     /**
-     * Generate the service skeleton based on the current driver.
+     * Generates the service skeleton based on the current driver.
      *
      * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param \Illuminate\Support\Collection $providers
@@ -175,7 +176,7 @@ class ConfigDriver extends ServiceDriver
      * @param array $defaults
      * @return void
      */
-    public static function generateService(ServiceConfig $serviceConfig, Collection $providers, Collection $accounts, array $defaults)
+    public static function generateService(ServiceConfig $serviceConfig, Collection $providers, Collection $accounts, array $defaults): void
     {
         $data = [];
 

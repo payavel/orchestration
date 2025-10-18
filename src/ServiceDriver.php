@@ -32,54 +32,54 @@ abstract class ServiceDriver
      *
      * @return void
      */
-    public function refresh()
+    public function refresh(): void
     {
         //
     }
 
     /**
-     * Resolve the providable instance.
+     * Resolves the providable instance.
      *
      * @param \Payavel\Orchestration\Contracts\Providable|string|int $provider
      * @return \Payavel\Orchestration\Contracts\Providable|null
      */
-    abstract public function resolveProvider($provider);
+    abstract public function resolveProvider(Providable|string|int $provider): ?Providable;
 
     /**
-     * Get the default providable identifier.
+     * Gets the default providable identifier.
      *
      * @param \Payavel\Orchestration\Contracts\Accountable|null $account
      * @return string|int
      */
-    abstract public function getDefaultProvider(?Accountable $account = null);
+    abstract public function getDefaultProvider(?Accountable $account = null): string|int;
 
     /**
-     * Resolve the accountable instance.
+     * Resolves the accountable instance.
      *
      * @param \Payavel\Orchestration\Contracts\Accountable|string|int $account
      * @return \Payavel\Orchestration\Contracts\Accountable|null
      */
-    abstract public function resolveAccount($account);
+    abstract public function resolveAccount(Accountable|string|int $account): ?Accountable;
 
     /**
-     * Get the default accountable identifier.
+     * Gets the default accountable identifier.
      *
      * @param \Payavel\Orchestration\Contracts\Providable|null $provider
      * @return string|int
      */
-    abstract public function getDefaultAccount(?Providable $provider = null);
+    abstract public function getDefaultAccount(?Providable $provider = null): string|int;
 
     /**
-     * Resolve the gateway.
+     * Resolves the gateway.
      *
      * @param \Payavel\Orchestration\Contracts\Providable $provider
      * @param \Payavel\Orchestration\Contracts\Accountable $account
      * @return \Payavel\Orchestration\ServiceRequest
      */
-    abstract public function resolveGateway(Providable $provider, Accountable $account);
+    abstract public function resolveGateway(Providable $provider, Accountable $account): ServiceRequest;
 
     /**
-     * Generate the service skeleton based on the current driver.
+     * Generates the service skeleton based on the current driver.
      *
      * @param \Payavel\Orchestration\ServiceConfig $serviceConfig
      * @param \Illuminate\Support\Collection $providers
@@ -87,7 +87,7 @@ abstract class ServiceDriver
      * @param array $defaults
      * @return void
      */
-    public static function generateService(ServiceConfig $serviceConfig, Collection $providers, Collection $accounts, array $defaults)
+    public static function generateService(ServiceConfig $serviceConfig, Collection $providers, Collection $accounts, array $defaults): void
     {
         //
     }
