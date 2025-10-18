@@ -38,7 +38,7 @@ abstract class ServiceResponse
      *
      * @var mixed
      */
-    protected mixed $additionalData;
+    protected mixed $additionalData = null;
 
     /**
      * The request method that returned this response.
