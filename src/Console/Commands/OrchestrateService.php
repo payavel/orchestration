@@ -43,7 +43,7 @@ class OrchestrateService extends Command
      *
      * @var \Payavel\Orchestration\ServiceConfig
      */
-    protected ServiceConfig $serviceConfig;
+    protected ?ServiceConfig $serviceConfig = null;
 
     /**
      * The driver to execute the new service.
