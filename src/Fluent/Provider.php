@@ -15,7 +15,7 @@ class Provider extends Fluent implements Providable
      */
     protected ServiceConfig $serviceConfig;
 
-    public function __construct(ServiceConfig $serviceConfig, $id)
+    public function __construct(ServiceConfig $serviceConfig, string|int $id)
     {
         $this->serviceConfig = $serviceConfig;
 
@@ -26,11 +26,11 @@ class Provider extends Fluent implements Providable
     }
 
     /**
-     * Get an attribute from the fluent instance using "dot" notation.
+     * Gets an attribute from the fluent instance using "dot" notation.
      *
      * @param  string  $key
-     * @param  string|int|mixed|null $default
-     * @return string|int|mixed|null
+     * @param  mixed $default
+     * @return mixed
      */
     public function get($key, $default = null)
     {
@@ -38,7 +38,7 @@ class Provider extends Fluent implements Providable
     }
 
     /**
-     * Set an attribute to the fluent instance using "dot" notation.
+     * Sets an attribute to the fluent instance using "dot" notation.
      *
      * @param string $key
      * @param mixed $value
@@ -52,21 +52,21 @@ class Provider extends Fluent implements Providable
     }
 
     /**
-     * Get the providable id.
+     * Gets the providable id.
      *
-     * @return int
+     * @return string|int
      */
-    public function getId()
+    public function getId(): string|int
     {
         return $this->attributes['id'];
     }
 
     /**
-     * Get the providable name.
+     * Gets the providable name.
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->attributes['name'] ?? $this->attributes['id'];
     }

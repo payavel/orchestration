@@ -12,10 +12,11 @@ class Account extends Fluent implements Accountable
      * The service config.
      *
      * @var \Payavel\Orchestration\ServiceConfig
+     * @var string|int
      */
     protected ServiceConfig $serviceConfig;
 
-    public function __construct(ServiceConfig $serviceConfig, $id)
+    public function __construct(ServiceConfig $serviceConfig, string|int $id)
     {
         $this->serviceConfig = $serviceConfig;
 
@@ -26,11 +27,11 @@ class Account extends Fluent implements Accountable
     }
 
     /**
-     * Get an attribute from the fluent instance using "dot" notation.
+     * Gets an attribute from the fluent instance using "dot" notation.
      *
-     * @param  string  $key
-     * @param  string|int|mixed|null $default
-     * @return string|int|mixed|null
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
      */
     public function get($key, $default = null)
     {
@@ -52,21 +53,21 @@ class Account extends Fluent implements Accountable
     }
 
     /**
-     * Get the accountable id.
+     * Gets the accountable id.
      *
-     * @return int
+     * @return string|int
      */
-    public function getId()
+    public function getId(): string|int
     {
         return $this->attributes['id'];
     }
 
     /**
-     * Get the accountable name.
+     * Gets the accountable name.
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->attributes['name'] ?? $this->attributes['id'];
     }
