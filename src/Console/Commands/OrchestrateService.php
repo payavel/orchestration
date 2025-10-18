@@ -48,9 +48,9 @@ class OrchestrateService extends Command
     /**
      * The driver to execute the new service.
      *
-     * @var Payavel\Orchestration\ServiceDriver
+     * @var string
      */
-    protected ServiceDriver $driver;
+    protected string $driver;
 
     /**
      * The collected providers.
