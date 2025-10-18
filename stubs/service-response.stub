@@ -8,41 +8,41 @@ use Payavel\Orchestration\ServiceResponse;
 class {{ Provider }}{{ Service }}Response extends ServiceResponse implements {{ Service }}Responder
 {
     /**
-     * Set up the response.
+     * Sets up the response.
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         //
     }
 
     /**
-     * Determines the status code based on the request's raw response.
+     * Gets the status code based on the request's raw response.
      *
-     * @return int
+     * @return int|string
      */
-    public function getStatusCode()
+    abstract public function getStatusCode(): int|string
     {
         //
     }
 
     /**
-     * Get a string representation of the response's status.
-     *
-     * @return string|null
-     */
-    public function getStatusMessage()
-    {
-        //
-    }
-
-    /**
-     * Get a description of the response's status.
+     * Gets a string representation of the response's status.
      *
      * @return string|null
      */
-    public function getStatusDescription()
+    abstract public function getStatusMessage(): ?string
+    {
+        //
+    }
+
+    /**
+     * Gets a description of the response's status.
+     *
+     * @return string|null
+     */
+    abstract public function getStatusDescription(): ?string
     {
         //
     }
