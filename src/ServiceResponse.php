@@ -17,61 +17,58 @@ abstract class ServiceResponse
      *
      * @var array
      */
-    protected $successStatuses = [];
+    protected array $successStatuses = [];
 
     /**
-     * Customize the response method names for your requests.
+     * Custom response method names of the requests.
      *
      * @var array
      */
-    protected $responseMethods = [];
+    protected array $responseMethods = [];
 
     /**
      * The provider's raw response.
      *
      * @var mixed
      */
-    protected $rawResponse;
+    protected mixed $rawResponse;
 
     /**
      * Additional data needed to format the response.
      *
      * @var mixed
      */
-    protected $additionalData;
+    protected mixed $additionalData;
 
     /**
      * The request method that returned this response.
      *
      * @var string
      */
-    public $requestMethod;
+    public string $requestMethod;
 
     /**
-     * The provider that the $request was made towards.
+     * The provider that the request was made towards.
      *
      * @var \Payavel\Orchestration\Contracts\Providable
      */
     public $provider;
 
     /**
-     * The account that was used to make the $request.
+     * The account that was used to make the request.
      *
      * @var \Payavel\Orchestration\Contracts\Accountable
      */
-    public $account;
+    public Accountable $account;
 
     /**
      * The expected formatted data based on the $request.
      *
      * @var mixed
      */
-    private $data;
+    private mixed $data;
 
-    /**
-     * @param mixed $rawResponse
-     */
-    public function __construct($rawResponse)
+    public function __construct(mixed $rawResponse)
     {
         $this->rawResponse = $rawResponse;
 
@@ -79,23 +76,23 @@ abstract class ServiceResponse
     }
 
     /**
-     * Set up the response.
+     * Sets up the response.
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         //
     }
 
     /**
-     * Share additional data.
+     * Shares additional data.
      *
      * @param mixed $additionalData
      *
      * @return static
      */
-    public function with($additionalData)
+    public function with(mixed $additionalData): static
     {
         $this->additionalData = $additionalData;
 
@@ -103,15 +100,15 @@ abstract class ServiceResponse
     }
 
     /**
-     * Configure the response based on the request.
+     * Configures the response based on the request.
      *
      * @param string $requestMethod
      * @param \Payavel\Orchestration\Contracts\Providable $provider
      * @param \Payavel\Orchestration\Contracts\Accountable $account
      *
-     * @return static
+     * @return \Payavel\Orchestration\ServiceResponse
      */
-    public function configure(string $requestMethod, Providable $provider, Accountable $account)
+    public function configure(string $requestMethod, Providable $provider, Accountable $account): static
     {
         $this->requestMethod = $requestMethod;
         $this->provider = $provider;
@@ -121,11 +118,11 @@ abstract class ServiceResponse
     }
 
     /**
-     * Get the provider's raw response.
+     * Gets the provider's raw response.
      *
      * @return mixed
      */
-    public function getRawResponse()
+    public function getRawResponse(): mixed
     {
         return $this->rawResponse;
     }
@@ -135,60 +132,60 @@ abstract class ServiceResponse
      *
      * @return mixed
      */
-    public function getRaw()
+    public function getRaw(): mixed
     {
         return $this->getRawResponse();
     }
 
     /**
-     * Verify whether the request should be considered successful.
+     * Verifies whether the request should be considered successful.
      *
      * @return bool
      */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         return in_array($this->getStatusCode(), $this->successStatuses);
     }
 
     /**
-     * Verify whether the request should be considered a failure.
+     * Verifies whether the request should be considered a failure.
      *
      * @return bool
      */
-    public function isNotSuccessful()
+    public function isNotSuccessful(): bool
     {
         return ! $this->isSuccessful();
     }
 
     /**
-     * Determines the status code based on the request's raw response.
+     * Gets the status code based on the request's raw response.
      *
-     * @return int
+     * @return int|string
      */
-    abstract public function getStatusCode();
+    abstract public function getStatusCode(): int|string;
 
     /**
-     * Get a string representation of the response's status.
+     * Gets a string representation of the response's status.
      *
      * @return string|null
      */
-    abstract public function getStatusMessage();
+    abstract public function getStatusMessage(): ?string;
 
     /**
-     * Get a description of the response's status.
+     * Gets a description of the response's status.
      *
      * @return string|null
      */
-    abstract public function getStatusDescription();
+    abstract public function getStatusDescription(): ?string;
 
     /**
-     * Get the formatted details based on the request that was made.
+     * Gets the formatted details based on the request that was made.
      *
-     * @return array|mixed
+     * @return mixed
      *
      * @throws \RuntimeException
      */
-    public function getData()
+    public function getData(): mixed
     {
         if (! isset($this->data)) {
             $this->data = $this->{$this->getResponseMethod()}();
@@ -198,11 +195,11 @@ abstract class ServiceResponse
     }
 
     /**
-     * Get the response method that should be used to get the response's data.
+     * Gets the response method that should be used to get the response's data.
      *
      * @return string
      */
-    protected function getResponseMethod()
+    protected function getResponseMethod(): string
     {
         if (isset($this->requestMethod)) {
             if (
@@ -221,7 +218,7 @@ abstract class ServiceResponse
     }
 
     /**
-     * The generic request response.
+     * Defines the generic request response.
      *
      * @throws \RuntimeException
      */

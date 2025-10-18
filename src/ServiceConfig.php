@@ -14,9 +14,9 @@ class ServiceConfig
     /**
      * The service id.
      *
-     * @var string
+     * @var string|int
      */
-    protected string $id;
+    protected string|int $id;
 
     /**
      * The service config path.
@@ -25,7 +25,7 @@ class ServiceConfig
      */
     protected string $config;
 
-    public function __construct($id)
+    public function __construct(string|int $id)
     {
         $this->id = $id;
 
@@ -37,66 +37,66 @@ class ServiceConfig
     }
 
     /**
-     * Get an attribute from the fluent instance using "dot" notation.
+     * Gets an attribute from the fluent instance using "dot" notation.
      *
-     * @param  string  $key
-     * @param  string|int|mixed|null $default
-     * @return string|int|mixed|null
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
      */
-    public function get($key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         return Config::get("{$this->config}.{$key}", fn () => Config::get('orchestration.'.$key, $default));
     }
 
     /**
-     * Set an attribute to the fluent instance using "dot" notation.
+     * Sets an attribute to the fluent instance using "dot" notation.
      *
      * @param string $key
      * @param mixed $value
      * @return void
      */
-    public function set($key, $value)
+    public function set(string $key, mixed $value): void
     {
         Config::set("{$this->config}.{$key}", $value);
     }
 
     /**
-     * Get the service id.
+     * Gets the service id.
      *
      * @return string|int
      */
-    public function getId()
+    public function getId(): string|int
     {
         return $this->id;
     }
 
     /**
-     * Get the service name.
+     * Gets the service name.
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->get('name', $this->id);
     }
 
     /**
-     * Get all of the orchestration service ids.
+     * Gets all of the orchestration service ids.
      *
      * @return \Illuminate\Support\Collection
      */
-    public static function all()
+    public static function all(): Collection
     {
         return Collection::make(Config::get('orchestration.services', []))->keys()->map(fn ($id) => new static($id));
     }
 
     /**
-     * Get the service's config by it's id.
+     * Gets the service's config by it's id.
      *
      * @param string|int $id
      * @return static|null
      */
-    public static function find($id)
+    public static function find(string|int $id): ?static
     {
         try {
             return new static($id);
