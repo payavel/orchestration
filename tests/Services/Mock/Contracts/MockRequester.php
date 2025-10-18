@@ -2,8 +2,6 @@
 
 namespace Payavel\Orchestration\Tests\Services\Mock\Contracts;
 
-use Payavel\Orchestration\ServiceResponse;
-
 interface MockRequester
 {
     /**
@@ -11,7 +9,7 @@ interface MockRequester
      *
      * @param bool $withAdditionalData
      *
-     * @return \Payavel\Orchestration\ServiceResponse
+     * @return \Payavel\Orchestration\ServiceResponse|mixed
      */
-    public function getIdentity(bool $withAdditionalData = false): ServiceResponse;
+    public function getIdentity(bool $withAdditionalData = false): mixed;
 }
