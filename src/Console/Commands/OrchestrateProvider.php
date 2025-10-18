@@ -48,14 +48,14 @@ class OrchestrateProvider extends Command
      *
      * @var string
      */
-    protected string $name;
+    protected string $providerName;
 
     /**
      * The service provider's id.
      *
      * @var string
      */
-    protected string $id;
+    protected string $providerId;
 
     /**
      * Executes the console command.
@@ -83,15 +83,15 @@ class OrchestrateProvider extends Command
         }
 
         if ($this->option('fake', false)) {
-            $this->name = 'Fake';
-            $this->id = 'fake';
+            $this->providerName = 'Fake';
+            $this->providerId = 'fake';
 
             return true;
         }
 
-        $this->name = trim($this->argument('provider') ?? $this->askName('provider'));
+        $this->providerName = trim($this->argument('provider') ?? $this->askName('provider'));
 
-        $this->id = $this->option('id') ?? $this->askId('provider', $this->name);
+        $this->providerId = $this->option('id') ?? $this->askId('provider', $this->providerName);
 
         return true;
     }
@@ -104,7 +104,7 @@ class OrchestrateProvider extends Command
     protected function generateProvider(): void
     {
         $service = Str::studly($this->serviceConfig->id);
-        $provider = Str::studly($this->id);
+        $provider = Str::studly($this->providerId);
 
         static::putFile(
             app_path($requestPath = join_paths('Services', $service, "{$provider}{$service}Request.php")),
