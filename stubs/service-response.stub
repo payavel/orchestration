@@ -24,7 +24,7 @@ class {{ Provider }}{{ Service }}Response extends ServiceResponse implements {{ 
      */
     abstract public function getStatusCode(): int|string
     {
-        //
+        return 200;
     }
 
     /**
@@ -34,7 +34,7 @@ class {{ Provider }}{{ Service }}Response extends ServiceResponse implements {{ 
      */
     abstract public function getStatusMessage(): ?string
     {
-        //
+        return 'OK';
     }
 
     /**
@@ -44,6 +44,6 @@ class {{ Provider }}{{ Service }}Response extends ServiceResponse implements {{ 
      */
     abstract public function getStatusDescription(): ?string
     {
-        //
+        return 'The request was successful.';
     }
 }
