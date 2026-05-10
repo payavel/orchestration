@@ -4,6 +4,7 @@ namespace Payavel\Orchestration\Fluent;
 
 use Illuminate\Support\Fluent;
 use Payavel\Orchestration\Contracts\Accountable;
+use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\ServiceConfig;
 
 class Account extends Fluent implements Accountable
@@ -70,5 +71,16 @@ class Account extends Fluent implements Accountable
     public function getName(): string
     {
         return $this->attributes['name'] ?? $this->attributes['id'];
+    }
+
+    /**
+     * Gets the accountable's provider configuration.
+     *
+     * @param \Payavel\Orchestration\Contracts\Providable $provider
+     * @return array
+     */
+    public function getConfig(Providable $provider): array
+    {
+        return $this->get('providers.'.$provider->getId(), []);
     }
 }

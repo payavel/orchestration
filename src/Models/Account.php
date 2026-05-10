@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use Payavel\Orchestration\Contracts\Accountable;
+use Payavel\Orchestration\Contracts\Providable;
 use Payavel\Orchestration\ServiceConfig;
 use Payavel\Orchestration\Traits\HasFactory;
 
@@ -52,6 +53,17 @@ class Account extends Model implements Accountable
     public function getName(): string
     {
         return $this->name ?? $this->id;
+    }
+
+    /**
+     * Gets the accountable's provider configuration.
+     *
+     * @param \Payavel\Orchestration\Contracts\Providable $provider
+     * @return array
+     */
+    public function getConfig(Providable $provider): array
+    {
+        return json_decode($this->providers()->where('provider_id', $provider->getId())->first()?->pivot->config ?? '[]', true);
     }
 
     /**

@@ -17,4 +17,9 @@ interface Accountable
      * @return string
      */
     public function getName(): string;
+
+    /**
+     * Gets the accountable's provider configuration.
+     */
+    public function getConfig(Providable $provider): array;
 }
