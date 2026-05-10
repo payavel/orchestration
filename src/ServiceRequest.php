@@ -29,10 +29,16 @@ abstract class ServiceRequest
      */
     protected Accountable $account;
 
+    /**
+     * The accountable's provider configuration.
+     */
+    protected array $config;
+
     public function __construct(Providable $provider, Accountable $account)
     {
         $this->provider = $provider;
         $this->account = $account;
+        $this->config = $this->account->getConfig($this->provider);
 
         $this->setUp();
     }
