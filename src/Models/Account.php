@@ -63,7 +63,7 @@ class Account extends Model implements Accountable
      */
     public function getConfig(Providable $provider): array
     {
-        return json_decode($this->providers()->where('provider_id', $provider->getId())->first()?->pivot->config ?? '[]', true);
+        return json_decode($this->providers()->withPivot('config')->where('provider_id', $provider->getId())->first()->pivot->config ?? '[]', true);
     }
 
     /**
