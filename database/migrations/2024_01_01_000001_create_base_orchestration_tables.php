@@ -17,6 +17,7 @@ return new class () extends Migration {
             $table->string('name')->nullable();
             $table->string('service_id');
             $table->string('gateway');
+            $table->json('config_format')->nullable();
             $table->timestamps();
         });
 
