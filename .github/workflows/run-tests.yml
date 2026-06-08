@@ -37,6 +37,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          composer config policy.advisories.block false || true
           composer require "orchestra/testbench:${{ matrix.testbench }}" --dev --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --no-interaction --no-progress
 
