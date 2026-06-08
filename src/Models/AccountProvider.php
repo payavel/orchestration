@@ -2,7 +2,7 @@
 
 namespace Payavel\Orchestration\Models;
 
-use App\Casts\ProviderFormattedConfig;
+use Payavel\Orchestration\Casts\ProviderFormattedConfig;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Payavel\Orchestration\Traits\HasFactory;
 
