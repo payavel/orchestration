@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Casts;
+namespace Payavel\Orchestration\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
