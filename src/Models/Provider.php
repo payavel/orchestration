@@ -28,15 +28,6 @@ class Provider extends Model implements Providable
     protected $guarded = [];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'config_format' => 'array',
-    ];
-
-    /**
      * The service config.
      *
      * @var \Payavel\Orchestration\ServiceConfig
@@ -70,7 +61,7 @@ class Provider extends Model implements Providable
      */
     public function accounts(): BelongsToMany
     {
-        return $this->belongsToMany($this->getAccountModelClass(), 'account_provider', 'provider_id', 'account_id')->using($this->getAccountProviderPivotClass())->withTimestamps();
+        return $this->belongsToMany($this->getAccountModelClass(), 'account_provider', 'provider_id', 'account_id')->withPivot('config')->withTimestamps();
     }
 
     /**
@@ -112,45 +103,5 @@ class Provider extends Model implements Providable
         } while ($parentClass && $parentClass !== self::class);
 
         return Str::replace('Provider', 'Account', $parentClass);
-    }
-
-    /**
-     * Gets the account provider pivot class.
-     *
-     * @return string
-     */
-    protected function getAccountProviderPivotClass(): string
-    {
-        if (!isset($this->accountProviderPivotClass)) {
-            $this->accountProviderPivotClass = $this->guessAccountProviderPivotClass();
-        }
-
-        if (!isset($this->serviceConfig)) {
-            $this->serviceConfig = ServiceConfig::find($this->service_id);
-        }
-
-        return $this->serviceConfig->get("models.{$this->accountProviderPivotClass}", $this->accountProviderPivotClass);
-    }
-
-    /**
-     * Guesses the account provider pivot class name by convention.
-     *
-     * @return string
-     */
-    protected function guessAccountProviderPivotClass(): string
-    {
-        $parentClass = get_class($this);
-
-        if ($parentClass === self::class) {
-            return AccountProvider::class;
-        }
-
-        do {
-            $providerModelClass = $parentClass;
-
-            $parentClass =  get_parent_class($providerModelClass);
-        } while ($parentClass && $parentClass !== self::class);
-
-        return Str::replace('Provider', 'AccountProvider', $providerModelClass);
     }
 }
