@@ -28,7 +28,7 @@ class AccountProviderConfigTest extends TestCase
         $account->setConfig(
             $provider,
             $config,
-            ['api_key']
+            ['api_key', 'secret_key']
         );
 
         $this->assertNotSame(
