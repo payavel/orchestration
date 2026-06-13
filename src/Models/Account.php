@@ -65,7 +65,7 @@ class Account extends Model implements Accountable
      */
     public function getConfig(Providable $provider): array
     {
-        $config = $this->providers()->where('provider_id', $provider->getId())->first()?->pivot->config ?? [];
+        $config = json_decode($this->providers()->where('provider_id', $provider->getId())->first()?->pivot->config ?? '[]', true);
 
         return array_map(function ($value) {
             try {
@@ -76,6 +76,14 @@ class Account extends Model implements Accountable
         }, $config);
     }
 
+    /**
+     * Sets the accountable's provider configuration.
+     *
+     * @param \Payavel\Orchestration\Contracts\Providable $provider
+     * @param array $config
+     * @param array $valuesToEncrypt
+     * @return void
+     */
     public function setConfig(Providable $provider, array $config, array $valuesToEncrypt = []): void
     {
         foreach ($valuesToEncrypt as $valueToEncrypt) {
@@ -92,7 +100,7 @@ class Account extends Model implements Accountable
 
         $this->providers()->syncWithoutDetaching([
             $provider->getId() => [
-                'config' => $config,
+                'config' => json_encode($config),
             ],
         ]);
     }
